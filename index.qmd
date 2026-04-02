@@ -8,6 +8,4 @@ about:
   image-shape: round
 ---
 
-This is a Quarto website.
-
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+My name is Nga Nguyen, but you can call me Daisy. I am from Da Nang, Vietnam. I started studying abroad in high school in a small town called Bettendorf, Iowa. I then attended college at Lawrence University in Appleton, Wisconsin.

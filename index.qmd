@@ -1,5 +1,5 @@
 ---
-title: "project"
+title: "Hello"
 image: images/IMG_9675.JPG
 toc: false
 about: 
@@ -9,3 +9,12 @@ about:
 ---
 
 My name is Nga Nguyen, but you can call me Daisy. I am from Da Nang, Vietnam. I started studying abroad in high school in a small town called Bettendorf, Iowa. I then attended college at Lawrence University in Appleton, Wisconsin.
+
+
+::: {#landing-icons}
+[{{< fa brands github title="github" >}}](https://github.com/abhicc/abhicc.github.io){target="_blank"} &nbsp; [{{< fa envelope title="envelope" >}}](mailto:abhishek.chakraborty@lawrence.edu)
+:::
+:::
+
+<!-- [{{< fa brands bluesky title="bluesky" >}}](https://bsky.app/profile/samcsik.bsky.social){target="_blank"} &nbsp;  -->
+<!-- [{{< fa brands bluesky title="bluesky" >}}](https://bsky.app/profile/samcsik.bsky.social){target="_blank"} &nbsp;  -->

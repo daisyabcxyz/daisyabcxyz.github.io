@@ -1,0 +1,11 @@
+---
+title: "Research"
+---
+
+# Research Overview
+
+### Areas of Interest
+* **Plasma Physics:** 
+
+
+* **Data Privacy:** Exploring the mathematical foundations of database security, local sensitivity bounds, and Laplace noise mechanisms.

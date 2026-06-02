@@ -1,17 +1,19 @@
 project:
   type: website
   output-dir: docs
-  
+  render:
+    - "*.qmd"
+
 website:
+  favicon: images/icon.png
   title: "Daisy Nguyen"
   navbar:
     left:
       - href: index.qmd
-        text: home
-      
+        text: Home
       - href: research.qmd
         text: research
-      
+        
       - text: projects
         menu: 
           - href: sql_project.qmd
@@ -20,17 +22,16 @@ website:
             text: text analysis project
           - href: Rpackage.qmd
             text: R package
-            
-      - href: about.qmd
-
-      
+ 
+  page-footer:
+    right: |
+      Site built with <a href='https://quarto.org/'>Quarto</a>
 
 format:
   html:
-    theme:
-      - cosmo
-      - brand
-    css: styles.css
+    theme: [yeti, theme.scss]
     toc: true
+    code-overflow: wrap
 
+editor: visual
 

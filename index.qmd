@@ -1,20 +1,70 @@
 ---
-title: "Hello"
-image: images/IMG_9675.JPG
-toc: false
-about: 
-  template: jolla
-  image-width: 15em
+title: ""
+about:
+  id: intro-heading
+  template: trestles
+  image-width: 20em
   image-shape: round
+  image: images/IMG_9675.JPG
+  links:
+    - icon: envelope
+      href: mailto:ngantq2004@gmail.com
+    - icon: github
+      href: https://github.com/daisyabcxyz
+    - icon: linkedin   
+      href: https://www.linkedin.com/in/nga-nguyen-lawrence-uni/
 ---
 
-My name is Nga Nguyen, but you can call me Daisy. I am from Da Nang, Vietnam. I started studying abroad in high school in a small town called Bettendorf, Iowa. I then attended college at Lawrence University in Appleton, Wisconsin.
+:::{#intro-heading}
+## Nga Nguyen
 
+<a href="https://namedrop.io/nganguyen" target="_blank" rel="noopener">Pronunciation</a> <br>
+she/her/hers 
 
-::: {#landing-icons}
-[{{< fa brands github title="github" >}}](https://github.com/abhicc/abhicc.github.io){target="_blank"} &nbsp; [{{< fa envelope title="envelope" >}}](mailto:abhishek.chakraborty@lawrence.edu)
+Physics and Computer Science major <br>
+<a href="https://www.lawrence.edu/academics/college/physics" target="_blank" rel="noopener">Physics Department</a> @ <a href="https://www.lawrence.edu" target="_blank" rel="noopener">Lawrence University</a>
+
+### Experience
+
+Drop-in Tutor <br>
+September 2023 – June 2026 |  Lawrence University Department of Mathematics 
+
+Physics Research Assistant<br>
+June 2025 – August 2025 | Lawrence Non-neutral Dipole lab 
+
+Mathematics Research Assistant<br> 
+June 2024 – August 2024 | Dr. Alexander Heaton’s Lab 
+
+Teaching Assistant<br>
+January 2024 – June 2024 |  Lawrence University Department of Physics
+
+### Education
+
+PhD candidate in Aeronautics and Aerospace Engineering<br>
+2031 | University of Washington, Seattle
+
+BA in Physics and Computer Science with minors in Mathematics and Data Science<br>
+2026 | Lawrence University
 :::
-:::
 
-<!-- [{{< fa brands bluesky title="bluesky" >}}](https://bsky.app/profile/samcsik.bsky.social){target="_blank"} &nbsp;  -->
-<!-- [{{< fa brands bluesky title="bluesky" >}}](https://bsky.app/profile/samcsik.bsky.social){target="_blank"} &nbsp;  -->
+### Biography
+
+I am Nga Nguyen, but you can call me Daisy. I am a graduating Senior at Lawrence University, pursuing Physics and Computer Science. I'm currently working on computational plasma physics, and I am aspire to develop high-fidelity models to rigorously study plasma instabilities and turbulence, alongside reduced-order models capable of predicting the real-time onset of instabilities in next-generation fusion systems.
+
+My primary research interests lie broadly in the study of physics, mathematics, computer science, and data science. I believe the tools that each discipline provides are the gifts that we should utilize in the making of science. With a research philosophy rooted in an interdisciplinary approach, my long-term goal is to become a fusion energy research scientist at a national laboratory or a research university, integrating mathematical frameworks, computational methods, and data-driven modeling to develop predictive and computationally efficient tools for understanding and controlling magnetically confined plasma in fusion reactors. 
+
+
+### Personal
+
+I am from Da Nang, Vietnam. A fun fact about me is that I started studying abroad in high school in a small town called Bettendorf, Iowa. I then attended college at Lawrence University in Appleton, Wisconsin. You got it, I have spent a third of my life in the Midwest.
+
+I love playing sports, and some of the sports I enjoy playing is basketball, table tennis, pickleball and volleyball. I started learning how to play basketball and volleyball when I was in Iowa, and I love playing them with friends ever since. Last December, I went to watch my first NBA game with the Lakers in Los Angeles, and it was one of the happiest moments of my life haha.
+
+In college, I also had a chance to take piano lesson "professionally," and I love having a musical outlet to take my time off from working during the day. I also find playing the piano very intellectual and interesting because there is so much that one can unpack from a music piece. I cannot stop from being amazed at not only the musics, but also at the technicality of how my hands interactive with the keyboard could affect the quality of my sound.
+
+### Get in Touch
+
+**Email**: <a href='mailto:ngantq2004@gmail.com'>ngantq2004@gmail.com</a>
+
+**Phone**: 920-714-2912
+

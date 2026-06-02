@@ -2,10 +2,11 @@
 title: "Research"
 ---
 
-# Research Overview
-
 ### Areas of Interest
 * **Plasma Physics:** 
+My research has been driven by the limitations of existing theoretical and computational models in capturing the multiscale and multiphysics behavior of plasmas when interpreting experimental observations. Current simulations often rely on idealized assumptions and boundary conditions, and face a trade-off between the high computational cost of kinetic models and the reduced accuracy of fluid models that fail to capture kinetic effects.
+
+Recently, I develop a 2-D fluid simulation of diocotron instability both in an electron plasma slab and a straight wire configuration initiated with sinusoidal surface perturbations. My model implemented the Eularian method with 4th order Runga-Kutta scheme with matrix inversion to numerically solve the Poisson’s, continuity and E⨉B drift equations.
 
 
 * **Data Privacy:** Exploring the mathematical foundations of database security, local sensitivity bounds, and Laplace noise mechanisms.

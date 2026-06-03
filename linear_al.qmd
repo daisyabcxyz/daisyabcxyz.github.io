@@ -75,7 +75,7 @@ Eigenvectors also tell us about the diagonalization of a matrix or linear map. I
 
 Knowing all of this, we can be smarter in our choice of basis. Problem 3.6.21: let $P$ be the plane through the origin in $\mathbb{R}^3$ and let $R: \mathbb{R}^3 \rightarrow \mathbb{R}^3$ be the reflection across $P$, find tr$R$.
 
-![Reflection across a plane in $\mathbb{R}^{3}$](reflection_plane.png){width="70%" fig-align="center"}
+![Reflection across a plane in $\mathbb{R}^{3}$](/images/reflection_plane.png){width="70%" fig-align="center"}
 
 We can pick any 3 linearly independent vectors in $\mathbb{R}^3$ to be the basis, but a random choice would result in unnecessary Multivariables Calculus. Instead, we can pick 2 linearly independent vectors that lie on the plane and 1 that is orthogonal to the plane. These are independent of each other and span $\mathbb{R}^3$, and it is easier for us to find their reflection across the plane. Let $v_1,v_2$ lie on the plane and $v_3$ be orthogonal to $P$. $\beta$ is the list of basis vectors $(v_1,v_2,v_3)$.
 

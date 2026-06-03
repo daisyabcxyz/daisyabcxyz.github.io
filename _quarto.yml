@@ -3,6 +3,9 @@ project:
   output-dir: docs
   resources:
     - "data/"
+    - "research/images_quantum/"
+    - "projects tab/poster.pdf"
+    - "images/"
   render:
     - "*.qmd"
 
@@ -28,8 +31,10 @@ website:
             
       - text: Research
         menu: 
-          - href: "capstone/capstone.qmd"
+          - href: "research/capstone.qmd"
             text: Plasma Physics
+          - href: "research/quantum.qmd"
+            text: Single Photon Optics
             
       - text: Math Concepts   
         menu:

@@ -241,7 +241,7 @@ for i in range (step):
         print(f"Total charge = {np.sum(rho)}")
         history.append((rho.copy(), phi.copy(),i))
         file_save[f"time_step_{i}"] = (rho.copy(), phi.copy())
-        np.savez('/cloud/project/capstone/example_run', **file_save) # save the data in an npz file
+        np.savez('/cloud/project/research/example_run', **file_save) # save the data in an npz file
 
 print("Simulation saved.")
 rho_initial, phi_initial, i = history[0]
@@ -277,7 +277,7 @@ def update(frame):
 
 ani = FuncAnimation(fig, update, frames=len(history), blit=True, interval=200)
 print("Saving animation... This may take a moment.")
-ani.save('/cloud/project/capstone/example_run.gif', writer='pillow', fps=5) # save the frames to create the animation gif
+ani.save('/cloud/project/research/example_run.gif', writer='pillow', fps=5) # save the frames to create the animation gif
 
 plt.show()
 
@@ -312,7 +312,7 @@ list_wave_number = []
 list_magnitude = []
 list_time_steps = []
 frame_interval = 1
-load_data = np.load("/cloud/project/capstone/example_run.npz", allow_pickle=True)  
+load_data = np.load("/cloud/project/research/example_run.npz", allow_pickle=True)  
 
 #select a slice in the grid and analyze it within a time range
 #save its peak wave number and peak magnitude over time in an array

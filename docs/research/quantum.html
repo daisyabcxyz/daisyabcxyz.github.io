@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Daisy Nguyen">
+<meta name="dcterms.date" content="2026-06-03">
+
+<title>The wave-particle duality of light – Daisy Nguyen</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../images/icon.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-438ac952cdff71939757ea8e8259a6f2.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-fixed fullcontent quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Daisy Nguyen</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-projects-in-r" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Projects in R</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-projects-in-r">    
+        <li>
+    <a class="dropdown-item" href="../projects tab/sql_project.html">
+ <span class="dropdown-text">SQL project</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../projects tab/text_analysis_project.html">
+ <span class="dropdown-text">Text Analysis Project</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../projects tab/Rpackage.html">
+ <span class="dropdown-text">R package</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../projects tab/poster.html">
+ <span class="dropdown-text">Differential Privacy Poster</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-research" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Research</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-research">    
+        <li>
+    <a class="dropdown-item" href="../research/capstone.html">
+ <span class="dropdown-text">Plasma Physics</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../research/quantum.html">
+ <span class="dropdown-text">Single Photon Optics</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-math-concepts" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Math Concepts</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-math-concepts">    
+        <li>
+    <a class="dropdown-item" href="../linear_al.html">
+ <span class="dropdown-text">Linear Algebra</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">The wave-particle duality of light</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Daisy Nguyen </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">June 3, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-simple callout-note">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><strong>Affiliation:</strong> Physics Department, Lawrence University, Appleton, Wisconsin 54911.</p>
+</div>
+</div>
+</div>
+<section id="abstract" class="level2">
+<h2 class="anchored" data-anchor-id="abstract">Abstract</h2>
+<p>We conducted two undergraduate-level single-photon optics experiments that demonstrated quantum mechanical behaviors of light. In our paper, we reproduced the experiments presented in the original Grangier et al.&nbsp;paper but replaced their atomic cascade with a spontaneous parametric downconversion light source that also used a gating detection scheme but with higher production rates. Our results gave us an anti-correlation parameter for 3 detectors as low as <span class="math inline">\(\alpha_{3d} = 0.0488 \pm 0.005\)</span>, which deviated significantly from the classical prediction that <span class="math inline">\(\alpha_{3d} &gt;1\)</span>. The second experiment was carried out with the Mach Zehnder interferometer where we saw the probabilistic behavior of quantum mechanics. As light took two identical paths along the interferometer arms, single photons displayed patterns of interference as a function of the path length difference of the arms. We explored path distinguishability both in terms of path polarization and path length difference. The latter depended on a parameter known as coherence length. We observed fringes with visibility up to <span class="math inline">\(V = 0.430 \pm 0.024\)</span>, compared to Grangier et al.’s 0.98 visibility.</p>
+<hr>
+</section>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>Albert Einstein, in his 1905 papers on the photoelectric effect, was the first to suggest that the electromagnetic field, or light, is composed of quanta known as photons. The idea was not well received until results from the Compton scattering experiment in 1923 aligned with Einstein’s papers and further convinced physicists of the existence of photons.</p>
+<p>Although non-classical effects in the statistical properties of light were studied by many, it was not until 1986 when Grangier, Roger, and Aspect published the first experiments that dealt with single-photon state of light impinging on a beamsplitter. They used atomic cascade as a light source and a triggered detection scheme to verify the single-photon state of light. Using the result, they extended the setup into a Mach-Zehnder interferometer and observed the interference pattern from single photons, with a visibility over 98% .</p>
+<p>In this paper, we repeated the experiments from Grangier <em>et al.</em> but replaced the atomic cascade light source with a type I spontaneous parametric down conversion source. We observed the spontaneously down-converted light incident on a beamsplitter went one way or the other from the near absence of coincidence counts registered at the two detectors downstream of the beamsplitter. We then sent one of the two down-converted beams into the Mach-Zehnder interferometer where the photons took two possible paths before they arrived at each detector. This experiment demonstrated both the presence and collapse of the interference pattern in the probability of a photon being detected at either of the two detectors at the end of the interferometer arms (in the presence of a photon detected on the other side of the down conversion process). Additionally, we studied how coherence length of the down-converted beams played into this picture of path distinguishability using bandpass filters.</p>
+<p>The results of these experiments followed quantum mechanics predictions about light. First, light is quantized and is made up of indivisible photons. Second, light displays a probabilistic behavior like any quantum particles; when there are multiple paths for an event to occur, the information about which path it takes is unknown, and we can only discuss the probability of each path.</p>
+<hr>
+</section>
+<section id="light-source-and-photon-detection" class="level2">
+<h2 class="anchored" data-anchor-id="light-source-and-photon-detection">Light source and Photon detection</h2>
+<section id="spontaneous-parametric-down-conversion" class="level3">
+<h3 class="anchored" data-anchor-id="spontaneous-parametric-down-conversion">Spontaneous parametric down conversion</h3>
+<p>This process of type I spontaneous parametric down conversion is a nonlinear optical effect where light at one frequency is converted into light of a lower frequency when passing through a nonlinear crystal. A single photon at frequency <span class="math inline">\(\omega_1\)</span> is converted into two photons at the same frequency <span class="math inline">\(\omega_2\)</span>. These output photons exit in a cone about the input propagation axis. Due to energy conservation, the energy of the input photon has to equal that of the two output photons, or <span class="math inline">\(\omega_1 = 2\omega_2\)</span> and the wavelength of each output photon is twice the wavelength of the input photon.</p>
+<p>In our experiments, we used a violet diode laser (405nm, 90mW) as the pump laser. The nonlinear crystal used here was the <span class="math inline">\(\beta\)</span>-<em>barium borate</em> (BBO) crystal cut at 29°. Thus, the two photons emerging from the crystal made an angle of 3° with the pump laser direction. Similar to the atomic cascade source in Grangier <em>et al.</em>, our down conversion source produces two photons, one as a gate photon called the idler and one as a signal photon that is directed to a beamsplitter. These two photons are correlated: measuring an idler photon tells, with absolute certainty, that a corresponding signal photon exists at the same distance from the crystal, and vice versa.</p>
+</section>
+<section id="coincidence-counting" class="level3">
+<h3 class="anchored" data-anchor-id="coincidence-counting">Coincidence Counting</h3>
+<p>The main counting mechanism was performed by Single Photon Counting Module (SPCM). The module uses a unique silicon avalanche photo-diode to detect single photons over the wavelength range of 400 nm to 1060 nm. Three mounted fiber-optic cables directed the idler and signal photons to the corresponding SPCMs which converted the optical signals into electrical pulses. The pulses then passed to the development and education board Altera DE2, written at Whitman College, with a coincidence counting unit (CCU) implemented. The CCU transferred the data to the computer to be displayed on the LabVIEW software over an RS232 serial interface every tenth of a second.</p>
+<p>For the CCU to register a coincidence, the electrical pulses of the signal needed to overlap within a coincidence window. There are switches on the board that allow us to set the coincidence window to four choices in the range from 7.5 ns to 41.55 ns. To see the effect of the accidental coincidences that arised from the detector alignments and the intensity of the pump laser, we measured the coincidence counts between the two down-converted beams while varying the coincidence window but keeping the pump intensity almost constant. We would expect in an ideal setup that the coincidence counts should not depend on the time window because the idler and signal photons were correlated. Thus, any coincidence count dependency on coincidence window would be attributed as accidental coincidences. To measure the accidental rates for any setting (intensity of the pump laser), we inserted a 480.7 cm coaxial cable between the output of the idler photon’s SPCM and the CCU. This gave the idler a delay of 24 ns (light travels in the cable at the speed of <span class="math inline">\(\frac{2}{3}c\)</span>) compared to the signal photon, and so any coincidence counts between them were accidental.</p>
+<hr>
+</section>
+</section>
+<section id="statistical-properties-of-light" class="level2">
+<h2 class="anchored" data-anchor-id="statistical-properties-of-light">Statistical properties of light</h2>
+<section id="anti-correlation-parameter" class="level3">
+<h3 class="anchored" data-anchor-id="anti-correlation-parameter">Anti-correlation parameter</h3>
+<p>The classical prediction states that light acts as a wave, which splits at a beamsplitter. In that case, the photon is transmitted and reflected at the same time and detected by both detectors downstream of the beamsplitter. Meanwhile, quantum mechanics predicts that light behaves as single photons that are indivisible. As a result, when the photons hit the beamsplitter, they are going to be either transmitted or reflected, and there will be no coincidence count between the two detectors. Quantitatively, we tested the behavior of the photons as they passed through the beamsplitter by using the anti-correlation parameter defined by</p>
+<p><span class="math display">\[\alpha_{2d} = \frac{P_{12}}{P_1P_2},\]</span></p>
+<p>where <span class="math inline">\(P_{12}\)</span> denotes the probability of detecting coincident photons in the detectors, and <span class="math inline">\(P_1\)</span> and <span class="math inline">\(P_2\)</span> are the probability of detecting the photons in the corresponding detector. Because the detectors gave us measurements in terms of count rates instead of the probability of detection, we derived <span class="math inline">\(\alpha_{2d}\)</span> in terms of count rates from Eq. 1.</p>
+<p>The probability of detecting a photon at each detector is the number of detections divided by the total number of photons produced (<span class="math inline">\(P_i = \frac{N_i}{N_T}\)</span>), where the total number of photons produced is the observation time over the coincidence window <span class="math inline">\(N_T= T/\tau_C\)</span>. The count rates are defined as <span class="math inline">\(R_i = N_i/T\)</span>. Taking all of these together, we can derive an equivalent expression of the anti-correlation parameter for two detectors as</p>
+<p><span class="math display">\[\alpha_{2d} = \frac{N_{12}N_T}{N_1N_2} = \frac{N_{12}}{N_1N_2}\frac{T}{\tau_C} =\frac{R_{12}}{\tau_CR_1R_2T}T =\frac{R_{12}}{\tau_CR_1R_2},\]</span></p>
+<p>with the numerator being the actual coincidence count rates and the denominator representing the accidental coincidences <span class="math inline">\(R_{12,acc}\)</span>.</p>
+<p>This is where the spontaneous parametric downconversion light source came in neatly. Since the process produced twin pairs of photons, we only measured the signal photons in the presence of their idler photons to minimize the number of false coincidences. Given the idler photons traveled into detector A and the signal photons traveled through a beamsplitter into detectors B and B’ as the setup shown in Figure 1, we were interested in the correlation in the detections at B and B’ conditioned on a detection at A. The total number of photons produced <span class="math inline">\(N_T\)</span> would be <span class="math inline">\(N_A\)</span>, the total number of counts in detector A. The anti-correlation parameter for 3 detectors then followed from Eq. 1 and Eq. 2 as</p>
+<p><span class="math display">\[\alpha_{3d} = \frac{P_{ABB'}}{P_{AB}P_{AB'}} = \frac{N_{ABB'}N_A}{N_{AB}N_{AB'}} = \frac{R_{ABB'}R_A}{R_{AB}R_{AB'}}.\]</span></p>
+<p>Classically, we would expect <span class="math inline">\(\alpha_{3d}\)</span> to be greater than 1 since there would be more actual coincidences than accidental coincidences. We would get an <span class="math inline">\(\alpha_{3d}=1\)</span> if the light source was random and all the coincidences were accidental. And if the photons behaved according to quantum mechanics prediction, there would be more accidental coincidences than actual ones, and we would see <span class="math inline">\(\alpha_{3d}&lt;1\)</span>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images_quantum/fig1.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>Figure 1: A pump laser undergoes sponstaneous parametric down conversion in a <span class="math inline">\(\beta\)</span>-<em>barium borate</em> (BBO) crystal to produce a twin pair of photons called idler and signal. The idler photons take the top path towards detector A while the signal photons pass through the HWP and beamsplitter in the bottom path. Transmitted photons travel into detector B, and reflected ones travel into detector B’. We can measure <span class="math inline">\(\alpha_{2d}\)</span> between A and B to verify the correlation between the idler and signal photons, or measure <span class="math inline">\(\alpha_{3d}\)</span> between all 3 detectors to perform a correlation experiment between B and B’ in the presence of an idler photon in A.</figcaption>
+</figure>
+</div>
+</section>
+<section id="interference-in-a-mach-zehnder-interferometer" class="level3">
+<h3 class="anchored" data-anchor-id="interference-in-a-mach-zehnder-interferometer">Interference in a Mach-Zehnder interferometer</h3>
+<p>Our interferometer was set up as in Figure 2. Suppose the upper right and bottom left arms of the interferometer took the states <span class="math inline">\(\left|\psi_1\right&gt;\)</span> and <span class="math inline">\(\left|\psi_2\right&gt;\)</span> respectively. As a photon traveled into a Mach-Zehnder interferometer whose two arms were identical in polarization, its input state after the first beamsplitter was a linear combination of two of its possible output states <span class="math inline">\(\left|\psi_1\right&gt;\)</span> and <span class="math inline">\(\left|\psi_2\right&gt;\)</span>, which could be written as</p>
+<p><span class="math display">\[\left|\psi_{in}\right&gt; = r\left|\psi_1\right&gt;+ t\left|\psi_2\right&gt;\]</span></p>
+<p>where <span class="math inline">\(r=|r| e^{i\phi_r}\)</span> and <span class="math inline">\(t=|t| e^{i\phi_t}\)</span> denoted the probability amplitude for reflection and transmission respectively. The probability of finding the photon being reflected was then <span class="math inline">\(rr^*=|r|^2 = R\)</span>, and similarly, the probability of finding the photon being transmitted was <span class="math inline">\(tt^*=|t|^2 = T\)</span>, with <span class="math inline">\(R+T=1\)</span>.</p>
+<p>When the photon passed through the second beamsplitter, each of the states <span class="math inline">\(\left|\psi_1\right&gt;\)</span> and <span class="math inline">\(\left|\psi_2\right&gt;\)</span> became a linear combination of their own output states <span class="math inline">\(\left|\psi_B\right&gt;\)</span> and <span class="math inline">\(\left|\psi_{B'}\right&gt;\)</span> with the corresponding probability ampltitudes. We translated the moveable mirror over a small distance to change the path length difference between the two arms but kept the paths indistinguishable. As a result, each path with length <span class="math inline">\(l_i\)</span> picked up a phase factor of <span class="math inline">\(e^{i\delta_i}\)</span>, where <span class="math inline">\(\delta_i=2\pi l_i/\lambda\)</span>. For example, if a photon took the upper right arm, its state could be written as</p>
+<p><span class="math display">\[\left|\psi_1\right&gt; = e^{i\delta_1}(r\left|\psi_B\right&gt;+ t\left|\psi_{B'}\right&gt;),\]</span></p>
+<p>since the probability that it was reflected into detector B was R and and transmitted into detector B’ was T. Similarly, if the photon took the lower left arm, its state was</p>
+<p><span class="math display">\[\left|\psi_2\right&gt; = e^{i\delta_2}(r\left|\psi_{B'}\right&gt;+ t\left|\psi_{B}\right&gt;.\]</span></p>
+<p>Substituting the state equations into the input equation, we get</p>
+<p><span class="math display">\[\left|\psi_{in}\right&gt; = re^{i\delta_1}(r\left|\psi_B\right&gt;+ t\left|\psi_{B'}\right&gt;)+ te^{i\delta_2}(r\left|\psi_{B'}\right&gt;+ t\left|\psi_{B}\right&gt;)\]</span> <span class="math display">\[= r^2 e^{i\delta_1}\left|\psi_{B}\right&gt; + rt (e^{i\delta_1}+e^{i\delta_2})\left|\psi_{B'}\right&gt; + t^2 e^{i\delta_2}\left|\psi_{B}\right&gt;\]</span> <span class="math display">\[= (r^2e^{i\delta_1}+t^2e^{i\delta_2})\left|\psi_{B}\right&gt; + rt (e^{i\delta_1}+e^{i\delta_2})\left|\psi_{B'}\right&gt;.\]</span></p>
+<p>The probability that the photon arrived at detector B was</p>
+<p><span class="math display">\[P_B = |\left&lt;\psi_B|\psi_{in}\right&gt;|^2 = (r^2e^{i\delta_1}+t^2e^{i\delta_2})^2\]</span> <span class="math display">\[= R^2 +T^2 + RT (e^{i(\delta_1-\delta_2)}+e^{-i(\delta_1-\delta_2)})\]</span> <span class="math display">\[= R^2 +T^2 + 2RT \cos[\delta_1-\delta_2]\]</span> <span class="math display">\[= \frac{1}{2^2} +\frac{1}{2^2} + 2\frac{1}{2^2} \cos[\delta_1-\delta_2]\]</span> <span class="math display">\[= \frac{1}{2}+ \frac{1}{2}\cos[\delta_1-\delta_2],\]</span></p>
+<p>and the probability that the photon arrived at detector B’ was</p>
+<p><span class="math display">\[P_{B'} = |\left&lt;\psi_{B'}|\psi_{in}\right&gt;|^2 = \frac{1}{2} - \frac{1}{2}\cos[\delta_1-\delta_2],\]</span></p>
+<p>when we had <span class="math inline">\(R=T=1/2\)</span>. From these formulations, quantum mechanics stated that as the photon took two possible and indistinguishable paths into each detector B and B’, the probability of finding it in each of the detector was a sinusoidal function of the path length difference between the paths.</p>
+<p>Since we were interested in the detection of photons at either detector B or B’ in the presence of an idler detection at A, we monitored the coincidence count rates <span class="math inline">\(R_{AB}\)</span> and <span class="math inline">\(R_{AB'}\)</span> as we changed the path length of one arm to observe the interference behavior derived. The fringe visibility used to quantify the interference pattern was defined as</p>
+<p><span class="math display">\[V = \frac{R_{12,max}-R_{12,min}}{R_{12,max}+R_{12,min}}.\]</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images_quantum/fig2.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>Figure 2: A schematic diagram of the Mach Zehnder interferometer. A movable mirror is inserted in the path of the signal photons to direct them into the interferometer. The photons go through the first nonpolarizing beamsplitter into two HWP’s that are originally set to the same polarization. The two mirrors placed along the photons’paths recombine them into the second nonpolarizing beamsplitter before they go into either detector B or B’. Two arms of the interferometer present two identical paths for the photons to travel into each detector. We translated the position of the movable mirror using a piezo-controlled motor to observe single-photon interference arised from identical possible paths. The HWP’s were used to tag the photons’path, and the linear polarizer was put in front of one detector to erase the tag.</figcaption>
+</figure>
+</div>
+</section>
+<section id="coherence-length" class="level3">
+<h3 class="anchored" data-anchor-id="coherence-length">Coherence Length</h3>
+<p>When there are different possible ways that give rise to the same observational outcome, the amplitudes corresponding to the possible paths overlap in space and time, and the apparatus does not distinguish between these paths. The down-conversion process produced amplitude packets with a spatial spread in the wave numbers <span class="math inline">\(\triangle k\)</span>. This spatial spread led to a spread <span class="math inline">\(\triangle t\)</span> in time when the photons arrived at their detectors. The coherence length of the beams was then defined as <span class="math inline">\(l_c = c\triangle t\)</span>, with <span class="math inline">\(c\)</span> being the speed of light.</p>
+<p>Considered the signal photon traveled through the interferometer into either detector B or B’. As long as the difference in path lengths $l $ between the two interferometer arms corresponded to a difference in travel times (<span class="math inline">\(\triangle l/c\)</span>) that was less than $t $, the coherence time of the signal beam, quantum mechanics predicted that we could not tell which arm the signal photon took through the interferometer. In other words, there was a threshold for path distinguishability that depended on the path length difference: the possible paths stayed indistinguishable when <span class="math inline">\(\triangle l&lt;l_c\)</span> and became distinguishable when <span class="math inline">\(\triangle l&gt;l_c\)</span>. In the latter case, the delay in the longer path prevented the amplitude packets in both paths from overlapping, so there should be no interference in <span class="math inline">\(P_B\)</span> or <span class="math inline">\(P_B'\)</span>.</p>
+<p>We controlled the spread of wave numbers <span class="math inline">\(\triangle k\)</span>, and hence <span class="math inline">\(\triangle t\)</span>, with bandpass filters in front of the detectors. The bandpass filters that we used had two parameters, a centered wavelength $ _0 $ and a bandwidth <span class="math inline">\(\triangle\lambda\)</span>, which allowed light with a wavelength within the range <span class="math inline">\(\lambda_0\pm \triangle\lambda\)</span> to pass through.</p>
+<p>With the bandpass filter inserted, the coherence length of the wave coming out of the filter can be determined as</p>
+<p><span class="math display">\[l_c = \frac{\lambda_0^2}{n\triangle\lambda} = \frac{\lambda_0^2}{\triangle\lambda},\]</span></p>
+<p>where <span class="math inline">\(n\)</span> is the refractive index of the medium in which the light is traveling through, which was one in our case.</p>
+<hr>
+</section>
+</section>
+<section id="experiment" class="level2">
+<h2 class="anchored" data-anchor-id="experiment">Experiment</h2>
+<section id="single-photon-state-of-light" class="level3">
+<h3 class="anchored" data-anchor-id="single-photon-state-of-light">Single-photon state of light</h3>
+<p>The correlation experiment for both two and three detectors was set up as shown in Figure 1. The violet diode laser was steered with mirrors to go through the half-wave plate (HWP) and hit the BBO crystal at the center. This first HWP allowed us to adjust the polarization of the pump laser and control the down conversion rate in terms of intensity. The two down-converted beams emerged from the crystal at an angle of 3° from the pump laser direction. The idler photon took the top path into detector A. The signal photon traveled through the bottom path towards either detector B or B’ after hitting the beam splitter, which was sensitive to the polarization of the incoming light. This means that the ratio of light being transmitted and reflected when passing through this beamsplitter depended on the polarization of the incident light, and so we placed a second HWP right in front of it to control how much light being reflected and transmitted from the beamsplitter.</p>
+<p>In order to verify the correlation between the two down-converted beams produced by the crystal, we rotated the second HWP to an angle at which the beamsplitter transmitted all the incident light into detector B. The count rates at each detector A and B as well as the coincidence count rates when the photons arrived at both within a coincidence window of 7.5 ns were collected for a 1-second period using a LabVIEW program. Interestingly, decreasing the intensity of the pump laser increased the coincidence counts in these two detectors, and so a part of the experiment was to study the anticorrelation parameter as we varied the angle of the first HWP.</p>
+<p>Once we verified the correlation between the idler and signal photons, we adjusted the second HWP so that half of the signal photons were transmitted into detector B and the other half were reflected into detector B’. The program registered count rates in each detector, as well as the coincidence count rates between A and B, A and B’, and all three within the coincidence window of 7.5 ns.</p>
+</section>
+<section id="single-photon-interference" class="level3">
+<h3 class="anchored" data-anchor-id="single-photon-interference">Single photon interference</h3>
+<p>We placed a removable mirror in the path of the signal photons in Figure 1 to direct these photons into the Mach-Zehnder interferometer as shown in Figure 2. The photons hit the first 50-50 nonpolarizing beamsplitter where half of them were transmitted and the other half were reflected. Initially, the two HWP’s were set up such that the polarizations of the beams coming out of the first beamsplitter were identical, and for our HWP’s, that meant setting both at 0°. We placed two mirrors along the paths to recombine the beams into a second 50-50 nonpolarizing beamsplitter. Originally, the mirrors were set up such that the two paths had approximately the same length. Thus, each photon traveling into detector B had two identical paths: transmitted by the first and second beamsplitters or reflected by both of them. Similarly, a photon also had two identical paths to arrive at detector B’. The bottom mirror inside the interferometer was movable along the direction that made a 45° angle with the beam paths.</p>
+<p>To observe the coincidence rates <span class="math inline">\(R_{AB}\)</span> and <span class="math inline">\(R_{AB'}\)</span> as a function of the path length difference between the two arms, we translated the bottom mirror on the order of micrometer (<span class="math inline">\(\mu m\)</span>) using a piezo-controlled motor.</p>
+<section id="tagging-the-photons-with-orthogonal-linear-polarization" class="level4">
+<h4 class="anchored" data-anchor-id="tagging-the-photons-with-orthogonal-linear-polarization">Tagging the photons with orthogonal linear polarization</h4>
+<p>To make the arms distinguishable, we rotated the polarization for photons that took the moving mirror’s path by 90° using the HWP following the first beamsplitter. We had one person rotating the HWP and another turning the dial on the voltage control for the mirror’s position and monitored the graphs until we got a polarization of path 2 close to 90° from that of path 1. In other words, we were looking for an angle of the HWP where the counts rates <span class="math inline">\(R_{AB}\)</span> and <span class="math inline">\(R_{AB'}\)</span> were close to two flat lines. With an ideal HWP, we would expect the angle at which we should rotate the HWP to be 45° for the polarization of the two beams to be at 90° of each other. For our HWP, this angle turned out to be around 33°.</p>
+<p>To erase the tag for one detector while keeping the paths of the other detector distinguishable for comparison, we placed a linear polarizer oriented at 45° between the last beamsplitter and detector B’. By doing so, we allowed half of the photons in each path to go through and come out at 45° before they arrived at detector B’. The linear polarizer acted as an “eraser” here because it erased the information about which path the photons took before coming into detector B’. Meanwhile, the two paths remained distinguishable for detector B.</p>
+</section>
+<section id="tagging-the-photons-with-path-length-difference" class="level4">
+<h4 class="anchored" data-anchor-id="tagging-the-photons-with-path-length-difference">Tagging the photons with path length difference</h4>
+<p>Besides tagging the photons with their polarizations, we could tag them with the length difference between the two available paths. We moved the bottom mirror over a range of 70 <span class="math inline">\(\mu m\)</span> to vary the path length difference between the two indistinguishable paths in the interferometer arms, with and without a bandpass filter placed in front of detector A, while keeping the polarization of the two arms identical. Because the piezo-controlled motor could only move the mirror within a 20-<span class="math inline">\(\mu m\)</span> range, we manually set the mirror position for every 5 or 10 <span class="math inline">\(\mu m\)</span> using the ruler knob on the side of the mirror mount and used the piezo-controlled motor to move the mirror around each position and see the interference.</p>
+<p>We observed the effect of coherence length on single-photon interference in three cases: without a bandpass filter, a <span class="math inline">\(800\pm 40\)</span> nm filter, and <span class="math inline">\(810\pm 10\)</span> nm filter. For the two latter cases, we could calculate the coherence length beforehand using the coherence equation. We were interested in determining the coherence length of the photons when there was no bandpass and verifying the dependence of path length distinguishability on coherence length.</p>
+<hr>
+</section>
+</section>
+</section>
+<section id="results-and-discussion" class="level2">
+<h2 class="anchored" data-anchor-id="results-and-discussion">Results and Discussion</h2>
+<p>In the first experiment, the idler photons traveled into detector A and all of the signal photons traveled into detector B. We wanted to verify that the two down-converted beams were correlated. The anti-correlation parameter in Figure 3 was calculated and plotted as a function of the intensity of the pump laser, which was monitored by the count rate <span class="math inline">\(R_A\)</span> at detector A. <span class="math inline">\(\alpha_{2d}\)</span> decreased as <span class="math inline">\(R_A\)</span> increased; however, it stayed above the threshold <span class="math inline">\(\alpha_{2d}=1\)</span> at all times. This suggested that the spontaneous parametric down conversion process indeed produced correlated pairs of photons.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images_quantum/fig3.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>Figure 3: Anti-correlation parameter <span class="math inline">\(\alpha_{2d}\)</span> as a function of the pump laser intensity. We rotated the first HWP in Figure 1 to vary the intensity of the pump laser and calculated <span class="math inline">\(\alpha_{2d}\)</span> for each intensity. The orange dotted line represented <span class="math inline">\(\alpha_{2d}=1\)</span>. We kept the coincidence window constant at 7.5 ns.</figcaption>
+</figure>
+</div>
+<p>Inserting the 480.7cm coaxial cable between the output of detector A’s SPCM and the CCU and monitoring the correlation between the idler and signal allowed us to measure the accidental count rates of our apparatus. We had verified that the spontaneous parametric down conversion process produced correlated photons from values of <span class="math inline">\(\alpha_{2d}&gt;1\)</span> shown in Figure 3. By keeping the coincidence window at 7.5 ns and adding the cable which delayed the arrival of the idler photons by 24 ns, we claimed that any coincidence counts registered would be accidental because the idler and signal photons were spaced out at a distance that was greater than the coincidence window.</p>
+<p>As shown in Table 1, the values <span class="math inline">\(R_{AB,acc}\)</span> were the coincidence count rates when the cable was inserted, and the values <span class="math inline">\(R_{AB}\)</span> were actual coincidence rates without the cable. The highest <span class="math inline">\(R_{AB,acc}\)</span>, when <span class="math inline">\(R_A\)</span> was highest, was 0.17 times its corresponding actual coincidence count rate <span class="math inline">\(R_{AB}\)</span>. This was high compared to the 0.0499 ratio between the accidental and actual coincidence count rates reported in Pearson et al.</p>
+<table class="caption-top table">
+<caption>Table 1: Correlation measurements between the idler and signal photons at various pump laser intensity with and without the long coaxial delay cable inserted between the output of the idler photon’s SPCM and its CCU. <span class="math inline">\(R_{AB,acc}\)</span> was the coincidence count rates when the delay cable was inserted, reflecting the accidental coincidence rate the apparatus registered at a given intensity. Values of <span class="math inline">\(\alpha_{2d}&gt;1\)</span> suggested the idler and signal photons were correlated. The coincidence window was 7.5 ns here.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: center;"><span class="math inline">\(R_A\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(R_B\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(R_{AB}\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(R_{AB,acc}\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(\alpha_{2d}\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">62900</td>
+<td style="text-align: center;">57300</td>
+<td style="text-align: center;">1540</td>
+<td style="text-align: center;">53</td>
+<td style="text-align: center;">60.15</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">432000</td>
+<td style="text-align: center;">388000</td>
+<td style="text-align: center;">16500</td>
+<td style="text-align: center;">1548</td>
+<td style="text-align: center;">12.69</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">862000</td>
+<td style="text-align: center;">775000</td>
+<td style="text-align: center;">35560</td>
+<td style="text-align: center;">5790</td>
+<td style="text-align: center;">7.14</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">937000</td>
+<td style="text-align: center;">843210</td>
+<td style="text-align: center;">39000</td>
+<td style="text-align: center;">6820</td>
+<td style="text-align: center;">6.63</td>
+</tr>
+</tbody>
+</table>
+<p>Regardless, we performed the correlation experiment between all 3 detectors and found <span class="math inline">\(\alpha_{3d}\)</span> to be less than 1, as shown in Figure 4. This suggested that the quantum mechanics prediction of light was favored: our light source behaved as single photons that were indivisible when they passed through a beamsplitter. Compared to the inverse relationship between <span class="math inline">\(\alpha_{2d}\)</span> and <span class="math inline">\(R_A\)</span> in Figure 4, here <span class="math inline">\(\alpha_{3d}\)</span> increased as <span class="math inline">\(R_A\)</span> increased, which made sense if we looked back at Eq. 3, which has <span class="math inline">\(R_A\)</span> in the numerator instead of the denominator in Eq. 2.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images_quantum/fig4.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>Figure 4: Anti-correlation parameter <span class="math inline">\(\alpha_{3d}\)</span> as a function of the pump laser intensity when the coincidence window <span class="math inline">\(\tau_C =7.5\)</span> ns.</figcaption>
+</figure>
+</div>
+<p>Figure 5 showed the coincident count rates <span class="math inline">\(R_{AB}\)</span> and <span class="math inline">\(R_{AB'}\)</span> as we translated the mirror in one path by approximately <span class="math inline">\(1.2 \mu m\)</span> while keeping both paths identical and indistinguishable. Using the visibility metric, we calculated the visibility of coincident count rates <span class="math inline">\(R_{AB}\)</span> to be <span class="math inline">\(0.24 \pm 0.01\)</span> and <span class="math inline">\(R_{AB'}\)</span> to be <span class="math inline">\(0.22 \pm 0.01\)</span>. Compared to the visibility of 0.98 in Grangier et al., our result was significantly lower. This result, together with the high accidental coincidence rate, could be due to some misalignments in our apparatus setup. However, our result agreed with the quantum mechanics prediction, which stated that when there were multiple possible paths for an event to occur, we added together the probability amplitude of all paths.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images_quantum/fig5.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>Figure 5: Single photons interference when they traveled through Mach Zehnder interferometer whose two arms were identical. The coincidence count rates of AB and AB’ were oppositely modulated, as a function of the path length difference between the two arms.</figcaption>
+</figure>
+</div>
+<p>Following that observation, we tagged the two paths by setting their polarizations orthogonal to each other and saw that the interference pattern disappeared as seen in the coincidence count rate for AB in Figure 6. Since the information about which path the photons took was known to the detectors, the wave function collapsed, and interference pattern disappeared. By placing the linear polarizer in front of detector B’ after the second beamsplitter, we erased that tag for the photons traveling into B’ and brought back the interference in <span class="math inline">\(R_{AB'}\)</span> (Figure 6) with a visibility of 0.2.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images_quantum/fig6.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>Figure 6: Tagging the photon’s paths caused the wave function to collapse and the interference pattern to disappear. However, we could erase that distinguisher with a linear polarizer in front of B’ and bring back the interference for that detector.</figcaption>
+</figure>
+</div>
+<p>To investigate the relationship between the coherence length of the down-converted beams and the interference pattern due to path distinguishability of the inferometer arms, we placed a 10 nm bandpass filter centered on wavelength 810 nm in front of detector A and monitored both <span class="math inline">\(R_{AB}\)</span> and <span class="math inline">\(R_{AB'}\)</span> as we translated the mirror over a range of 70 <span class="math inline">\(\mu m\)</span>. We calculated the coherence length of the idler beam with this filter to be 65.6 <span class="math inline">\(\mu m\)</span>. Shown in Figure 7 were the visibilities of <span class="math inline">\(R_{AB}\)</span> and <span class="math inline">\(R_{AB'}\)</span>, both in the presence and absence of the filter. The visibility of the fringes peaked when the mirror position was approximately between 30 <span class="math inline">\(\mu m\)</span> and 35 <span class="math inline">\(\mu m\)</span> for both cases. Nevertheless, the fringes with the filter (dark and light green scattered points) were more visible at every mirror position, at least 1.65 times higher inside the peak range and at most 4.79 times higher outside. It also had a higher baseline at <span class="math inline">\(0.235 \pm 0.024\)</span> visibility, compared to the <span class="math inline">\(0.0777 \pm 0.025\)</span> baseline when there was no filter (dark and light blue scattered points).</p>
+<p>Because in the basic interferometer experiment the baseline of the interference we saw was at a visibility of around 0.2, we defined coherence length to be the range in which fringe visibility was equal to or greater than this value. Thus, the experimental coherence length of the signal beam with the <span class="math inline">\(810 \pm 10\)</span> nm was approximately 70 <span class="math inline">\(\mu m\)</span>, and the coherence length of the same beam without any filter was approximately 10 <span class="math inline">\(\mu m\)</span>. We noticed the experimental coherence length of the signal beam with the filter aligned with the calculation used to calculate the coherence length of the idler beam. This again verified that the down-converted beams were correlated: changing the coherence length of the idler beam with a bandpass filter also affected the coherence length of the signal one. In addition, the filter increased the visibility of the fringes from a maximum value of <span class="math inline">\(V= 0.245 \pm 0.012\)</span> (no bandpass) to a maximum value of <span class="math inline">\(V = 0.430 \pm 0.024\)</span> (with the <span class="math inline">\(810 \pm 10\)</span> nm bandpass).</p>
+<p>Our result showed that this filter increased the coherence length of the down-converted beams, and by doing so it allowed us to move the mirror over a longer distance before the two arms became distinguishable and the interference disappeared. This agreed with the quantum mechanics prediction that given identical polarizations, the apparatus could only distinguish the different paths when their amplitude packets did not overlap within the coherence length range of the down-converted beams.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images_quantum/fig7.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>Figure 7: Visibility of <span class="math inline">\(R_{AB}\)</span> and <span class="math inline">\(R_{AB'}\)</span> as a function of the path length difference with and without a <span class="math inline">\(810 \pm 10\)</span> nm bandpass filter in front of detector A. We set the baseline for interference to be at <span class="math inline">\(V=0.2\)</span> where the blue dotted line was and defined coherence length to be the range in which the visibility of the fringe was above that line.</figcaption>
+</figure>
+</div>
+<hr>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>We have performed two experiments with single-photon optics. The first one was to verify that the light source from sponstaneous parametric downconversion process we were using produced single photons. This light source produced twin photons spontaneously and implemented a “gating” detection scheme that addressed accidental coincidence counts by only detecting a signal photon when there was presence of an idler photon. After, the second experiment tested we could see interference with single photons.</p>
+<p>The result of the first experiment violated the classical prediction about the statistical property of light and aligned with the quantum mechanical prediction. The latter states that when a photon hits a beamsplitter it doesn’t split and goes both ways, and instead it behaves like a single particle. We saw that the coincidence counts in detector B and B’ was very low from a low anticorrelation parameter. This suggested that the photon when arriving at the beamsplitter either went into B or B’ but not both.</p>
+<p>The result of the second experiment showed the wave behavior of the single photons when we allowed the signal photons to enter the Mach Zehnder interferometer. With the original setup, the photons had two indistinguishable paths to take before they Birkhoff came into each detector. And by varying the path length of one of the interferometer arm, we were able to observe the interference pattern in the probability of <span class="math inline">\(R_{AB}\)</span> and <span class="math inline">\(R_{AB'}\)</span> as a function of the path length difference. We changed the distinguishability information and saw the interference pattern disappeared when we could tell apart which part the photon took. That information could also be erased, and when it was, the interference came back.</p>
+<p>We also explored how the information regarding distinguishability could be controlled besides changing the polarization of the two paths. We made the two paths distinguishable by moving the position of the mirror over a range, and saw the interference pattern appeared when the path difference was outside of the coherence length range of the idler photons. When that happened, the detector could identify which arms the photon took because of the time delay if it took the longer arm, and so the two paths in that case were distinguishable. This result agreed with the second experiment, which stated that we only saw interference when the paths the photons took were indistinguishable due to the probabilistic characteristic of quantum mechanics.</p>
+<p>Our experimental results in both experiments were significantly lower than others’ work in this area, partially because the alignment of our apparatus was not perfectly set up. Nevertheless, from these two main experiments, we saw quantum mechanics at work, inside the wave-particle duality of light.</p>
+<section id="acknowledgments" class="level3">
+<h3 class="anchored" data-anchor-id="acknowledgments">Acknowledgments</h3>
+<p>We wish to acknowledge the support of the Lawrence University Physics Department, Professor Stoneking and Professor Martin in guiding us with helpful discussions and assisting us with the experiment setup, my lab partner Helin Wang in conducting the experiments with me, and the Advance Laboratory.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Site built with <a href="https://quarto.org/">Quarto</a></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

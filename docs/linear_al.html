@@ -6,8 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Daisy Nguyen">
+<meta name="dcterms.date" content="2024-03-03">
 
-<title>About – Daisy Nguyen</title>
+<title>Linear Algebra Course Overview – Daisy Nguyen</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -70,6 +72,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -154,22 +185,42 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#reduced-row-echelon-form-pivots-say-a-lot" id="toc-reduced-row-echelon-form-pivots-say-a-lot" class="nav-link active" data-scroll-target="#reduced-row-echelon-form-pivots-say-a-lot">1.Reduced Row-Echelon Form: Pivots Say a Lot</a></li>
+  <li><a href="#matrix-multiplication-flexibility-is-a-tool" id="toc-matrix-multiplication-flexibility-is-a-tool" class="nav-link" data-scroll-target="#matrix-multiplication-flexibility-is-a-tool">2. Matrix Multiplication: Flexibility is a Tool</a></li>
+  <li><a href="#eigenvector-and-basis-they-go-well-together" id="toc-eigenvector-and-basis-they-go-well-together" class="nav-link" data-scroll-target="#eigenvector-and-basis-they-go-well-together">3. Eigenvector and Basis: They Go Well Together</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">About</h1>
+<h1 class="title">Linear Algebra Course Overview</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Daisy Nguyen </p>
+          </div>
+  </div>
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">March 3, 2024</p>
+    </div>
+  </div>
   
     
   </div>
@@ -179,11 +230,62 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>I am Nga Nguyen, but you can call me Daisy.</p>
-<p>I am from Da Nang, Vietnam. I started studying abroad in high school in a small town called Bettendorf, Iowa. I then attended college at Lawrence University in Appleton, Wisconsin.</p>
-<p>I am a Senior at Lawrence University, pursuing Physics and Computer Science. I’m currently working on computational plasma physics, and I am aspire to develop high-fidelity models to rigorously study plasma instabilities and turbulence, alongside reduced-order models capable of predicting the real-time onset of instabilities in next-generation fusion systems.</p>
+<p>This course teaches Linear Algebra by providing the basic tools so that students can use them to tackle more advanced problems, mostly involving proof writing. Although the tools seem basic and simple, they are the foundations of proofs and are useful in various ways. Thus, it takes creativity and flexibility to see how and where to apply them.</p>
+<p>The first chapter introduces students to matrix and the reduced row-echelon form of matrix. By the way RREF is introduced, it seems as if we would use it to solve linear systems. However, its application to later chapters are highly useful. RREF provides an insight into determining whether a list of vectors is linearly independent and whether they span a vector space. These are the two requirements in checking if vectors are a basis for a vector space. Similarly, matrix multiplication is a computational procedure whose generalized form goes hand in hand with the standard basis vectors. It is often cited in lots of proofs. Matrix multiplication and RREF together are used in finding the eigenspace and null space of a matrix. Lastly, a list of bases that are eigenvectors give us a convenient tool to prove linear independence as well as diagonalization. Learning that one basis can be better than others, we can be aware of our basis choice when approaching a problem.</p>
+<p>Thus, what students learn in the opening chapters come back from time to time in the later chapters, and they should utilize these foundational tools as they move onto new materials.</p>
+<section id="reduced-row-echelon-form-pivots-say-a-lot" class="level2">
+<h2 class="anchored" data-anchor-id="reduced-row-echelon-form-pivots-say-a-lot">1.Reduced Row-Echelon Form: Pivots Say a Lot</h2>
+<p>A matrix is in its reduced row-echelon form if it is in its REF form and its pivot columns contain only the pivot. To find the RREF of a matrix, we can use these 3 row operations below:</p>
+<p>R1: Add a multiple of one row to another row.</p>
+<p>R2: Multiply a row by a nonzero constant.</p>
+<p>R3: Switch any two rows.</p>
+<p>RREF is a tool used not only in solving linear systems as it gives a more simplified version of the solutions than the REF does (Section 1.2), but also in finding eigenvectors and eigenvalues (Section 2.1) as well as in determining linear independence and basis (Section 3.1, 3.2).</p>
+<p>The number of pivots relative to the dimension of a matrix (the number of rows and columns) is a quick tool to check for linear independence. Let <span class="math inline">\(A \in M_{m,n}(\mathbb{F})\)</span>. The pivot columns of A are linearly independent, and the number of pivots is the rank of A. The non-pivot columns of A can then be written as linear combinations of the columns of A that contain a pivot. The number of non-pivot columns tell us how many free variables in A, which is the null of the matrix. If the RREF of A has a pivot in every row, its columns span <span class="math inline">\(\mathbb{F}^m\)</span>. If the RREF of A has a pivot in every column, its columns are linear independent. And if <span class="math inline">\(m=n\)</span> and A has a pivot in every column (which also implies that A has a pivot in every row), then the columns of A are the basis for <span class="math inline">\(\mathbb{F}^m\)</span> (Section 3.2).</p>
+<p>For example, the matrix A below has 2 pivots. We can write the third column of the original matrix as a linear combination of the first two. The matrix B has pivots in every row and column, and so its columns of the original matrix are linearly independent and are the basis of <span class="math inline">\(\mathbb{F}^3\)</span>.</p>
+<p>For example, consider the matrix reductions below:</p>
+<p><span class="math display">\[A = \begin{pmatrix} 1 &amp; 2 &amp; 3 \\ 2 &amp; 5 &amp; 6 \end{pmatrix} \rightarrow \begin{pmatrix} 1 &amp; 0 &amp; 3 \\ 0 &amp; 1 &amp; 0 \end{pmatrix}\]</span></p>
+<p><span class="math display">\[B = \begin{pmatrix} 1 &amp; 2 &amp; 3 \\ 2 &amp; 5 &amp; 6 \\ 2 &amp; 4 &amp; 7 \end{pmatrix} \rightarrow \begin{pmatrix} 1 &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; 0 \\ 0 &amp; 0 &amp; 1 \end{pmatrix}\]</span></p>
+<p>We also notice that the RREF of <span class="math inline">\(B\in M_{3}(\mathbb{F})\)</span>, whose columns are the basis of <span class="math inline">\(\mathbb{F}^3\)</span>, is in the form of the identity matrix <span class="math inline">\(\mathcal{\textbf{I}}_3\)</span>. This is a key idea in problems that ask to prove whether a matrix is invertible or whether a linear system of equations has a unique solution. Since <span class="math inline">\(Bx=c\)</span> with <span class="math inline">\(c \in \mathbb{F}^3\)</span> has a unique solution if and only if B has a pivot in every column, once we know the RREF of B is an identity matrix we can show that any vector in <span class="math inline">\(\mathbb{F}^3\)</span> can be uniquely represented as a linear combination of columns of B. In section 2.4, we also learn that a square <span class="math inline">\(n\times n\)</span> matrix is invertible if and only if its RREF is <span class="math inline">\(\mathcal{\textbf{I}}_n\)</span>. Thus, knowing the RREF can tell us if a matrix is invertible.</p>
+<p>Being comfortable with row reducing and understanding the roles of pivots in relation with the matrix dimension can present us a useful tool to determine linear independence and combination, invertibility, and uniqueness of solution than just solving systems of equations.</p>
+<hr>
+</section>
+<section id="matrix-multiplication-flexibility-is-a-tool" class="level2">
+<h2 class="anchored" data-anchor-id="matrix-multiplication-flexibility-is-a-tool">2. Matrix Multiplication: Flexibility is a Tool</h2>
+<p>Section 2.3 provides us three different ways to look at matrix multiplication. All of them technically arrive at the same result, but by viewing the procedure from different angles. So at the end we have enough tools to approach a variety of problems.</p>
+<p>One common trick from matrix multiplication that appears in proofs is pulling out a column of a matrix. For example, we pull the jth column of matrix <span class="math inline">\(A \in M_n(\mathbb{F})\)</span> out by multiplying the matrix with the standard basis <span class="math inline">\(e_j\)</span>:</p>
+<p><span class="math display">\[Ae_{j} = \begin{pmatrix} a_{1j} \\ a_{2j} \\ \vdots \\ a_{nj} \end{pmatrix}\]</span></p>
+<p>From this, we can pull out the jth column of the multiplication product between matrix A and B (<span class="math inline">\(A, B\in M_n(\mathbb{F})\)</span>), which is equal to the standard basis <span class="math inline">\(e_j\)</span> if B is the inverse of A:</p>
+<p><span class="math display">\[Ab_{j} = \begin{pmatrix} AB_{1j} \\ AB_{2j} \\ \vdots \\ AB_{nj} \end{pmatrix} = e_{j}\]</span></p>
+<p>This method of looking at an individual column is used frequently in exercises. In particular, we need it for Problem 2.3.11: suppose that <span class="math inline">\(A \in M_{m,n}(\mathbb{F})\)</span> is right-invertible, show that <span class="math inline">\(m \le n\)</span>, and for Problem 2.5.13: show that for <span class="math inline">\(A \in M_{m,n}(\mathbb{F})\)</span> and <span class="math inline">\(B \in M_{n,p}(\mathbb{F})\)</span>, <span class="math inline">\(AB=0\)</span> if and only if <span class="math inline">\(C(B)\subseteq kerA\)</span>.</p>
+<p>Viewing linear combination as matrix multiplication also shows up a lot in exercises; one of them is Problem 3.2.19. Let a list of vectors <span class="math inline">\(v_1, v_2,...,v_n\)</span> be the basis of <span class="math inline">\(\mathbb{F}^n\)</span> and V be the matrix whose columns are <span class="math inline">\(v_1, v_2,...,v_n\)</span> in that order. Then any vector <span class="math inline">\(v \in (\mathbb{F}^n)\)</span> can be written as a linear combination of <span class="math inline">\(v_1, v_2,...,v_n\)</span>:</p>
+<p><span class="math display">\[v= a_1v_1+ a_2v_2+...+ a_nv_n\]</span></p>
+<p>we have</p>
+<p><span class="math display">\[V = \begin{pmatrix} | &amp; &amp; | \\ v_{1} &amp; \dots &amp; v_{n} \\ | &amp; &amp; | \end{pmatrix}\]</span></p>
+<p>then v can also be written as:</p>
+<p><span class="math display">\[v = V \begin{pmatrix} a_{1} \\ \vdots \\ a_{n} \end{pmatrix}\]</span> Essentially, matrix multiplication is a transformation tool used in computer graphics. We generate different geometric transformations by multiplying matrices together. For example, we can rotate something clockwise, reflect it over the y-axis, and stretch it by a factor of 3 all at once by multiplying the matrix of our original image with the product of the 3 matrices representing these transformations.</p>
+</section>
+<section id="eigenvector-and-basis-they-go-well-together" class="level2">
+<h2 class="anchored" data-anchor-id="eigenvector-and-basis-they-go-well-together">3. Eigenvector and Basis: They Go Well Together</h2>
+<p>Basis is a neat tool that shows up a lot in the later chapters after it is introduced in Section 3.2. It is closely related to RREF, which is mentioned earlier in this paper. Other than determining the dimension of a finite-dimensional vector space, basis also acts like a coordinate frame and we can choose what frame we want to look at. More importantly, when the basis is a list of eigenvectors of a matrix/linear map, we can use it to determine diagonalization.</p>
+<p>Let () be the list of basis vectors <span class="math inline">\(v_1,v_2,...,v_n\)</span> of a vector space V. If there is another list of basis vectors <span class="math inline">\(\chi = (w_1,w_2,...,w_n)\)</span> of V, then linear independence allows us to write any basis vector in <span class="math inline">\(\chi\)</span> as a linear combination of the basis vectors in <span class="math inline">\(\beta\)</span>. This essentially is the idea of change of basis, which allows us to change the coordinate frame of something we know into a nicer frame and simplify the problem that we are working on.</p>
+<p>A special vector, eigenvector, is a nonzero vector on which the linear map acts by scalar multiplication, leaving its direction the same. One tool often used to prove independence is the linear map that is the differentiation operator on <span class="math inline">\({C^ \infty(\mathbb{R})}\)</span>. In Section 3.1, we learn that eigenvectors of a linear map corresponding to distinct eigenvalues are linear independent. We use this in Problem 3.3.6: suppose that <span class="math inline">\(\lambda_1,...,\lambda_n \in \mathbb{R}\)</span> are distinct numbers and <span class="math inline">\(f_i(x)= e^{\lambda_ix}\)</span>, prove that dim <span class="math inline">\(\langle(f_1,...,f_n)\rangle=n\)</span>.</p>
+<p>Eigenvectors also tell us about the diagonalization of a matrix or linear map. In Section 3.7 where we learn more about upper triangular matrix, we know that the eigenvalues of a matrix are its diagonal entries. We can then find the eigenvectors. If they are linearly independent, we have found a basis of all the eigenvectors and can conclude that the matrix is diagonalizable. In Section 3.5, we have a proposition which states that <span class="math inline">\([T]_\beta\)</span> is diagonal if and only if $$ consists of all the eigenvectors of a linear map $T: V V $. This is just one of many parallels between matrix and linear map.</p>
+<p>Knowing all of this, we can be smarter in our choice of basis. Problem 3.6.21: let <span class="math inline">\(P\)</span> be the plane through the origin in <span class="math inline">\(\mathbb{R}^3\)</span> and let <span class="math inline">\(R: \mathbb{R}^3 \rightarrow \mathbb{R}^3\)</span> be the reflection across <span class="math inline">\(P\)</span>, find tr<span class="math inline">\(R\)</span>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="reflection_plane.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<figcaption>Reflection across a plane in <span class="math inline">\(\mathbb{R}^{3}\)</span></figcaption>
+</figure>
+</div>
+<p>We can pick any 3 linearly independent vectors in <span class="math inline">\(\mathbb{R}^3\)</span> to be the basis, but a random choice would result in unnecessary Multivariables Calculus. Instead, we can pick 2 linearly independent vectors that lie on the plane and 1 that is orthogonal to the plane. These are independent of each other and span <span class="math inline">\(\mathbb{R}^3\)</span>, and it is easier for us to find their reflection across the plane. Let <span class="math inline">\(v_1,v_2\)</span> lie on the plane and <span class="math inline">\(v_3\)</span> be orthogonal to <span class="math inline">\(P\)</span>. <span class="math inline">\(\beta\)</span> is the list of basis vectors <span class="math inline">\((v_1,v_2,v_3)\)</span>.</p>
+<p><span class="math display">\[R(v_{1}) = v_{1}, \quad R(v_{2}) = v_{2}, \quad R(v_{3}) = -v_{3}\]</span></p>
+<p>then</p>
+<p><span class="math display">\[[R]_{\beta} = \begin{pmatrix} 1 &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; 0 \\ 0 &amp; 0 &amp; -1 \end{pmatrix}\]</span></p>
+<p><span class="math display">\[\text{tr}\,R = \text{tr}\,[R]_{\beta} = 1 + 1 + (-1) = 1\]</span></p>
+<p>The problem is much shorter and simpler when we pick a good basis!</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Capstone Project – Daisy Nguyen</title>
+<title>Physics Capstone – Daisy Nguyen</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -163,28 +163,50 @@ window.Quarto = {
 <span class="menu-text">Research</span></a>
   </li>  
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-projects" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Projects</span>
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-projects-in-r" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Projects in R</span>
     </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-projects">    
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-projects-in-r">    
         <li>
     <a class="dropdown-item" href="./sql_project.html">
  <span class="dropdown-text">SQL project</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./text_analysis_project.html">
- <span class="dropdown-text">text analysis project</span></a>
+ <span class="dropdown-text">Text analysis project</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./Rpackage.html">
  <span class="dropdown-text">R package</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./Paper-Poster.html">
+ <span class="dropdown-text">Differential Privacy Poster</span></a>
+  </li>  
     </ul>
   </li>
-  <li class="nav-item">
-    <a class="nav-link active" href="./capstone.html" aria-current="page"> 
-<span class="menu-text">Capstone Project</span></a>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-projects-in-physics" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Projects in Physics</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-projects-in-physics">    
+        <li>
+    <a class="dropdown-item" href="./capstone.html">
+ <span class="dropdown-text">Capstone</span></a>
   </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-math-concepts" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Math Concepts</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-math-concepts">    
+        <li>
+    <a class="dropdown-item" href="./linear_al.html">
+ <span class="dropdown-text">Linear Algebra</span></a>
+  </li>  
+    </ul>
+  </li>
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -216,8 +238,8 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Capstone Project</h1>
-<p class="subtitle lead">Modeling Diocotron Instability in Electron Plasm</p>
+<h1 class="title">Physics Capstone</h1>
+<p class="subtitle lead">Modeling Diocotron Instability in Electron Plasma</p>
 </div>
 
 
@@ -275,7 +297,7 @@ window.Quarto = {
 </section>
 <section id="functions-for-the-simulation" class="level1">
 <h1>Functions for the simulation:</h1>
-<p>Under these conditions, the equations of motion for the electron plasma are isomorphic to the 2D Euler equations for incompressible fluids. This treatment of the plasma as a single conducting and charged fluid replaces the individual particles’ velocities with the fluid’s collective flow velocity <span class="math inline">\(u\)</span>. <span class="math inline">\(\mathbf{E}\)</span> and <span class="math inline">\(\mathbfB\)</span> represent the electric field of the plasma’s own space charge and the constant external magnetic field pointing in the positive z-direction. We have 3 equations that we need to solve: the Poisson’s equation, the fluid equation of motion, and the continuity equation, respectively.</p>
+<p>Under these conditions, the equations of motion for the electron plasma are isomorphic to the 2D Euler equations for incompressible fluids. This treatment of the plasma as a single conducting and charged fluid replaces the individual particles’ velocities with the fluid’s collective flow velocity <span class="math inline">\(u\)</span>. <span class="math inline">\(\mathbf{E}\)</span> and <span class="math inline">\(\mathbf{B}\)</span> represent the electric field of the plasma’s own space charge and the constant external magnetic field pointing in the positive z-direction. We have 3 equations that we need to solve: the Poisson’s equation, the fluid equation of motion, and the continuity equation, respectively.</p>
 <p>There are iterative methods such as the Jacobi relaxation, the Gauss-Seidel, and the Successive Over- Relaxation (SOR) methods that solve the Poisson’s equation at each grid point during the current time step using numerical values of the potentials from the previous time step until the algorithm finds a stable solution that converges. A faster alternative is the matrix inversion method that places Eq.(9) in the form of <span class="math inline">\(Ax′ = b\)</span>. Here, <span class="math inline">\(A\)</span> is a sparse 39, 600 × 39, 600 coefficient matrix representing the linear relationship between the potentials across the grid, excluding 400 grid points on the top and bottom boundaries whose potentials stay fixed at 0; <span class="math inline">\(x\)</span> is a 39, 600 × 1 vector of the unknown potentials; <span class="math inline">\(b\)</span> is the charge densities vector . To solve for <span class="math inline">\(x\)</span>, the algorithm performs a matrix multiplication between the inverse of <span class="math inline">\(A\)</span> and <span class="math inline">\(b\)</span> <span class="math inline">\((x = A−1b)\)</span>.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># including periodic side boundary</span></span>
@@ -444,7 +466,7 @@ window.Quarto = {
 <span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>plt.imshow(rho, origin <span class="op">=</span> <span class="st">'lower'</span>)</span>
 <span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>plt.colorbar()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>&lt;matplotlib.colorbar.Colorbar object at 0x73b1e1d05d10&gt;</code></pre>
+<pre><code>&lt;matplotlib.colorbar.Colorbar object at 0x7da74166e5d0&gt;</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>step <span class="op">=</span> <span class="dv">2</span> <span class="co"># how many frames</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span> (step):</span>
@@ -496,14 +518,14 @@ Total charge = -0.00028943484751187696</code></pre>
 <span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>plot_1_title <span class="op">=</span> ax1.set_title(<span class="ss">f"Charge Density at Time Step </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">"</span>, pad<span class="op">=</span><span class="dv">10</span>)</span>
 <span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>fig.colorbar(plot_1, ax<span class="op">=</span>ax1, label<span class="op">=</span><span class="st">'Charge Density (C/m³)'</span>, shrink<span class="op">=</span><span class="fl">0.75</span>, aspect<span class="op">=</span><span class="dv">15</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>&lt;matplotlib.colorbar.Colorbar object at 0x73b1e1dee850&gt;</code></pre>
+<pre><code>&lt;matplotlib.colorbar.Colorbar object at 0x7da73f507110&gt;</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>ax2 <span class="op">=</span> fig.add_subplot(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>)  </span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>plot_2 <span class="op">=</span> ax2.imshow(phi_initial, origin<span class="op">=</span><span class="st">'lower'</span>, cmap<span class="op">=</span><span class="st">'plasma'</span>)</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>plot_2_title <span class="op">=</span> ax2.set_title(<span class="ss">f"Potential at Time Step </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">"</span>, pad<span class="op">=</span><span class="dv">10</span>)</span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>fig.colorbar(plot_2, ax<span class="op">=</span>ax2, label<span class="op">=</span><span class="st">'Potential (V)'</span>, shrink<span class="op">=</span><span class="fl">0.75</span>, aspect<span class="op">=</span><span class="dv">15</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>&lt;matplotlib.colorbar.Colorbar object at 0x73b1e1c651d0&gt;</code></pre>
+<pre><code>&lt;matplotlib.colorbar.Colorbar object at 0x7da73f585a90&gt;</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>plt.subplots_adjust(wspace<span class="op">=</span><span class="fl">0.35</span>)  <span class="co"># Increase this number (e.g., 0.4 or 0.5) if want more space</span></span>

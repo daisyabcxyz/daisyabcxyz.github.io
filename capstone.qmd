@@ -1,6 +1,6 @@
 ---
-title: "Capstone Project"
-subtitle: "Modeling Diocotron Instability in Electron Plasm"
+title: "Physics Capstone"
+subtitle: "Modeling Diocotron Instability in Electron Plasma"
 ---
 
 # Overview

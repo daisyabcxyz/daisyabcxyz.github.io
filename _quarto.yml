@@ -14,17 +14,25 @@ website:
       - href: research.qmd
         text: Research
         
-      - text: Projects
+      - text: Projects in R
         menu: 
           - href: sql_project.qmd
             text: SQL project
           - href: text_analysis_project.qmd
-            text: text analysis project
+            text: Text analysis project
           - href: Rpackage.qmd
             text: R package
-            
-      - href: capstone.qmd
-        text: Capstone Project
+          - href: Paper-Poster.html
+            text: Differential Privacy Poster
+      - text: Projects in Physics
+        menu: 
+          - href: capstone.qmd
+            text: Capstone
+      - text: Math Concepts   
+        menu:
+          - href: linear_al.qmd
+            text: Linear Algebra
+      
  
   page-footer:
     right: |

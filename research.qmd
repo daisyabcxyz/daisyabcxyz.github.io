@@ -9,4 +9,3 @@ My research has been driven by the limitations of existing theoretical and compu
 Recently, I develop a 2-D fluid simulation of diocotron instability both in an electron plasma slab and a straight wire configuration initiated with sinusoidal surface perturbations. My model implemented the Eularian method with 4th order Runga-Kutta scheme with matrix inversion to numerically solve the Poisson’s, continuity and E⨉B drift equations.
 
 
-* **Data Privacy:** Exploring the mathematical foundations of database security, local sensitivity bounds, and Laplace noise mechanisms.

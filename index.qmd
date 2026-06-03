@@ -54,6 +54,8 @@ I am Nga Nguyen, but you can call me Daisy. I am a graduating Senior at Lawrence
 My primary research interests lie broadly in the study of physics, mathematics, computer science, and data science. I believe the tools that each discipline provides are the gifts that we should utilize in the making of science. With a research philosophy rooted in an interdisciplinary approach, my long-term goal is to become a fusion energy research scientist at a national laboratory or a research university, integrating mathematical frameworks, computational methods, and data-driven modeling to develop predictive and computationally efficient tools for understanding and controlling magnetically confined plasma in fusion reactors. 
 
 
+<i class='bi-download'></i> Download my <a href="https://docs.google.com/document/d/162IwNW9bY-eHvQDm277YVxMep6pFUV-0hoyTSrmAPYY/edit?tab=t.0" target="_blank">Resume</a>.
+
 ### Personal
 
 I am from Da Nang, Vietnam. A fun fact about me is that I started studying abroad in high school in a small town called Bettendorf, Iowa. I then attended college at Lawrence University in Appleton, Wisconsin. You got it, I have spent a third of my life in the Midwest.

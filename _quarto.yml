@@ -12,9 +12,9 @@ website:
       - href: index.qmd
         text: Home
       - href: research.qmd
-        text: research
+        text: Research
         
-      - text: projects
+      - text: Projects
         menu: 
           - href: sql_project.qmd
             text: SQL project
@@ -22,6 +22,9 @@ website:
             text: text analysis project
           - href: Rpackage.qmd
             text: R package
+            
+      - href: capstone.qmd
+        text: Capstone Project
  
   page-footer:
     right: |

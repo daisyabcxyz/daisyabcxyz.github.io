@@ -16,17 +16,19 @@ website:
         
       - text: Projects in R
         menu: 
-          - href: sql_project.qmd
+          - href: "projects tab/sql_project.qmd"
             text: SQL project
-          - href: text_analysis_project.qmd
-            text: Text analysis project
-          - href: Rpackage.qmd
+          - href: "projects tab/text_analysis_project.qmd"
+            text: Text Analysis Project
+          - href: "projects tab/Rpackage.qmd"
             text: R package
-          - href: poster.qmd
+          - href: "projects tab/poster.qmd"
             text: Differential Privacy Poster
+            
+            
       - text: Research
         menu: 
-          - href: capstone.qmd
+          - href: "capstone/capstone.qmd"
             text: Plasma Physics
             
       - text: Math Concepts   

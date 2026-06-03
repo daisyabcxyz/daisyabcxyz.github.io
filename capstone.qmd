@@ -5,9 +5,9 @@ subtitle: "Modeling Diocotron Instability in Electron Plasm"
 
 # Overview
 
-Recently, I develop a 2-D fluid simulation of diocotron instability both in an electron plasma slab and a straight wire configuration initiated with sinusoidal surface perturbations. My model implemented the Eularian method with 4th order Runga-Kutta scheme with matrix inversion to numerically solve the Poisson’s, continuity and E⨉B drift equations.
+I developed a two-dimensional fluid simulation to study the diocotron instability of a cold, pure electron plasma slab confined between conducting boundaries. The equations of motion for the plasma in this case are isomorphic to the 2D Euler equations for incompressible fluids, and the plasma’s flow velocity is dominated by the E × B drift. Introducing sinusoidal perturbation waves on the slab’s surfaces, I analyze the growth rate of the perturbation waves in the linear regime for different plasma thicknesses and perturbation wavelengths. The simulation results suggest that a thicker slab and a shorter perturbation wavelength lead to a more stable configuration in which the plasma does not evolve into vortices. The instability peak shifts upward and to the left as the mode increases, but distinct modes with different perturbed wavelengths share the same stability threshold.
 
-Below is the workflow for the slab case:
+Below is the workflow for the simulation in Python:
 
 ```{r, include=FALSE}
 #reticulate::py_install(c("matplotlib", "numpy", "scipy"), pip = TRUE)
@@ -31,6 +31,9 @@ import sys
 
 # Set up the grid parameters
 
+I discretize the x − y plane with a 200 × 200 grid of physical size 1m × 1m. The magnetic field $\mathbf{B}$ points out of the page in the positive z direction. The plasma with a uniform number density of $10^{12}$ particles per $m^3$ is initialized in the center of the grid. The simulation implements periodic boundary conditions along the x-axis and conducting boundary conditions at $y = 0m$ and $y = 1m$.
+
+
 ```{python}
 #set up grid of size 200 by 200
 nx,ny = 200,200
@@ -46,14 +49,19 @@ epsilon = 8.85e-12 #F/m
 B = 0.1 #Tesla
 ```
 
-# Functions to solve the Poisson's equation, velocity, and continuity equation:
+# Functions for the simulation:
 
-I implemented the matrix inversion technique to solve the Poisson's equation. Compared to Jacobi, Gauss-Seidel and SOR iterative methods, this method is shown to be more computationally efficient. 
+Under these conditions, the equations of motion for the electron plasma are isomorphic to the 2D Euler equations for incompressible fluids. This treatment of the plasma as a single conducting and charged fluid replaces the individual particles’ velocities with the fluid’s collective flow velocity $u$. $\mathbf{E}$ and $\mathbf{B}$ represent the electric field of the plasma’s own space charge and the constant external magnetic field pointing in the positive z-direction. We have 3 equations that we need to solve: the Poisson’s equation, the fluid equation of motion, and the continuity equation, respectively.
+
+There are iterative methods such as the Jacobi relaxation, the Gauss-Seidel, and the Successive Over- Relaxation (SOR) methods that solve the Poisson's equation at each grid point during the current time step using numerical values of the potentials from the previous time step until the algorithm finds a stable solution that converges. A faster alternative is the matrix inversion method that places Eq.(9) in the form of $Ax′ = b$. Here, $A$ is a sparse 39, 600 × 39, 600 coefficient matrix representing the linear relationship between the potentials across the grid, excluding 400 grid points on the top and bottom boundaries whose potentials stay fixed at 0; $x$ is a 39, 600 × 1 vector of the unknown potentials; $b$ is the charge densities vector . To solve for $x$, the algorithm performs a matrix multiplication between the inverse of $A$ and $b$ $(x = A−1b)$.
+
 
 ```{python}
 # including periodic side boundary
 # https://my.ece.utah.edu/~ece6340/LECTURES/Feb1/Nagel%202012%20-%20Solving%20the%20Generalized%20Poisson%20Equation%20using%20FDM.pdf
-# Matrix inversion method: instantaneous Poisson's solver
+# Matrix inversion method: efficient Poisson's solver
+
+# set up the coefficient matrix
 def create_A(nx, ny):
     num_diag = (nx+1)*(ny-1)
     diag = np.full(num_diag, -4)
@@ -65,13 +73,12 @@ def create_A(nx, ny):
     lower[nx-2::nx-1] = 0
     upper[nx-2::nx-1] = 0
 
-
     diagonal = [diag,lower,upper,identity,identity,side,side]
     offsets = [0,-1,1,-(nx-1),(nx-1),-nx*(ny-1),nx*(ny-1)]
 
     return diags(diagonal, offsets, shape =(num_diag, num_diag), format= 'csr')
 
-#construct boundary vector B
+# construct boundary charge density vector B
 def create_B(rho):
     lil_B2 = np.zeros(((nx+1)*(ny-1),1),float)
     f = rho[1:nx,0:ny+1].reshape((nx+1)*(ny-1),1,order = 'F')*delta**2*(-1)/epsilon
@@ -81,7 +88,7 @@ def create_B(rho):
 
     return f
 
-
+# solve for x in Ax=B
 def solve_poisson_1(rho):
     phi = np.zeros([nx+1,ny+1],float)
     A = create_A(nx,ny)
@@ -91,7 +98,7 @@ def solve_poisson_1(rho):
     phi[1:nx,0:ny+1] = phi_flat.reshape(nx-1,ny+1,order = 'F')
     return phi
 
-# %%
+# solve for Electric field from the calculated potential using finite differencing method
 def electric_field(phi):
     Ex = np.zeros([nx+1, ny+1], float)
     Ey = np.zeros([nx+1, ny+1], float)
@@ -108,6 +115,7 @@ def electric_field(phi):
     plt.show()
     return Ex, Ey
 
+# the velocity is from ExB
 def velocity(Ex, Ey, B):
     vx = np.zeros([nx+1, ny+1], float)
     vy = np.zeros([nx+1, ny+1], float)
@@ -119,24 +127,20 @@ def velocity(Ex, Ey, B):
 
     return vx, vy
 
-#forward Euler method
+#forward Euler method to 1st degree
 def forward_euler_charge_density(rho, vx, vy, dt):
     #rho_new_time = rho.copy()
     for n in range(1):
         rho_new_time = rho.copy()
         for i in range(1, nx):
             for j in range(1, ny):
-                # not sure vx and vy should be at i,j or i+1,j or i-1,j
                 rho[i, j] = rho[i, j] - dt *( (rho_new_time[i +1, j]  - rho_new_time[i - 1, j] )* vy[i, j] /  (2*delta) +
                                                     (rho_new_time[i, j+1]  - rho_new_time[i, j - 1] ) * vx[i, j]/ (2*delta)  )
-                #rho[i, j] = rho_new_time[i, j] - dt *( (rho_new_time[i, j]  - rho_new_time[i - 1, j] )* vy[i, j] /  (1*delta) +
-                #                                   (rho_new_time[i, j]  - rho_new_time[i, j - 1] ) * vx[i, j]/ (1*delta)  )
-                #rho_new_time[i, j] = rho[i, j] - dt * ( (rho[i , j] * vx[i, j] - rho[i - 1, j] * vx[i - 1, j]) /  delta +
-                #                                    (rho[i, j] * vy[i, j] - rho[i, j - 1] * vy[i, j - 1]) / delta )
                 rho[0,:] = 0
                 rho[nx,:]=0
     return rho
 
+# solve the continuity equation using forward in time, centered in space Euler method
 def solve_continuity(rho, vx, vy, dt):
     for n in range (1):
         rho_new = rho.copy()
@@ -156,6 +160,7 @@ def solve_continuity(rho, vx, vy, dt):
 ```
 
 ```{python}
+# Runge-Kutte to the 4th order, more computationally accurate
 def charge_density_ode(t, rho_flat, vx, vy, nx, ny, delta):
     rho= rho_flat.reshape((nx+1, ny+1), order= 'F')
     dndt = np.zeros_like(rho)
@@ -178,6 +183,8 @@ def solve_rho_ode(vx,vy,rho,dt, nx,ny, delta):
 
 ```
 
+# A potential plot of the initiated slab
+
 ```{python}
 #| warning: false
 #| error: false
@@ -186,6 +193,7 @@ def solve_rho_ode(vx,vy,rho,dt, nx,ny, delta):
 import warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
 
+# A potential plot for a slab with half a thickness = 4 grid squares
 rho = np.zeros([nx+1,ny+1],float)
 rho[96:105,:]= -1e12* (1.6e-19) 
 rho[104,:] += 0.5e-7 *np.sin(0.126*x)
@@ -198,7 +206,12 @@ plt.colorbar(label="Potential (V)",shrink=1)
 plt.show()
 ```
 
+# Run the simulation
+
 ```{python}
+# Demo for the simulation, so I only ran 1 step
+# To see the evolution, run 100,000 steps
+
 rho = np.zeros([nx+1,ny+1],float)
 rho[96:105,:]= -1e12* (1.6e-19) 
 rho[104,:] += 0.5e-7 *np.sin(0.126*x)
@@ -214,8 +227,7 @@ time_intervals = np.linspace(0, dt, 1)
 plt.imshow(rho, origin = 'lower')
 plt.colorbar()
 
-
-step = 2
+step = 2 # how many frames
 for i in range (step):
     
     phi = solve_poisson_1(rho)
@@ -229,13 +241,14 @@ for i in range (step):
         print(f"Total charge = {np.sum(rho)}")
         history.append((rho.copy(), phi.copy(),i))
         file_save[f"time_step_{i}"] = (rho.copy(), phi.copy())
-        np.savez('example_run', **file_save)
+        np.savez('example_run', **file_save) # save the data in an npz file
 
 print("Simulation saved.")
 rho_initial, phi_initial, i = history[0]
 
 fig = plt.figure(figsize=(12, 5))
 
+# plot the potential and density plots side by side
 ax1 = fig.add_subplot(1, 2, 1)  
 plot_1 = ax1.imshow(rho_initial, origin='lower', cmap='plasma')
 plot_1_title = ax1.set_title(f"Charge Density at Time Step {i}", pad=10)
@@ -264,14 +277,16 @@ def update(frame):
 
 ani = FuncAnimation(fig, update, frames=len(history), blit=True, interval=200)
 print("Saving animation... This may take a moment.")
-ani.save('example_run.gif', writer='pillow', fps=5)
+ani.save('example_run.gif', writer='pillow', fps=5) # save the frames to create the animation gif
 
 plt.show()
 
 ```
 
+# Data analysis of perturbation growth rate
+
 ```{python}
-#data analysis of perturbation growth rate
+
 #https://numpy.org/doc/2.3/reference/generated/numpy.fft.fft.html
 def fft_rho_slice(rho_slice):
     N = len(rho_slice)
@@ -358,8 +373,4 @@ plt.show()
 
 ```
 
-
-```{python}
-
-```
 

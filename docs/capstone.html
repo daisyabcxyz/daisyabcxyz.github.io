@@ -105,6 +105,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -175,7 +204,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
   <li><a href="#install-required-packages" id="toc-install-required-packages" class="nav-link" data-scroll-target="#install-required-packages">Install required packages</a></li>
   <li><a href="#set-up-the-grid-parameters" id="toc-set-up-the-grid-parameters" class="nav-link" data-scroll-target="#set-up-the-grid-parameters">Set up the grid parameters</a></li>
-  <li><a href="#functions-to-solve-the-poissons-equation-velocity-and-continuity-equation" id="toc-functions-to-solve-the-poissons-equation-velocity-and-continuity-equation" class="nav-link" data-scroll-target="#functions-to-solve-the-poissons-equation-velocity-and-continuity-equation">Functions to solve the Poisson’s equation, velocity, and continuity equation:</a></li>
+  <li><a href="#functions-for-the-simulation" id="toc-functions-for-the-simulation" class="nav-link" data-scroll-target="#functions-for-the-simulation">Functions for the simulation:</a></li>
+  <li><a href="#a-potential-plot-of-the-initiated-slab" id="toc-a-potential-plot-of-the-initiated-slab" class="nav-link" data-scroll-target="#a-potential-plot-of-the-initiated-slab">A potential plot of the initiated slab</a></li>
+  <li><a href="#run-the-simulation" id="toc-run-the-simulation" class="nav-link" data-scroll-target="#run-the-simulation">Run the simulation</a></li>
+  <li><a href="#data-analysis-of-perturbation-growth-rate" id="toc-data-analysis-of-perturbation-growth-rate" class="nav-link" data-scroll-target="#data-analysis-of-perturbation-growth-rate">Data analysis of perturbation growth rate</a></li>
   </ul>
 </nav>
     </div>
@@ -204,8 +236,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="overview" class="level1">
 <h1>Overview</h1>
-<p>Recently, I develop a 2-D fluid simulation of diocotron instability both in an electron plasma slab and a straight wire configuration initiated with sinusoidal surface perturbations. My model implemented the Eularian method with 4th order Runga-Kutta scheme with matrix inversion to numerically solve the Poisson’s, continuity and E⨉B drift equations.</p>
-<p>Below is the workflow for the slab case:</p>
+<p>I developed a two-dimensional fluid simulation to study the diocotron instability of a cold, pure electron plasma slab confined between conducting boundaries. The equations of motion for the plasma in this case are isomorphic to the 2D Euler equations for incompressible fluids, and the plasma’s flow velocity is dominated by the E × B drift. Introducing sinusoidal perturbation waves on the slab’s surfaces, I analyze the growth rate of the perturbation waves in the linear regime for different plasma thicknesses and perturbation wavelengths. The simulation results suggest that a thicker slab and a shorter perturbation wavelength lead to a more stable configuration in which the plasma does not evolve into vortices. The instability peak shifts upward and to the left as the mode increases, but distinct modes with different perturbed wavelengths share the same stability threshold.</p>
+<p>Below is the workflow for the simulation in Python:</p>
 </section>
 <section id="install-required-packages" class="level1">
 <h1>Install required packages</h1>
@@ -225,6 +257,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="set-up-the-grid-parameters" class="level1">
 <h1>Set up the grid parameters</h1>
+<p>I discretize the x − y plane with a 200 × 200 grid of physical size 1m × 1m. The magnetic field <span class="math inline">\(\mathbf{B}\)</span> points out of the page in the positive z direction. The plasma with a uniform number density of <span class="math inline">\(10^{12}\)</span> particles per <span class="math inline">\(m^3\)</span> is initialized in the center of the grid. The simulation implements periodic boundary conditions along the x-axis and conducting boundary conditions at <span class="math inline">\(y = 0m\)</span> and <span class="math inline">\(y = 1m\)</span>.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#set up grid of size 200 by 200</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>nx,ny <span class="op">=</span> <span class="dv">200</span>,<span class="dv">200</span></span>
@@ -240,141 +273,146 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>B <span class="op">=</span> <span class="fl">0.1</span> <span class="co">#Tesla</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="functions-to-solve-the-poissons-equation-velocity-and-continuity-equation" class="level1">
-<h1>Functions to solve the Poisson’s equation, velocity, and continuity equation:</h1>
-<p>I implemented the matrix inversion technique to solve the Poisson’s equation efficiently.</p>
+<section id="functions-for-the-simulation" class="level1">
+<h1>Functions for the simulation:</h1>
+<p>Under these conditions, the equations of motion for the electron plasma are isomorphic to the 2D Euler equations for incompressible fluids. This treatment of the plasma as a single conducting and charged fluid replaces the individual particles’ velocities with the fluid’s collective flow velocity <span class="math inline">\(u\)</span>. <span class="math inline">\(\mathbf{E}\)</span> and <span class="math inline">\(\mathbfB\)</span> represent the electric field of the plasma’s own space charge and the constant external magnetic field pointing in the positive z-direction. We have 3 equations that we need to solve: the Poisson’s equation, the fluid equation of motion, and the continuity equation, respectively.</p>
+<p>There are iterative methods such as the Jacobi relaxation, the Gauss-Seidel, and the Successive Over- Relaxation (SOR) methods that solve the Poisson’s equation at each grid point during the current time step using numerical values of the potentials from the previous time step until the algorithm finds a stable solution that converges. A faster alternative is the matrix inversion method that places Eq.(9) in the form of <span class="math inline">\(Ax′ = b\)</span>. Here, <span class="math inline">\(A\)</span> is a sparse 39, 600 × 39, 600 coefficient matrix representing the linear relationship between the potentials across the grid, excluding 400 grid points on the top and bottom boundaries whose potentials stay fixed at 0; <span class="math inline">\(x\)</span> is a 39, 600 × 1 vector of the unknown potentials; <span class="math inline">\(b\)</span> is the charge densities vector . To solve for <span class="math inline">\(x\)</span>, the algorithm performs a matrix multiplication between the inverse of <span class="math inline">\(A\)</span> and <span class="math inline">\(b\)</span> <span class="math inline">\((x = A−1b)\)</span>.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># including periodic side boundary</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># https://my.ece.utah.edu/~ece6340/LECTURES/Feb1/Nagel%202012%20-%20Solving%20the%20Generalized%20Poisson%20Equation%20using%20FDM.pdf</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Matrix inversion method: instantaneous Poisson's solver</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> create_A(nx, ny):</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    num_diag <span class="op">=</span> (nx<span class="op">+</span><span class="dv">1</span>)<span class="op">*</span>(ny<span class="op">-</span><span class="dv">1</span>)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    diag <span class="op">=</span> np.full(num_diag, <span class="op">-</span><span class="dv">4</span>)</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    lower <span class="op">=</span> np.full((num_diag<span class="op">-</span><span class="dv">1</span>),<span class="dv">1</span>)</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    upper <span class="op">=</span> np.full((num_diag<span class="op">-</span><span class="dv">1</span>),<span class="dv">1</span>)</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    identity <span class="op">=</span> np.full(num_diag<span class="op">-</span>(nx<span class="op">-</span><span class="dv">1</span>),<span class="dv">1</span>)</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    side <span class="op">=</span> np.full(ny<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    lower[nx<span class="op">-</span><span class="dv">2</span>::nx<span class="op">-</span><span class="dv">1</span>] <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    upper[nx<span class="op">-</span><span class="dv">2</span>::nx<span class="op">-</span><span class="dv">1</span>] <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    diagonal <span class="op">=</span> [diag,lower,upper,identity,identity,side,side]</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    offsets <span class="op">=</span> [<span class="dv">0</span>,<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>,<span class="op">-</span>(nx<span class="op">-</span><span class="dv">1</span>),(nx<span class="op">-</span><span class="dv">1</span>),<span class="op">-</span>nx<span class="op">*</span>(ny<span class="op">-</span><span class="dv">1</span>),nx<span class="op">*</span>(ny<span class="op">-</span><span class="dv">1</span>)]</span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> diags(diagonal, offsets, shape <span class="op">=</span>(num_diag, num_diag), <span class="bu">format</span><span class="op">=</span> <span class="st">'csr'</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Matrix inversion method: efficient Poisson's solver</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># set up the coefficient matrix</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> create_A(nx, ny):</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    num_diag <span class="op">=</span> (nx<span class="op">+</span><span class="dv">1</span>)<span class="op">*</span>(ny<span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    diag <span class="op">=</span> np.full(num_diag, <span class="op">-</span><span class="dv">4</span>)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    lower <span class="op">=</span> np.full((num_diag<span class="op">-</span><span class="dv">1</span>),<span class="dv">1</span>)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    upper <span class="op">=</span> np.full((num_diag<span class="op">-</span><span class="dv">1</span>),<span class="dv">1</span>)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    identity <span class="op">=</span> np.full(num_diag<span class="op">-</span>(nx<span class="op">-</span><span class="dv">1</span>),<span class="dv">1</span>)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    side <span class="op">=</span> np.full(ny<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    lower[nx<span class="op">-</span><span class="dv">2</span>::nx<span class="op">-</span><span class="dv">1</span>] <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    upper[nx<span class="op">-</span><span class="dv">2</span>::nx<span class="op">-</span><span class="dv">1</span>] <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    diagonal <span class="op">=</span> [diag,lower,upper,identity,identity,side,side]</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    offsets <span class="op">=</span> [<span class="dv">0</span>,<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>,<span class="op">-</span>(nx<span class="op">-</span><span class="dv">1</span>),(nx<span class="op">-</span><span class="dv">1</span>),<span class="op">-</span>nx<span class="op">*</span>(ny<span class="op">-</span><span class="dv">1</span>),nx<span class="op">*</span>(ny<span class="op">-</span><span class="dv">1</span>)]</span>
 <span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="co">#construct boundary vector B</span></span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> create_B(rho):</span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    lil_B2 <span class="op">=</span> np.zeros(((nx<span class="op">+</span><span class="dv">1</span>)<span class="op">*</span>(ny<span class="op">-</span><span class="dv">1</span>),<span class="dv">1</span>),<span class="bu">float</span>)</span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    f <span class="op">=</span> rho[<span class="dv">1</span>:nx,<span class="dv">0</span>:ny<span class="op">+</span><span class="dv">1</span>].reshape((nx<span class="op">+</span><span class="dv">1</span>)<span class="op">*</span>(ny<span class="op">-</span><span class="dv">1</span>),<span class="dv">1</span>,order <span class="op">=</span> <span class="st">'F'</span>)<span class="op">*</span>delta<span class="op">**</span><span class="dv">2</span><span class="op">*</span>(<span class="op">-</span><span class="dv">1</span>)<span class="op">/</span>epsilon</span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    lil_B2[<span class="dv">0</span>:(nx<span class="op">+</span><span class="dv">1</span>)<span class="op">*</span>(ny<span class="op">-</span><span class="dv">1</span>):(ny<span class="op">-</span><span class="dv">1</span>)] <span class="op">=</span> <span class="op">-</span>rho[<span class="dv">0</span>,<span class="dv">0</span>:nx<span class="op">+</span><span class="dv">1</span>].reshape((ny<span class="op">+</span><span class="dv">1</span>),<span class="dv">1</span>)</span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    lil_B2[ny<span class="op">-</span><span class="dv">2</span>:(nx<span class="op">+</span><span class="dv">1</span>)<span class="op">*</span>(ny<span class="op">-</span><span class="dv">1</span>):(ny<span class="op">-</span><span class="dv">1</span>)] <span class="op">=</span> <span class="op">-</span>rho[ny,<span class="dv">0</span>:nx<span class="op">+</span><span class="dv">1</span>].reshape(ny<span class="op">+</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> f</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> diags(diagonal, offsets, shape <span class="op">=</span>(num_diag, num_diag), <span class="bu">format</span><span class="op">=</span> <span class="st">'csr'</span>)</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="co"># construct boundary charge density vector B</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> create_B(rho):</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>    lil_B2 <span class="op">=</span> np.zeros(((nx<span class="op">+</span><span class="dv">1</span>)<span class="op">*</span>(ny<span class="op">-</span><span class="dv">1</span>),<span class="dv">1</span>),<span class="bu">float</span>)</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    f <span class="op">=</span> rho[<span class="dv">1</span>:nx,<span class="dv">0</span>:ny<span class="op">+</span><span class="dv">1</span>].reshape((nx<span class="op">+</span><span class="dv">1</span>)<span class="op">*</span>(ny<span class="op">-</span><span class="dv">1</span>),<span class="dv">1</span>,order <span class="op">=</span> <span class="st">'F'</span>)<span class="op">*</span>delta<span class="op">**</span><span class="dv">2</span><span class="op">*</span>(<span class="op">-</span><span class="dv">1</span>)<span class="op">/</span>epsilon</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>    lil_B2[<span class="dv">0</span>:(nx<span class="op">+</span><span class="dv">1</span>)<span class="op">*</span>(ny<span class="op">-</span><span class="dv">1</span>):(ny<span class="op">-</span><span class="dv">1</span>)] <span class="op">=</span> <span class="op">-</span>rho[<span class="dv">0</span>,<span class="dv">0</span>:nx<span class="op">+</span><span class="dv">1</span>].reshape((ny<span class="op">+</span><span class="dv">1</span>),<span class="dv">1</span>)</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>    lil_B2[ny<span class="op">-</span><span class="dv">2</span>:(nx<span class="op">+</span><span class="dv">1</span>)<span class="op">*</span>(ny<span class="op">-</span><span class="dv">1</span>):(ny<span class="op">-</span><span class="dv">1</span>)] <span class="op">=</span> <span class="op">-</span>rho[ny,<span class="dv">0</span>:nx<span class="op">+</span><span class="dv">1</span>].reshape(ny<span class="op">+</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
 <span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> solve_poisson_1(rho):</span>
-<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>    phi <span class="op">=</span> np.zeros([nx<span class="op">+</span><span class="dv">1</span>,ny<span class="op">+</span><span class="dv">1</span>],<span class="bu">float</span>)</span>
-<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>    A <span class="op">=</span> create_A(nx,ny)</span>
-<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>    B <span class="op">=</span> create_B(rho)</span>
-<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>    phi_flat <span class="op">=</span> phi.flatten(order<span class="op">=</span> <span class="st">'F'</span>) </span>
-<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>    phi_flat<span class="op">=</span> spsolve(A,B)</span>
-<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>    phi[<span class="dv">1</span>:nx,<span class="dv">0</span>:ny<span class="op">+</span><span class="dv">1</span>] <span class="op">=</span> phi_flat.reshape(nx<span class="op">-</span><span class="dv">1</span>,ny<span class="op">+</span><span class="dv">1</span>,order <span class="op">=</span> <span class="st">'F'</span>)</span>
-<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> phi</span>
-<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a><span class="co"># %%</span></span>
-<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> electric_field(phi):</span>
-<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>    Ex <span class="op">=</span> np.zeros([nx<span class="op">+</span><span class="dv">1</span>, ny<span class="op">+</span><span class="dv">1</span>], <span class="bu">float</span>)</span>
-<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>    Ey <span class="op">=</span> np.zeros([nx<span class="op">+</span><span class="dv">1</span>, ny<span class="op">+</span><span class="dv">1</span>], <span class="bu">float</span>)</span>
-<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, nx):</span>
-<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, ny):</span>
-<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>            <span class="co">#Gemini pointed out how 2D-array indexing works as below:</span></span>
-<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>            <span class="co">#row of an array is 'i' (y-direction)</span></span>
-<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>            <span class="co">#column of an array is 'j' (x-direction)</span></span>
-<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>            Ex[i, j] <span class="op">=</span> <span class="op">-</span>(phi[i, j <span class="op">+</span> <span class="dv">1</span>] <span class="op">-</span> phi[i, j <span class="op">-</span> <span class="dv">1</span>]) <span class="op">/</span> (<span class="dv">2</span><span class="op">*</span>delta)</span>
-<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>            Ey[i, j] <span class="op">=</span> <span class="op">-</span>(phi[i <span class="op">+</span> <span class="dv">1</span>, j] <span class="op">-</span> phi[i <span class="op">-</span> <span class="dv">1</span>, j]) <span class="op">/</span> (<span class="dv">2</span><span class="op">*</span>delta)</span>
-<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a>    plt.show()</span>
-<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> Ex, Ey</span>
-<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> velocity(Ex, Ey, B):</span>
-<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a>    vx <span class="op">=</span> np.zeros([nx<span class="op">+</span><span class="dv">1</span>, ny<span class="op">+</span><span class="dv">1</span>], <span class="bu">float</span>)</span>
-<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a>    vy <span class="op">=</span> np.zeros([nx<span class="op">+</span><span class="dv">1</span>, ny<span class="op">+</span><span class="dv">1</span>], <span class="bu">float</span>)</span>
-<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, nx):</span>
-<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, ny):</span>
-<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a>            vx[i, j] <span class="op">=</span> Ey[i, j] <span class="op">/</span> B</span>
-<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a>            vy[i, j] <span class="op">=</span> <span class="op">-</span>Ex[i, j] <span class="op">/</span> B</span>
-<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> vx, vy</span>
-<span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a><span class="co">#forward Euler method</span></span>
-<span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> forward_euler_charge_density(rho, vx, vy, dt):</span>
-<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a>    <span class="co">#rho_new_time = rho.copy()</span></span>
-<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>):</span>
-<span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a>        rho_new_time <span class="op">=</span> rho.copy()</span>
-<span id="cb3-72"><a href="#cb3-72" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, nx):</span>
-<span id="cb3-73"><a href="#cb3-73" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, ny):</span>
-<span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a>                <span class="co"># not sure vx and vy should be at i,j or i+1,j or i-1,j</span></span>
-<span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a>                rho[i, j] <span class="op">=</span> rho[i, j] <span class="op">-</span> dt <span class="op">*</span>( (rho_new_time[i <span class="op">+</span><span class="dv">1</span>, j]  <span class="op">-</span> rho_new_time[i <span class="op">-</span> <span class="dv">1</span>, j] )<span class="op">*</span> vy[i, j] <span class="op">/</span>  (<span class="dv">2</span><span class="op">*</span>delta) <span class="op">+</span></span>
-<span id="cb3-76"><a href="#cb3-76" aria-hidden="true" tabindex="-1"></a>                                                    (rho_new_time[i, j<span class="op">+</span><span class="dv">1</span>]  <span class="op">-</span> rho_new_time[i, j <span class="op">-</span> <span class="dv">1</span>] ) <span class="op">*</span> vx[i, j]<span class="op">/</span> (<span class="dv">2</span><span class="op">*</span>delta)  )</span>
-<span id="cb3-77"><a href="#cb3-77" aria-hidden="true" tabindex="-1"></a>                <span class="co">#rho[i, j] = rho_new_time[i, j] - dt *( (rho_new_time[i, j]  - rho_new_time[i - 1, j] )* vy[i, j] /  (1*delta) +</span></span>
-<span id="cb3-78"><a href="#cb3-78" aria-hidden="true" tabindex="-1"></a>                <span class="co">#                                   (rho_new_time[i, j]  - rho_new_time[i, j - 1] ) * vx[i, j]/ (1*delta)  )</span></span>
-<span id="cb3-79"><a href="#cb3-79" aria-hidden="true" tabindex="-1"></a>                <span class="co">#rho_new_time[i, j] = rho[i, j] - dt * ( (rho[i , j] * vx[i, j] - rho[i - 1, j] * vx[i - 1, j]) /  delta +</span></span>
-<span id="cb3-80"><a href="#cb3-80" aria-hidden="true" tabindex="-1"></a>                <span class="co">#                                    (rho[i, j] * vy[i, j] - rho[i, j - 1] * vy[i, j - 1]) / delta )</span></span>
-<span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a>                rho[<span class="dv">0</span>,:] <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb3-82"><a href="#cb3-82" aria-hidden="true" tabindex="-1"></a>                rho[nx,:]<span class="op">=</span><span class="dv">0</span></span>
-<span id="cb3-83"><a href="#cb3-83" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> rho</span>
-<span id="cb3-84"><a href="#cb3-84" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-85"><a href="#cb3-85" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> solve_continuity(rho, vx, vy, dt):</span>
-<span id="cb3-86"><a href="#cb3-86" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span> (<span class="dv">1</span>):</span>
-<span id="cb3-87"><a href="#cb3-87" aria-hidden="true" tabindex="-1"></a>        rho_new <span class="op">=</span> rho.copy()</span>
-<span id="cb3-88"><a href="#cb3-88" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span> (<span class="dv">1</span>,nx):</span>
-<span id="cb3-89"><a href="#cb3-89" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span> (ny<span class="op">+</span><span class="dv">1</span>):</span>
-<span id="cb3-90"><a href="#cb3-90" aria-hidden="true" tabindex="-1"></a>                <span class="co">#Gemini helped me debug the indexing issue (out of bounds): keep grounding boundaries fixed and updating the sides only by wrapping around</span></span>
-<span id="cb3-91"><a href="#cb3-91" aria-hidden="true" tabindex="-1"></a>                <span class="co">#Google how negative indexing works in Python</span></span>
-<span id="cb3-92"><a href="#cb3-92" aria-hidden="true" tabindex="-1"></a>                rho[i,j] <span class="op">=</span> rho_new[i,j] <span class="op">-</span> dt<span class="op">*</span>( (rho_new[i<span class="op">+</span><span class="dv">1</span>,j]<span class="op">-</span>rho_new[i<span class="op">-</span><span class="dv">1</span>,j])<span class="op">*</span>vy[i,j]<span class="op">/</span>(<span class="dv">2</span><span class="op">*</span>delta) <span class="op">+</span> </span>
-<span id="cb3-93"><a href="#cb3-93" aria-hidden="true" tabindex="-1"></a>                                                   (rho_new[i,(j<span class="op">+</span><span class="dv">1</span>)<span class="op">%</span>(ny<span class="op">+</span><span class="dv">1</span>)]<span class="op">-</span>rho_new[i,(j<span class="op">-</span><span class="dv">1</span>)<span class="op">%</span>(ny<span class="op">+</span><span class="dv">1</span>)])<span class="op">*</span>vx[i,j]<span class="op">/</span>(<span class="dv">2</span><span class="op">*</span>delta) )</span>
-<span id="cb3-94"><a href="#cb3-94" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-95"><a href="#cb3-95" aria-hidden="true" tabindex="-1"></a>        rho[<span class="dv">0</span>,:] <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb3-96"><a href="#cb3-96" aria-hidden="true" tabindex="-1"></a>        rho[nx,:]<span class="op">=</span><span class="dv">0</span></span>
-<span id="cb3-97"><a href="#cb3-97" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> rho</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> f</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a><span class="co"># solve for x in Ax=B</span></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> solve_poisson_1(rho):</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>    phi <span class="op">=</span> np.zeros([nx<span class="op">+</span><span class="dv">1</span>,ny<span class="op">+</span><span class="dv">1</span>],<span class="bu">float</span>)</span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>    A <span class="op">=</span> create_A(nx,ny)</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>    B <span class="op">=</span> create_B(rho)</span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>    phi_flat <span class="op">=</span> phi.flatten(order<span class="op">=</span> <span class="st">'F'</span>) </span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>    phi_flat<span class="op">=</span> spsolve(A,B)</span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>    phi[<span class="dv">1</span>:nx,<span class="dv">0</span>:ny<span class="op">+</span><span class="dv">1</span>] <span class="op">=</span> phi_flat.reshape(nx<span class="op">-</span><span class="dv">1</span>,ny<span class="op">+</span><span class="dv">1</span>,order <span class="op">=</span> <span class="st">'F'</span>)</span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> phi</span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a><span class="co"># solve for Electric field from the calculated potential using finite differencing method</span></span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> electric_field(phi):</span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>    Ex <span class="op">=</span> np.zeros([nx<span class="op">+</span><span class="dv">1</span>, ny<span class="op">+</span><span class="dv">1</span>], <span class="bu">float</span>)</span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>    Ey <span class="op">=</span> np.zeros([nx<span class="op">+</span><span class="dv">1</span>, ny<span class="op">+</span><span class="dv">1</span>], <span class="bu">float</span>)</span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, nx):</span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, ny):</span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>            <span class="co">#Gemini pointed out how 2D-array indexing works as below:</span></span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>            <span class="co">#row of an array is 'i' (y-direction)</span></span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>            <span class="co">#column of an array is 'j' (x-direction)</span></span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a>            Ex[i, j] <span class="op">=</span> <span class="op">-</span>(phi[i, j <span class="op">+</span> <span class="dv">1</span>] <span class="op">-</span> phi[i, j <span class="op">-</span> <span class="dv">1</span>]) <span class="op">/</span> (<span class="dv">2</span><span class="op">*</span>delta)</span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a>            Ey[i, j] <span class="op">=</span> <span class="op">-</span>(phi[i <span class="op">+</span> <span class="dv">1</span>, j] <span class="op">-</span> phi[i <span class="op">-</span> <span class="dv">1</span>, j]) <span class="op">/</span> (<span class="dv">2</span><span class="op">*</span>delta)</span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a>    plt.show()</span>
+<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> Ex, Ey</span>
+<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a><span class="co"># the velocity is from ExB</span></span>
+<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> velocity(Ex, Ey, B):</span>
+<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a>    vx <span class="op">=</span> np.zeros([nx<span class="op">+</span><span class="dv">1</span>, ny<span class="op">+</span><span class="dv">1</span>], <span class="bu">float</span>)</span>
+<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a>    vy <span class="op">=</span> np.zeros([nx<span class="op">+</span><span class="dv">1</span>, ny<span class="op">+</span><span class="dv">1</span>], <span class="bu">float</span>)</span>
+<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, nx):</span>
+<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, ny):</span>
+<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a>            vx[i, j] <span class="op">=</span> Ey[i, j] <span class="op">/</span> B</span>
+<span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a>            vy[i, j] <span class="op">=</span> <span class="op">-</span>Ex[i, j] <span class="op">/</span> B</span>
+<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> vx, vy</span>
+<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a><span class="co">#forward Euler method to 1st degree</span></span>
+<span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> forward_euler_charge_density(rho, vx, vy, dt):</span>
+<span id="cb3-72"><a href="#cb3-72" aria-hidden="true" tabindex="-1"></a>    <span class="co">#rho_new_time = rho.copy()</span></span>
+<span id="cb3-73"><a href="#cb3-73" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>):</span>
+<span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a>        rho_new_time <span class="op">=</span> rho.copy()</span>
+<span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, nx):</span>
+<span id="cb3-76"><a href="#cb3-76" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, ny):</span>
+<span id="cb3-77"><a href="#cb3-77" aria-hidden="true" tabindex="-1"></a>                rho[i, j] <span class="op">=</span> rho[i, j] <span class="op">-</span> dt <span class="op">*</span>( (rho_new_time[i <span class="op">+</span><span class="dv">1</span>, j]  <span class="op">-</span> rho_new_time[i <span class="op">-</span> <span class="dv">1</span>, j] )<span class="op">*</span> vy[i, j] <span class="op">/</span>  (<span class="dv">2</span><span class="op">*</span>delta) <span class="op">+</span></span>
+<span id="cb3-78"><a href="#cb3-78" aria-hidden="true" tabindex="-1"></a>                                                    (rho_new_time[i, j<span class="op">+</span><span class="dv">1</span>]  <span class="op">-</span> rho_new_time[i, j <span class="op">-</span> <span class="dv">1</span>] ) <span class="op">*</span> vx[i, j]<span class="op">/</span> (<span class="dv">2</span><span class="op">*</span>delta)  )</span>
+<span id="cb3-79"><a href="#cb3-79" aria-hidden="true" tabindex="-1"></a>                rho[<span class="dv">0</span>,:] <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb3-80"><a href="#cb3-80" aria-hidden="true" tabindex="-1"></a>                rho[nx,:]<span class="op">=</span><span class="dv">0</span></span>
+<span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> rho</span>
+<span id="cb3-82"><a href="#cb3-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-83"><a href="#cb3-83" aria-hidden="true" tabindex="-1"></a><span class="co"># solve the continuity equation using forward in time, centered in space Euler method</span></span>
+<span id="cb3-84"><a href="#cb3-84" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> solve_continuity(rho, vx, vy, dt):</span>
+<span id="cb3-85"><a href="#cb3-85" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span> (<span class="dv">1</span>):</span>
+<span id="cb3-86"><a href="#cb3-86" aria-hidden="true" tabindex="-1"></a>        rho_new <span class="op">=</span> rho.copy()</span>
+<span id="cb3-87"><a href="#cb3-87" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span> (<span class="dv">1</span>,nx):</span>
+<span id="cb3-88"><a href="#cb3-88" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span> (ny<span class="op">+</span><span class="dv">1</span>):</span>
+<span id="cb3-89"><a href="#cb3-89" aria-hidden="true" tabindex="-1"></a>                <span class="co">#Gemini helped me debug the indexing issue (out of bounds): keep grounding boundaries fixed and updating the sides only by wrapping around</span></span>
+<span id="cb3-90"><a href="#cb3-90" aria-hidden="true" tabindex="-1"></a>                <span class="co">#Google how negative indexing works in Python</span></span>
+<span id="cb3-91"><a href="#cb3-91" aria-hidden="true" tabindex="-1"></a>                rho[i,j] <span class="op">=</span> rho_new[i,j] <span class="op">-</span> dt<span class="op">*</span>( (rho_new[i<span class="op">+</span><span class="dv">1</span>,j]<span class="op">-</span>rho_new[i<span class="op">-</span><span class="dv">1</span>,j])<span class="op">*</span>vy[i,j]<span class="op">/</span>(<span class="dv">2</span><span class="op">*</span>delta) <span class="op">+</span> </span>
+<span id="cb3-92"><a href="#cb3-92" aria-hidden="true" tabindex="-1"></a>                                                   (rho_new[i,(j<span class="op">+</span><span class="dv">1</span>)<span class="op">%</span>(ny<span class="op">+</span><span class="dv">1</span>)]<span class="op">-</span>rho_new[i,(j<span class="op">-</span><span class="dv">1</span>)<span class="op">%</span>(ny<span class="op">+</span><span class="dv">1</span>)])<span class="op">*</span>vx[i,j]<span class="op">/</span>(<span class="dv">2</span><span class="op">*</span>delta) )</span>
+<span id="cb3-93"><a href="#cb3-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-94"><a href="#cb3-94" aria-hidden="true" tabindex="-1"></a>        rho[<span class="dv">0</span>,:] <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb3-95"><a href="#cb3-95" aria-hidden="true" tabindex="-1"></a>        rho[nx,:]<span class="op">=</span><span class="dv">0</span></span>
+<span id="cb3-96"><a href="#cb3-96" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> rho</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> charge_density_ode(t, rho_flat, vx, vy, nx, ny, delta):</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    rho<span class="op">=</span> rho_flat.reshape((nx<span class="op">+</span><span class="dv">1</span>, ny<span class="op">+</span><span class="dv">1</span>), order<span class="op">=</span> <span class="st">'F'</span>)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    dndt <span class="op">=</span> np.zeros_like(rho)</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>     </span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, nx):</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, ny<span class="op">+</span><span class="dv">1</span>):</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>            dndt[i, j] <span class="op">=</span> <span class="op">-</span> ( (rho[i <span class="op">+</span> <span class="dv">1</span>, j]  <span class="op">-</span> rho[i <span class="op">-</span> <span class="dv">1</span>, j] ) <span class="op">*</span> vy[i , j]<span class="op">/</span> (<span class="dv">2</span> <span class="op">*</span> delta) <span class="op">+</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>                             (rho[i, (j<span class="op">+</span><span class="dv">1</span>)<span class="op">%</span>(ny<span class="op">+</span><span class="dv">1</span>)]  <span class="op">-</span> rho[i, (j<span class="op">-</span><span class="dv">1</span>)<span class="op">%</span>(ny<span class="op">+</span><span class="dv">1</span>)] ) <span class="op">*</span> vx[i, j ]<span class="op">/</span> (<span class="dv">2</span> <span class="op">*</span> delta) )</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>            </span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> dndt.flatten(order<span class="op">=</span> <span class="st">'F'</span>)</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Runge-Kutte to the 4th order, more computationally accurate</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> charge_density_ode(t, rho_flat, vx, vy, nx, ny, delta):</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    rho<span class="op">=</span> rho_flat.reshape((nx<span class="op">+</span><span class="dv">1</span>, ny<span class="op">+</span><span class="dv">1</span>), order<span class="op">=</span> <span class="st">'F'</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    dndt <span class="op">=</span> np.zeros_like(rho)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>     </span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, nx):</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, ny<span class="op">+</span><span class="dv">1</span>):</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>            dndt[i, j] <span class="op">=</span> <span class="op">-</span> ( (rho[i <span class="op">+</span> <span class="dv">1</span>, j]  <span class="op">-</span> rho[i <span class="op">-</span> <span class="dv">1</span>, j] ) <span class="op">*</span> vy[i , j]<span class="op">/</span> (<span class="dv">2</span> <span class="op">*</span> delta) <span class="op">+</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>                             (rho[i, (j<span class="op">+</span><span class="dv">1</span>)<span class="op">%</span>(ny<span class="op">+</span><span class="dv">1</span>)]  <span class="op">-</span> rho[i, (j<span class="op">-</span><span class="dv">1</span>)<span class="op">%</span>(ny<span class="op">+</span><span class="dv">1</span>)] ) <span class="op">*</span> vx[i, j ]<span class="op">/</span> (<span class="dv">2</span> <span class="op">*</span> delta) )</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> dndt.flatten(order<span class="op">=</span> <span class="st">'F'</span>)</span>
 <span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> solve_rho_ode(vx,vy,rho,dt, nx,ny, delta):</span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    time_span <span class="op">=</span> (<span class="fl">0.0</span>, dt)</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    rho_0 <span class="op">=</span> rho.flatten(order<span class="op">=</span> <span class="st">'F'</span>)</span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    sol <span class="op">=</span> solve_ivp(charge_density_ode, time_span, rho_0, method<span class="op">=</span><span class="st">'RK45'</span>, args<span class="op">=</span>(vx, vy, nx, ny, delta))</span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    rho_new <span class="op">=</span> sol.y[:,<span class="op">-</span><span class="dv">1</span>]</span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> rho_new.reshape(nx<span class="op">+</span><span class="dv">1</span>, ny<span class="op">+</span><span class="dv">1</span>, order<span class="op">=</span> <span class="st">'F'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> solve_rho_ode(vx,vy,rho,dt, nx,ny, delta):</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    time_span <span class="op">=</span> (<span class="fl">0.0</span>, dt)</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    rho_0 <span class="op">=</span> rho.flatten(order<span class="op">=</span> <span class="st">'F'</span>)</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    sol <span class="op">=</span> solve_ivp(charge_density_ode, time_span, rho_0, method<span class="op">=</span><span class="st">'RK45'</span>, args<span class="op">=</span>(vx, vy, nx, ny, delta))</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    rho_new <span class="op">=</span> sol.y[:,<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> rho_new.reshape(nx<span class="op">+</span><span class="dv">1</span>, ny<span class="op">+</span><span class="dv">1</span>, order<span class="op">=</span> <span class="st">'F'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+</section>
+<section id="a-potential-plot-of-the-initiated-slab" class="level1">
+<h1>A potential plot of the initiated slab</h1>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">"ignore"</span>, category<span class="op">=</span><span class="pp">FutureWarning</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>rho <span class="op">=</span> np.zeros([nx<span class="op">+</span><span class="dv">1</span>,ny<span class="op">+</span><span class="dv">1</span>],<span class="bu">float</span>)</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>rho[<span class="dv">96</span>:<span class="dv">105</span>,:]<span class="op">=</span> <span class="op">-</span><span class="fl">1e12</span><span class="op">*</span> (<span class="fl">1.6e-19</span>) </span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>rho[<span class="dv">104</span>,:] <span class="op">+=</span> <span class="fl">0.5e-7</span> <span class="op">*</span>np.sin(<span class="fl">0.126</span><span class="op">*</span>x)</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>rho[<span class="dv">96</span>,:] <span class="op">+=</span> <span class="fl">0.5e-7</span> <span class="op">*</span>np.sin(<span class="fl">0.126</span><span class="op">*</span>x)</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="dv">7</span>))</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>phi <span class="op">=</span> solve_poisson_1(rho)</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>plt.imshow(phi, origin <span class="op">=</span> <span class="st">'lower'</span>)</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>plt.colorbar(label<span class="op">=</span><span class="st">"Potential (V)"</span>,shrink<span class="op">=</span><span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># A potential plot for a slab with half a thickness = 4 grid squares</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>rho <span class="op">=</span> np.zeros([nx<span class="op">+</span><span class="dv">1</span>,ny<span class="op">+</span><span class="dv">1</span>],<span class="bu">float</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>rho[<span class="dv">96</span>:<span class="dv">105</span>,:]<span class="op">=</span> <span class="op">-</span><span class="fl">1e12</span><span class="op">*</span> (<span class="fl">1.6e-19</span>) </span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>rho[<span class="dv">104</span>,:] <span class="op">+=</span> <span class="fl">0.5e-7</span> <span class="op">*</span>np.sin(<span class="fl">0.126</span><span class="op">*</span>x)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>rho[<span class="dv">96</span>,:] <span class="op">+=</span> <span class="fl">0.5e-7</span> <span class="op">*</span>np.sin(<span class="fl">0.126</span><span class="op">*</span>x)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="dv">7</span>))</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>phi <span class="op">=</span> solve_poisson_1(rho)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>plt.imshow(phi, origin <span class="op">=</span> <span class="st">'lower'</span>)</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>plt.colorbar(label<span class="op">=</span><span class="st">"Potential (V)"</span>,shrink<span class="op">=</span><span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
@@ -384,25 +422,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+</section>
+<section id="run-the-simulation" class="level1">
+<h1>Run the simulation</h1>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>rho <span class="op">=</span> np.zeros([nx<span class="op">+</span><span class="dv">1</span>,ny<span class="op">+</span><span class="dv">1</span>],<span class="bu">float</span>)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>rho[<span class="dv">96</span>:<span class="dv">105</span>,:]<span class="op">=</span> <span class="op">-</span><span class="fl">1e12</span><span class="op">*</span> (<span class="fl">1.6e-19</span>) </span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>rho[<span class="dv">104</span>,:] <span class="op">+=</span> <span class="fl">0.5e-7</span> <span class="op">*</span>np.sin(<span class="fl">0.126</span><span class="op">*</span>x)</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>rho[<span class="dv">96</span>,:] <span class="op">+=</span> <span class="fl">0.5e-7</span> <span class="op">*</span>np.sin(<span class="fl">0.126</span><span class="op">*</span>x)</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>dt <span class="op">=</span> <span class="fl">5e-10</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>history <span class="op">=</span> []</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>file_save <span class="op">=</span> {}</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>frame_interval <span class="op">=</span> <span class="dv">1</span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>time_intervals <span class="op">=</span> np.linspace(<span class="dv">0</span>, dt, <span class="dv">1</span>)</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>plt.imshow(rho, origin <span class="op">=</span> <span class="st">'lower'</span>)</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>plt.colorbar()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Demo for the simulation, so I only ran 1 step</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># To see the evolution, run 100,000 steps</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>rho <span class="op">=</span> np.zeros([nx<span class="op">+</span><span class="dv">1</span>,ny<span class="op">+</span><span class="dv">1</span>],<span class="bu">float</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>rho[<span class="dv">96</span>:<span class="dv">105</span>,:]<span class="op">=</span> <span class="op">-</span><span class="fl">1e12</span><span class="op">*</span> (<span class="fl">1.6e-19</span>) </span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>rho[<span class="dv">104</span>,:] <span class="op">+=</span> <span class="fl">0.5e-7</span> <span class="op">*</span>np.sin(<span class="fl">0.126</span><span class="op">*</span>x)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>rho[<span class="dv">96</span>,:] <span class="op">+=</span> <span class="fl">0.5e-7</span> <span class="op">*</span>np.sin(<span class="fl">0.126</span><span class="op">*</span>x)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>dt <span class="op">=</span> <span class="fl">5e-10</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>history <span class="op">=</span> []</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>file_save <span class="op">=</span> {}</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>frame_interval <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>time_intervals <span class="op">=</span> np.linspace(<span class="dv">0</span>, dt, <span class="dv">1</span>)</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>plt.imshow(rho, origin <span class="op">=</span> <span class="st">'lower'</span>)</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>plt.colorbar()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>&lt;matplotlib.colorbar.Colorbar object at 0x7dcbf130dd10&gt;</code></pre>
+<pre><code>&lt;matplotlib.colorbar.Colorbar object at 0x73b1e1d05d10&gt;</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>step <span class="op">=</span> <span class="dv">2</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>step <span class="op">=</span> <span class="dv">2</span> <span class="co"># how many frames</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span> (step):</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    phi <span class="op">=</span> solve_poisson_1(rho)</span>
@@ -416,9 +460,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Total charge = </span><span class="sc">{</span>np<span class="sc">.</span><span class="bu">sum</span>(rho)<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>        history.append((rho.copy(), phi.copy(),i))</span>
 <span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>        file_save[<span class="ss">f"time_step_</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">"</span>] <span class="op">=</span> (rho.copy(), phi.copy())</span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>        np.savez(<span class="st">'example_run'</span>, <span class="op">**</span>file_save)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>        np.savez(<span class="st">'example_run'</span>, <span class="op">**</span>file_save) <span class="co"># save the data in an npz file</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>&lt;string&gt;:19: FutureWarning: Input has data type int64, but the output has been cast to float64.  In the future, the output data type will match the input. To avoid this warning, set the `dtype` parameter to `None` to have the output dtype match the input, or set it to the desired output data type.
+<pre><code>&lt;string&gt;:20: FutureWarning: Input has data type int64, but the output has been cast to float64.  In the future, the output data type will match the input. To avoid this warning, set the `dtype` parameter to `None` to have the output dtype match the input, or set it to the desired output data type.
 Time step 0
 Total charge = -0.00028943484751186476
 Time step 1
@@ -446,19 +490,20 @@ Total charge = -0.00028943484751187696</code></pre>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">5</span>))</span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>ax1 <span class="op">=</span> fig.add_subplot(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>)  </span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>plot_1 <span class="op">=</span> ax1.imshow(rho_initial, origin<span class="op">=</span><span class="st">'lower'</span>, cmap<span class="op">=</span><span class="st">'plasma'</span>)</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>plot_1_title <span class="op">=</span> ax1.set_title(<span class="ss">f"Charge Density at Time Step </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">"</span>, pad<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>fig.colorbar(plot_1, ax<span class="op">=</span>ax1, label<span class="op">=</span><span class="st">'Charge Density (C/m³)'</span>, shrink<span class="op">=</span><span class="fl">0.75</span>, aspect<span class="op">=</span><span class="dv">15</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the potential and density plots side by side</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>ax1 <span class="op">=</span> fig.add_subplot(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>)  </span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>plot_1 <span class="op">=</span> ax1.imshow(rho_initial, origin<span class="op">=</span><span class="st">'lower'</span>, cmap<span class="op">=</span><span class="st">'plasma'</span>)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>plot_1_title <span class="op">=</span> ax1.set_title(<span class="ss">f"Charge Density at Time Step </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">"</span>, pad<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>fig.colorbar(plot_1, ax<span class="op">=</span>ax1, label<span class="op">=</span><span class="st">'Charge Density (C/m³)'</span>, shrink<span class="op">=</span><span class="fl">0.75</span>, aspect<span class="op">=</span><span class="dv">15</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>&lt;matplotlib.colorbar.Colorbar object at 0x7dcbf13f2850&gt;</code></pre>
+<pre><code>&lt;matplotlib.colorbar.Colorbar object at 0x73b1e1dee850&gt;</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>ax2 <span class="op">=</span> fig.add_subplot(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>)  </span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>plot_2 <span class="op">=</span> ax2.imshow(phi_initial, origin<span class="op">=</span><span class="st">'lower'</span>, cmap<span class="op">=</span><span class="st">'plasma'</span>)</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>plot_2_title <span class="op">=</span> ax2.set_title(<span class="ss">f"Potential at Time Step </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">"</span>, pad<span class="op">=</span><span class="dv">10</span>)</span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>fig.colorbar(plot_2, ax<span class="op">=</span>ax2, label<span class="op">=</span><span class="st">'Potential (V)'</span>, shrink<span class="op">=</span><span class="fl">0.75</span>, aspect<span class="op">=</span><span class="dv">15</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>&lt;matplotlib.colorbar.Colorbar object at 0x7dcbf126d1d0&gt;</code></pre>
+<pre><code>&lt;matplotlib.colorbar.Colorbar object at 0x73b1e1c651d0&gt;</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>plt.subplots_adjust(wspace<span class="op">=</span><span class="fl">0.35</span>)  <span class="co"># Increase this number (e.g., 0.4 or 0.5) if want more space</span></span>
@@ -481,7 +526,7 @@ Total charge = -0.00028943484751187696</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>Saving animation... This may take a moment.</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>ani.save(<span class="st">'example_run.gif'</span>, writer<span class="op">=</span><span class="st">'pillow'</span>, fps<span class="op">=</span><span class="dv">5</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>ani.save(<span class="st">'example_run.gif'</span>, writer<span class="op">=</span><span class="st">'pillow'</span>, fps<span class="op">=</span><span class="dv">5</span>) <span class="co"># save the frames to create the animation gif</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
@@ -492,63 +537,65 @@ Total charge = -0.00028943484751187696</code></pre>
 </div>
 </div>
 </div>
+</section>
+<section id="data-analysis-of-perturbation-growth-rate" class="level1">
+<h1>Data analysis of perturbation growth rate</h1>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">#data analysis of perturbation growth rate</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="co">#https://numpy.org/doc/2.3/reference/generated/numpy.fft.fft.html</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fft_rho_slice(rho_slice):</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    N <span class="op">=</span> <span class="bu">len</span>(rho_slice)</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    rho_fft <span class="op">=</span> np.fft.fft(rho_slice)</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    freq <span class="op">=</span> np.fft.fftfreq(N, d<span class="op">=</span>delta)</span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    magnitude <span class="op">=</span> np.<span class="bu">abs</span>(rho_fft)</span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>    wave_number <span class="op">=</span> freq <span class="op">*</span> <span class="dv">2</span> <span class="op">*</span> np.pi  <span class="co"># Convert frequency to wave number</span></span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> wave_number[:N <span class="op">//</span> <span class="dv">2</span>], magnitude[:N <span class="op">//</span> <span class="dv">2</span>]  <span class="co"># Return only positive frequencies</span></span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> find_peaks(rho_slice):</span>
-<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>    wave_number, magnitude <span class="op">=</span> fft_rho_slice(rho_slice)</span>
-<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>    <span class="co">#positve_k = (wave_number &gt; 10) &amp;  (wave_number &lt; 20)</span></span>
-<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>    positve_k <span class="op">=</span> (wave_number <span class="op">&lt;</span><span class="dv">10</span>) <span class="op">&amp;</span> (wave_number <span class="op">&gt;</span> <span class="dv">0</span>)</span>
-<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>    peak_wave_number <span class="op">=</span> np.argmax(magnitude[positve_k])</span>
-<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>    <span class="co">#print(f"Peak wave number: {fft_rho_slice(rho_slice)[0][positve_k][peak_wave_number]}")</span></span>
-<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>    <span class="co">#print(f"Peak magnitude: {fft_rho_slice(rho_slice)[1][positve_k][peak_wave_number]}")</span></span>
-<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> wave_number[positve_k][peak_wave_number], magnitude[positve_k][peak_wave_number]</span>
-<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>list_wave_number <span class="op">=</span> []</span>
-<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>list_magnitude <span class="op">=</span> []</span>
-<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>list_time_steps <span class="op">=</span> []</span>
-<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a>frame_interval <span class="op">=</span> <span class="dv">1</span></span>
-<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a>load_data <span class="op">=</span> np.load(<span class="st">"example_run.npz"</span>, allow_pickle<span class="op">=</span><span class="va">True</span>)  </span>
-<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a><span class="co">#select a slice in the grid and analyze it within a time range</span></span>
-<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a><span class="co">#save its peak wave number and peak magnitude over time in an array</span></span>
-<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>,<span class="dv">2</span>):</span>
-<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> i <span class="op">%</span> frame_interval <span class="op">==</span> <span class="dv">0</span>:</span>
-<span id="cb20-31"><a href="#cb20-31" aria-hidden="true" tabindex="-1"></a>        file_save_at_time_i <span class="op">=</span> load_data[<span class="ss">f"time_step_</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">"</span>]</span>
-<span id="cb20-32"><a href="#cb20-32" aria-hidden="true" tabindex="-1"></a>        rho_at_i <span class="op">=</span> file_save_at_time_i[<span class="dv">0</span>]</span>
-<span id="cb20-33"><a href="#cb20-33" aria-hidden="true" tabindex="-1"></a>        phi_at_i <span class="op">=</span> file_save_at_time_i[<span class="dv">1</span>]</span>
-<span id="cb20-34"><a href="#cb20-34" aria-hidden="true" tabindex="-1"></a>        rho_slice <span class="op">=</span> rho_at_i[<span class="dv">104</span>,:]</span>
-<span id="cb20-35"><a href="#cb20-35" aria-hidden="true" tabindex="-1"></a>        wave_number, magnitude <span class="op">=</span> fft_rho_slice(rho_slice)</span>
-<span id="cb20-36"><a href="#cb20-36" aria-hidden="true" tabindex="-1"></a>        list_wave_number.append(find_peaks(rho_slice)[<span class="dv">0</span>])</span>
-<span id="cb20-37"><a href="#cb20-37" aria-hidden="true" tabindex="-1"></a>        list_magnitude.append(find_peaks(rho_slice)[<span class="dv">1</span>])</span>
-<span id="cb20-38"><a href="#cb20-38" aria-hidden="true" tabindex="-1"></a>        list_time_steps.append(i)</span>
-<span id="cb20-39"><a href="#cb20-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-40"><a href="#cb20-40" aria-hidden="true" tabindex="-1"></a><span class="co">#take the log of magnitude for linear fitting</span></span>
-<span id="cb20-41"><a href="#cb20-41" aria-hidden="true" tabindex="-1"></a>log_magnitude <span class="op">=</span> np.log(np.array(list_magnitude))</span>
-<span id="cb20-42"><a href="#cb20-42" aria-hidden="true" tabindex="-1"></a>log_square <span class="op">=</span> np.log(np.array(list_magnitude)<span class="op">**</span><span class="dv">2</span>)</span>
-<span id="cb20-43"><a href="#cb20-43" aria-hidden="true" tabindex="-1"></a>square_root_time_steps <span class="op">=</span> np.sqrt(np.array(list_time_steps))</span>
-<span id="cb20-44"><a href="#cb20-44" aria-hidden="true" tabindex="-1"></a>log_time_steps <span class="op">=</span> np.log(np.array(list_time_steps)<span class="op">+</span><span class="dv">1</span>)  <span class="co"># Adding 1 to avoid log(0)</span></span>
-<span id="cb20-45"><a href="#cb20-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-46"><a href="#cb20-46" aria-hidden="true" tabindex="-1"></a><span class="co">#plot original peak magnitude vs time steps</span></span>
-<span id="cb20-47"><a href="#cb20-47" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">2</span>)</span>
-<span id="cb20-48"><a href="#cb20-48" aria-hidden="true" tabindex="-1"></a>plt.yscale(<span class="st">'linear'</span>) <span class="co"># Set the y-axis to a logarithmic scale</span></span>
-<span id="cb20-49"><a href="#cb20-49" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.plot(fft_rho_slice(rho_slice)[0], fft_rho_slice(rho_slice)[1])</span></span>
-<span id="cb20-50"><a href="#cb20-50" aria-hidden="true" tabindex="-1"></a>plt.plot(list_time_steps, list_magnitude)</span>
-<span id="cb20-51"><a href="#cb20-51" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Peak Magnitude vs Time Steps'</span>)</span>
-<span id="cb20-52"><a href="#cb20-52" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Time steps'</span>)</span>
-<span id="cb20-53"><a href="#cb20-53" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Peak Magnitude'</span>)</span>
-<span id="cb20-54"><a href="#cb20-54" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>)</span>
-<span id="cb20-55"><a href="#cb20-55" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb20-56"><a href="#cb20-56" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">#https://numpy.org/doc/2.3/reference/generated/numpy.fft.fft.html</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fft_rho_slice(rho_slice):</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    N <span class="op">=</span> <span class="bu">len</span>(rho_slice)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    rho_fft <span class="op">=</span> np.fft.fft(rho_slice)</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    freq <span class="op">=</span> np.fft.fftfreq(N, d<span class="op">=</span>delta)</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    magnitude <span class="op">=</span> np.<span class="bu">abs</span>(rho_fft)</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    wave_number <span class="op">=</span> freq <span class="op">*</span> <span class="dv">2</span> <span class="op">*</span> np.pi  <span class="co"># Convert frequency to wave number</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> wave_number[:N <span class="op">//</span> <span class="dv">2</span>], magnitude[:N <span class="op">//</span> <span class="dv">2</span>]  <span class="co"># Return only positive frequencies</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> find_peaks(rho_slice):</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>    wave_number, magnitude <span class="op">=</span> fft_rho_slice(rho_slice)</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>    <span class="co">#positve_k = (wave_number &gt; 10) &amp;  (wave_number &lt; 20)</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>    positve_k <span class="op">=</span> (wave_number <span class="op">&lt;</span><span class="dv">10</span>) <span class="op">&amp;</span> (wave_number <span class="op">&gt;</span> <span class="dv">0</span>)</span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>    peak_wave_number <span class="op">=</span> np.argmax(magnitude[positve_k])</span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>    <span class="co">#print(f"Peak wave number: {fft_rho_slice(rho_slice)[0][positve_k][peak_wave_number]}")</span></span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>    <span class="co">#print(f"Peak magnitude: {fft_rho_slice(rho_slice)[1][positve_k][peak_wave_number]}")</span></span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> wave_number[positve_k][peak_wave_number], magnitude[positve_k][peak_wave_number]</span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>list_wave_number <span class="op">=</span> []</span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>list_magnitude <span class="op">=</span> []</span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>list_time_steps <span class="op">=</span> []</span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>frame_interval <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a>load_data <span class="op">=</span> np.load(<span class="st">"example_run.npz"</span>, allow_pickle<span class="op">=</span><span class="va">True</span>)  </span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a><span class="co">#select a slice in the grid and analyze it within a time range</span></span>
+<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a><span class="co">#save its peak wave number and peak magnitude over time in an array</span></span>
+<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>,<span class="dv">2</span>):</span>
+<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> i <span class="op">%</span> frame_interval <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a>        file_save_at_time_i <span class="op">=</span> load_data[<span class="ss">f"time_step_</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">"</span>]</span>
+<span id="cb20-31"><a href="#cb20-31" aria-hidden="true" tabindex="-1"></a>        rho_at_i <span class="op">=</span> file_save_at_time_i[<span class="dv">0</span>]</span>
+<span id="cb20-32"><a href="#cb20-32" aria-hidden="true" tabindex="-1"></a>        phi_at_i <span class="op">=</span> file_save_at_time_i[<span class="dv">1</span>]</span>
+<span id="cb20-33"><a href="#cb20-33" aria-hidden="true" tabindex="-1"></a>        rho_slice <span class="op">=</span> rho_at_i[<span class="dv">104</span>,:]</span>
+<span id="cb20-34"><a href="#cb20-34" aria-hidden="true" tabindex="-1"></a>        wave_number, magnitude <span class="op">=</span> fft_rho_slice(rho_slice)</span>
+<span id="cb20-35"><a href="#cb20-35" aria-hidden="true" tabindex="-1"></a>        list_wave_number.append(find_peaks(rho_slice)[<span class="dv">0</span>])</span>
+<span id="cb20-36"><a href="#cb20-36" aria-hidden="true" tabindex="-1"></a>        list_magnitude.append(find_peaks(rho_slice)[<span class="dv">1</span>])</span>
+<span id="cb20-37"><a href="#cb20-37" aria-hidden="true" tabindex="-1"></a>        list_time_steps.append(i)</span>
+<span id="cb20-38"><a href="#cb20-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-39"><a href="#cb20-39" aria-hidden="true" tabindex="-1"></a><span class="co">#take the log of magnitude for linear fitting</span></span>
+<span id="cb20-40"><a href="#cb20-40" aria-hidden="true" tabindex="-1"></a>log_magnitude <span class="op">=</span> np.log(np.array(list_magnitude))</span>
+<span id="cb20-41"><a href="#cb20-41" aria-hidden="true" tabindex="-1"></a>log_square <span class="op">=</span> np.log(np.array(list_magnitude)<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb20-42"><a href="#cb20-42" aria-hidden="true" tabindex="-1"></a>square_root_time_steps <span class="op">=</span> np.sqrt(np.array(list_time_steps))</span>
+<span id="cb20-43"><a href="#cb20-43" aria-hidden="true" tabindex="-1"></a>log_time_steps <span class="op">=</span> np.log(np.array(list_time_steps)<span class="op">+</span><span class="dv">1</span>)  <span class="co"># Adding 1 to avoid log(0)</span></span>
+<span id="cb20-44"><a href="#cb20-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-45"><a href="#cb20-45" aria-hidden="true" tabindex="-1"></a><span class="co">#plot original peak magnitude vs time steps</span></span>
+<span id="cb20-46"><a href="#cb20-46" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">2</span>)</span>
+<span id="cb20-47"><a href="#cb20-47" aria-hidden="true" tabindex="-1"></a>plt.yscale(<span class="st">'linear'</span>) <span class="co"># Set the y-axis to a logarithmic scale</span></span>
+<span id="cb20-48"><a href="#cb20-48" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.plot(fft_rho_slice(rho_slice)[0], fft_rho_slice(rho_slice)[1])</span></span>
+<span id="cb20-49"><a href="#cb20-49" aria-hidden="true" tabindex="-1"></a>plt.plot(list_time_steps, list_magnitude)</span>
+<span id="cb20-50"><a href="#cb20-50" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Peak Magnitude vs Time Steps'</span>)</span>
+<span id="cb20-51"><a href="#cb20-51" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Time steps'</span>)</span>
+<span id="cb20-52"><a href="#cb20-52" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Peak Magnitude'</span>)</span>
+<span id="cb20-53"><a href="#cb20-53" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>)</span>
+<span id="cb20-54"><a href="#cb20-54" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb20-55"><a href="#cb20-55" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">

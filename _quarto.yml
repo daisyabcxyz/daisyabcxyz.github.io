@@ -11,8 +11,6 @@ website:
     left:
       - href: index.qmd
         text: Home
-      - href: research.qmd
-        text: Research
         
       - text: Projects in R
         menu: 
@@ -24,10 +22,11 @@ website:
             text: R package
           - href: Paper-Poster.html
             text: Differential Privacy Poster
-      - text: Projects in Physics
+      - text: Research
         menu: 
           - href: capstone.qmd
-            text: Capstone
+            text: Plasma Physics
+            
       - text: Math Concepts   
         menu:
           - href: linear_al.qmd

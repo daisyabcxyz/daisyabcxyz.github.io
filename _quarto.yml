@@ -1,6 +1,8 @@
 project:
   type: website
   output-dir: docs
+  resources:
+    - "data/"
   render:
     - "*.qmd"
 
@@ -20,7 +22,7 @@ website:
             text: Text analysis project
           - href: Rpackage.qmd
             text: R package
-          - href: Paper-Poster.html
+          - href: poster.qmd
             text: Differential Privacy Poster
       - text: Research
         menu: 

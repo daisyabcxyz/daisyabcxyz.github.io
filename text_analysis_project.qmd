@@ -36,10 +36,10 @@ potter_texts <- readr::read_csv("https://raw.githubusercontent.com/abhicc/potter
 
 
 ```{r}
-write_csv(potter_locations, "potter_locations.csv")   
-write_csv(potter_names, "potter_names.csv")   
-write_csv(potter_spells, "potter_spells.csv")   
-write_csv(potter_texts, "potter_texts.csv")   
+write_csv(potter_locations, "data/potter_locations.csv")   
+write_csv(potter_names, "data/potter_names.csv")   
+write_csv(potter_spells, "data/potter_spells.csv")   
+write_csv(potter_texts, "data/potter_texts.csv")   
 
 ```
 

@@ -31,8 +31,7 @@ import sys
 
 # Set up the grid parameters
 
-I discretize the x − y plane with a 200 × 200 grid of physical size 1m × 1m. The magnetic field $\mathbf{B}$ points out of the page in the positive z direction. The plasma with a uniform number density of $10^{12}$ particles per $m^3$ is initialized in the center of the grid. The simulation implements periodic boundary conditions along the x-axis and conducting boundary conditions at $y = 0m$ and $y = 1m$.
-
+I discretize the $x − y$ plane with a $200 × 200$ grid of physical size $1 m × 1 m$. The magnetic field $\mathbf{B}$ points out of the page in the positive $z$-direction. The plasma with a uniform number density of $10^{12}$ particles per $m^3$ is initialized in the center of the grid. The simulation implements periodic boundary conditions along the x-axis and conducting boundary conditions at $y = 0 m$ and $y = 1 m$.
 
 ```{python}
 #set up grid of size 200 by 200
@@ -53,8 +52,7 @@ B = 0.1 #Tesla
 
 Under these conditions, the equations of motion for the electron plasma are isomorphic to the 2D Euler equations for incompressible fluids. This treatment of the plasma as a single conducting and charged fluid replaces the individual particles’ velocities with the fluid’s collective flow velocity $u$. $\mathbf{E}$ and $\mathbf{B}$ represent the electric field of the plasma’s own space charge and the constant external magnetic field pointing in the positive z-direction. We have 3 equations that we need to solve: the Poisson’s equation, the fluid equation of motion, and the continuity equation, respectively.
 
-There are iterative methods such as the Jacobi relaxation, the Gauss-Seidel, and the Successive Over- Relaxation (SOR) methods that solve the Poisson's equation at each grid point during the current time step using numerical values of the potentials from the previous time step until the algorithm finds a stable solution that converges. A faster alternative is the matrix inversion method that places Eq.(9) in the form of $Ax′ = b$. Here, $A$ is a sparse 39, 600 × 39, 600 coefficient matrix representing the linear relationship between the potentials across the grid, excluding 400 grid points on the top and bottom boundaries whose potentials stay fixed at 0; $x$ is a 39, 600 × 1 vector of the unknown potentials; $b$ is the charge densities vector . To solve for $x$, the algorithm performs a matrix multiplication between the inverse of $A$ and $b$ $(x = A−1b)$.
-
+There are iterative methods such as the Jacobi relaxation, the Gauss-Seidel, and the Successive Over- Relaxation (SOR) methods that solve the Poisson's equation at each grid point during the current time step using numerical values of the potentials from the previous time step until the algorithm finds a stable solution that converges. A faster alternative is the matrix inversion method that places the system of equations in the form of $Ax′ = b$. Here, $A$ is a sparse $39, 600 × 39, 600$ coefficient matrix representing the linear relationship between the potentials across the grid, excluding 400 grid points on the top and bottom boundaries whose potentials stay fixed at 0; $x$ is a $39, 600 × 1$ vector of the unknown potentials; $b$ is the charge densities vector . To solve for $x$, the algorithm performs a matrix multiplication between the inverse of $A$ and $b$ $(x = A−1b)$.
 
 ```{python}
 # including periodic side boundary
@@ -208,6 +206,8 @@ plt.show()
 
 # Run the simulation
 
+I then run the simulaton and save the frame of the simulations at each time step to create a gif animation. I also save the potential and the charge density data in an npz file for data analysis at the next step.
+
 ```{python}
 # Demo for the simulation, so I only ran 1 step
 # To see the evolution, run 100,000 steps
@@ -284,6 +284,8 @@ plt.show()
 ```
 
 # Data analysis of perturbation growth rate
+
+Here, to analyze the simulation more closely, I compute the growth rate of the perturbation waves at the slab’s top surface in the linear regime for different plasma thicknesses and perturbation wavelengths. During the early time steps, before the slab exhibits the non-linear behavior of diocotron mode through the formation of vortices, the growth rate of the instability is expected to grow exponentially. This regime is also where analytical models lie within
 
 ```{python}
 
@@ -373,4 +375,13 @@ plt.show()
 
 ```
 
+# Conclusion
+
+Some conclusions that I were able to draw from my simulation and data analysis were:
+
+-   A thicker slab is more stable under diocotron instability.
+
+-   A slab exposed to a shorter perturbation is also more stable.
+
+For a full documentation of the project, please visit <a href="apssamp.pdf" target="_blank" rel="noopener noreferrer">Diocotron Instability</a>. 
 

@@ -176,7 +176,7 @@ window.Quarto = {
  <span class="dropdown-text">R package</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./Paper-Poster.html">
+    <a class="dropdown-item" href="./poster.html">
  <span class="dropdown-text">Differential Privacy Poster</span></a>
   </li>  
     </ul>
@@ -226,6 +226,7 @@ window.Quarto = {
   <li><a href="#a-potential-plot-of-the-initiated-slab" id="toc-a-potential-plot-of-the-initiated-slab" class="nav-link" data-scroll-target="#a-potential-plot-of-the-initiated-slab">A potential plot of the initiated slab</a></li>
   <li><a href="#run-the-simulation" id="toc-run-the-simulation" class="nav-link" data-scroll-target="#run-the-simulation">Run the simulation</a></li>
   <li><a href="#data-analysis-of-perturbation-growth-rate" id="toc-data-analysis-of-perturbation-growth-rate" class="nav-link" data-scroll-target="#data-analysis-of-perturbation-growth-rate">Data analysis of perturbation growth rate</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
   </ul>
 </nav>
     </div>
@@ -275,7 +276,7 @@ window.Quarto = {
 </section>
 <section id="set-up-the-grid-parameters" class="level1">
 <h1>Set up the grid parameters</h1>
-<p>I discretize the x − y plane with a 200 × 200 grid of physical size 1m × 1m. The magnetic field <span class="math inline">\(\mathbf{B}\)</span> points out of the page in the positive z direction. The plasma with a uniform number density of <span class="math inline">\(10^{12}\)</span> particles per <span class="math inline">\(m^3\)</span> is initialized in the center of the grid. The simulation implements periodic boundary conditions along the x-axis and conducting boundary conditions at <span class="math inline">\(y = 0m\)</span> and <span class="math inline">\(y = 1m\)</span>.</p>
+<p>I discretize the <span class="math inline">\(x − y\)</span> plane with a <span class="math inline">\(200 × 200\)</span> grid of physical size <span class="math inline">\(1 m × 1 m\)</span>. The magnetic field <span class="math inline">\(\mathbf{B}\)</span> points out of the page in the positive <span class="math inline">\(z\)</span>-direction. The plasma with a uniform number density of <span class="math inline">\(10^{12}\)</span> particles per <span class="math inline">\(m^3\)</span> is initialized in the center of the grid. The simulation implements periodic boundary conditions along the x-axis and conducting boundary conditions at <span class="math inline">\(y = 0 m\)</span> and <span class="math inline">\(y = 1 m\)</span>.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#set up grid of size 200 by 200</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>nx,ny <span class="op">=</span> <span class="dv">200</span>,<span class="dv">200</span></span>
@@ -294,7 +295,7 @@ window.Quarto = {
 <section id="functions-for-the-simulation" class="level1">
 <h1>Functions for the simulation:</h1>
 <p>Under these conditions, the equations of motion for the electron plasma are isomorphic to the 2D Euler equations for incompressible fluids. This treatment of the plasma as a single conducting and charged fluid replaces the individual particles’ velocities with the fluid’s collective flow velocity <span class="math inline">\(u\)</span>. <span class="math inline">\(\mathbf{E}\)</span> and <span class="math inline">\(\mathbf{B}\)</span> represent the electric field of the plasma’s own space charge and the constant external magnetic field pointing in the positive z-direction. We have 3 equations that we need to solve: the Poisson’s equation, the fluid equation of motion, and the continuity equation, respectively.</p>
-<p>There are iterative methods such as the Jacobi relaxation, the Gauss-Seidel, and the Successive Over- Relaxation (SOR) methods that solve the Poisson’s equation at each grid point during the current time step using numerical values of the potentials from the previous time step until the algorithm finds a stable solution that converges. A faster alternative is the matrix inversion method that places Eq.(9) in the form of <span class="math inline">\(Ax′ = b\)</span>. Here, <span class="math inline">\(A\)</span> is a sparse 39, 600 × 39, 600 coefficient matrix representing the linear relationship between the potentials across the grid, excluding 400 grid points on the top and bottom boundaries whose potentials stay fixed at 0; <span class="math inline">\(x\)</span> is a 39, 600 × 1 vector of the unknown potentials; <span class="math inline">\(b\)</span> is the charge densities vector . To solve for <span class="math inline">\(x\)</span>, the algorithm performs a matrix multiplication between the inverse of <span class="math inline">\(A\)</span> and <span class="math inline">\(b\)</span> <span class="math inline">\((x = A−1b)\)</span>.</p>
+<p>There are iterative methods such as the Jacobi relaxation, the Gauss-Seidel, and the Successive Over- Relaxation (SOR) methods that solve the Poisson’s equation at each grid point during the current time step using numerical values of the potentials from the previous time step until the algorithm finds a stable solution that converges. A faster alternative is the matrix inversion method that places the system of equations in the form of <span class="math inline">\(Ax′ = b\)</span>. Here, <span class="math inline">\(A\)</span> is a sparse <span class="math inline">\(39, 600 × 39, 600\)</span> coefficient matrix representing the linear relationship between the potentials across the grid, excluding 400 grid points on the top and bottom boundaries whose potentials stay fixed at 0; <span class="math inline">\(x\)</span> is a <span class="math inline">\(39, 600 × 1\)</span> vector of the unknown potentials; <span class="math inline">\(b\)</span> is the charge densities vector . To solve for <span class="math inline">\(x\)</span>, the algorithm performs a matrix multiplication between the inverse of <span class="math inline">\(A\)</span> and <span class="math inline">\(b\)</span> <span class="math inline">\((x = A−1b)\)</span>.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># including periodic side boundary</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># https://my.ece.utah.edu/~ece6340/LECTURES/Feb1/Nagel%202012%20-%20Solving%20the%20Generalized%20Poisson%20Equation%20using%20FDM.pdf</span></span>
@@ -443,6 +444,7 @@ window.Quarto = {
 </section>
 <section id="run-the-simulation" class="level1">
 <h1>Run the simulation</h1>
+<p>I then run the simulaton and save the frame of the simulations at each time step to create a gif animation. I also save the potential and the charge density data in an npz file for data analysis at the next step.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Demo for the simulation, so I only ran 1 step</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># To see the evolution, run 100,000 steps</span></span>
@@ -462,7 +464,7 @@ window.Quarto = {
 <span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>plt.imshow(rho, origin <span class="op">=</span> <span class="st">'lower'</span>)</span>
 <span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>plt.colorbar()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>&lt;matplotlib.colorbar.Colorbar object at 0x7da74166e5d0&gt;</code></pre>
+<pre><code>&lt;matplotlib.colorbar.Colorbar object at 0x725ede11a850&gt;</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>step <span class="op">=</span> <span class="dv">2</span> <span class="co"># how many frames</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span> (step):</span>
@@ -514,14 +516,14 @@ Total charge = -0.00028943484751187696</code></pre>
 <span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>plot_1_title <span class="op">=</span> ax1.set_title(<span class="ss">f"Charge Density at Time Step </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">"</span>, pad<span class="op">=</span><span class="dv">10</span>)</span>
 <span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>fig.colorbar(plot_1, ax<span class="op">=</span>ax1, label<span class="op">=</span><span class="st">'Charge Density (C/m³)'</span>, shrink<span class="op">=</span><span class="fl">0.75</span>, aspect<span class="op">=</span><span class="dv">15</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>&lt;matplotlib.colorbar.Colorbar object at 0x7da73f507110&gt;</code></pre>
+<pre><code>&lt;matplotlib.colorbar.Colorbar object at 0x725ede1ff390&gt;</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>ax2 <span class="op">=</span> fig.add_subplot(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>)  </span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>plot_2 <span class="op">=</span> ax2.imshow(phi_initial, origin<span class="op">=</span><span class="st">'lower'</span>, cmap<span class="op">=</span><span class="st">'plasma'</span>)</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>plot_2_title <span class="op">=</span> ax2.set_title(<span class="ss">f"Potential at Time Step </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">"</span>, pad<span class="op">=</span><span class="dv">10</span>)</span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>fig.colorbar(plot_2, ax<span class="op">=</span>ax2, label<span class="op">=</span><span class="st">'Potential (V)'</span>, shrink<span class="op">=</span><span class="fl">0.75</span>, aspect<span class="op">=</span><span class="dv">15</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>&lt;matplotlib.colorbar.Colorbar object at 0x7da73f585a90&gt;</code></pre>
+<pre><code>&lt;matplotlib.colorbar.Colorbar object at 0x725ede081d10&gt;</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>plt.subplots_adjust(wspace<span class="op">=</span><span class="fl">0.35</span>)  <span class="co"># Increase this number (e.g., 0.4 or 0.5) if want more space</span></span>
@@ -558,6 +560,7 @@ Total charge = -0.00028943484751187696</code></pre>
 </section>
 <section id="data-analysis-of-perturbation-growth-rate" class="level1">
 <h1>Data analysis of perturbation growth rate</h1>
+<p>Here, to analyze the simulation more closely, I compute the growth rate of the perturbation waves at the slab’s top surface in the linear regime for different plasma thicknesses and perturbation wavelengths. During the early time steps, before the slab exhibits the non-linear behavior of diocotron mode through the formation of vortices, the growth rate of the instability is expected to grow exponentially. This regime is also where analytical models lie within</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">#https://numpy.org/doc/2.3/reference/generated/numpy.fft.fft.html</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fft_rho_slice(rho_slice):</span>
@@ -664,6 +667,15 @@ Total charge = -0.00028943484751187696</code></pre>
 </div>
 </div>
 </div>
+</section>
+<section id="conclusion" class="level1">
+<h1>Conclusion</h1>
+<p>Some conclusions that I were able to draw from my simulation and data analysis were:</p>
+<ul>
+<li><p>A thicker slab is more stable under diocotron instability.</p></li>
+<li><p>A slab exposed to a shorter perturbation is also more stable.</p></li>
+</ul>
+<p>For a full documentation of the project, please visit <a href="apssamp.pdf" target="_blank" rel="noopener noreferrer">Diocotron Instability</a>.</p>
 
 
 </section>

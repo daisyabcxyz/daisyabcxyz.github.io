@@ -1,18 +1,17 @@
 ---
 title: "SQL Project"
 author: "Group Members: Daisy Nguyen & Evan Toth"
-
 ---
+
 # Database & SQL Analytics
 
-In this project, our group perform the following tasks: 
+In this project, our group perform the following tasks:
 
-1. Create a database within Posit Cloud using DuckDB from three CSV files.
+1.  Create a database within Posit Cloud using DuckDB from three CSV files.
 
-2. Write SQL queries to extract the specific “nuggets” of information needed for your analysis, join tables, aggregate data, etc.
+2.  Write SQL queries to extract the specific “nuggets” of information needed for your analysis, join tables, aggregate data, etc.
 
-3. Create informative and professional data visualizations using the ggplot2 syntax, with each graphic fed by data extracted through complex SQL queries.
-
+3.  Create informative and professional data visualizations using the ggplot2 syntax, with each graphic fed by data extracted through complex SQL queries.
 
 ```{r setup}
 #| message: false
@@ -36,8 +35,17 @@ library(tidyverse)
 # library(package_name)
 ```
 
-
 # Accessing data
+
+### Exoplanet Datasets from NASA
+
+You can download the raw data used in this exoplanet analysis directly:
+
+<i class='bi-download'></i> Download <a href="data/planet_data.csv" download="planet_data.csv"> Planet Data (CSV)</a>.
+
+<i class='bi-download'></i> Download <a href="data/planet_discovery.csv" download="planet_discovery.csv"> Planet Discovery (CSV)</a>.
+
+<i class='bi-download'></i> Download <a href="data/star_data.csv" download="star_data.csv"> Star Data (CSV)</a>.
 
 ```{r, warning=FALSE, message=FALSE}
 # creating a database called nasa.duckdb, setting up a connection called con_nasa
@@ -45,53 +53,59 @@ con_nasa <- dbConnect(duckdb::duckdb(), dbdir = "nasa_db")
 ```
 
 ```{r, warning=FALSE, message=FALSE}
-planet_data <- readr::read_csv("planet_data.csv", comment = '#')
-planet_discovery <- readr::read_csv('planet_discovery.csv', comment = '#')
-star_data <- readr::read_csv('star_data.csv', comment = '#')
+planet_data <- readr::read_csv("data/planet_data.csv", comment = '#')
+planet_discovery <- readr::read_csv('data/planet_discovery.csv', comment = '#')
+star_data <- readr::read_csv('data/star_data.csv', comment = '#')
 
 # the original csv files have comments line at the top,  
 # save the "clean" datasets after commenting out # in a new csv file
 
-readr::write_csv(planet_data, "planet_data_clean.csv")
-readr::write_csv(planet_discovery, "planet_discovery_clean.csv")
-readr::write_csv(star_data, "star_data_clean.csv")
+readr::write_csv(planet_data, "data/planet_data_clean.csv")
+readr::write_csv(planet_discovery, "data/planet_discovery_clean.csv")
+readr::write_csv(star_data, "data/star_data_clean.csv")
 ```
 
-```{r, warning=FALSE, message=FALSE, including = FALSE}
+```{r, warning=FALSE, message=FALSE, include = FALSE}
 glimpse(planet_data)
 ```
 
-```{r, warning=FALSE, message=FALSE, including = FALSE}
+```{r, warning=FALSE, message=FALSE, include = FALSE}
 glimpse(planet_discovery)
 ```
 
-```{r, warning=FALSE, message=FALSE, including = FALSE}
+```{r, warning=FALSE, message=FALSE, include = FALSE}
 glimpse(star_data)
 ```
 
-```{r, warning=FALSE, message=FALSE, including = FALSE}
+```{r, warning=FALSE, message=FALSE, include = TRUE}
 summary(planet_data)
 # lots of NA in pl_orbper
 ```
 
-```{r, warning=FALSE, message=FALSE, including = FALSE}
+```{r, warning=FALSE, message=FALSE, include = TRUE}
 summary(planet_discovery)
 ```
 
-```{r, warning=FALSE, message=FALSE, including = FALSE}
+```{r, warning=FALSE, message=FALSE, include = TRUE}
 summary(star_data)
 # lots of NA in st_rad and st_mass
 ```
 
-
 # Importing the data
+
+Once the database is set up, we can import .csv files into the database as tables. Importing .csv files as tables requires a series of steps:
+
+-   a series of DROP TABLE statements that drop any old tables with the same names as the ones we are going to create.
+
+-   a series of CREATE TABLE statements that specify the table structures and field types.
+
+-   a series of COPY (or LOAD DATA for MySQL) statements that read the data from the .csv files into the appropriate tables.
 
 ```{sql connection=con_nasa, warning=FALSE, message=FALSE}
 DROP TABLE IF EXISTS planet_data;
 DROP TABLE IF EXISTS planet_discovery;
 DROP TABLE IF EXISTS star_data;
 ```
-
 
 ```{sql connection=con_nasa, warning=FALSE, message=FALSE}
 CREATE TABLE planet_data (
@@ -102,10 +116,9 @@ CREATE TABLE planet_data (
 
 ```{sql connection=con_nasa, warning=FALSE, message=FALSE}
 COPY planet_data
-FROM 'planet_data_clean.csv'
+FROM 'data/planet_data_clean.csv'
 (FORMAT CSV, HEADER, NULL 'NA');
 ```
-
 
 ```{sql connection=con_nasa, warning=FALSE, message=FALSE}
 
@@ -118,10 +131,9 @@ CREATE TABLE planet_discovery (
 
 ```{sql connection=con_nasa, warning=FALSE, message=FALSE}
 COPY planet_discovery
-FROM 'planet_discovery_clean.csv'
+FROM 'data/planet_discovery_clean.csv'
 (FORMAT CSV, HEADER, NULL 'NA');
 ```
-
 
 ```{sql connection=con_nasa, warning=FALSE, message=FALSE}
 CREATE TABLE star_data (
@@ -135,7 +147,7 @@ CREATE TABLE star_data (
 
 ```{sql connection=con_nasa, warning=FALSE, message=FALSE}
 COPY star_data
-FROM 'star_data_clean.csv'
+FROM 'data/star_data_clean.csv'
 (FORMAT CSV, HEADER, NULL 'NA');
 ```
 
@@ -143,8 +155,9 @@ FROM 'star_data_clean.csv'
 SHOW TABLES;
 ```
 
-
 # Verify the created tables
+
+After creating the tables, we can look at the head of the tables to verify they were created as intended.
 
 ```{sql connection=con_nasa, warning=FALSE, message=FALSE}
 SELECT * FROM planet_data LIMIT 10;
@@ -164,7 +177,6 @@ SELECT * FROM star_data LIMIT 10;
 # Designing the database
 
 This project's goal is to examine the methods used in the discovery of exoplanets, which are planets outside of our solar system. Data for this project is taken from NASA's exoplanet archive database. Since there are replicates of a measurement, group by planet's name and host's name, we take the average of the measured metrics
-
 
 ```{sql connection=con_nasa, warning=FALSE, message=FALSE}
 CREATE OR REPLACE TABLE planets AS
@@ -190,7 +202,6 @@ ORDER BY pl_name;
 
 ```
 
-
 ```{sql, connection=con_nasa, warning=FALSE, message=FALSE}
 CREATE OR REPLACE TABLE stars AS
 SELECT
@@ -207,19 +218,17 @@ ORDER BY hostname;
 
 ```
 
-
-```{sql connection=con_nasa, warning=FALSE, message=FALSE}
+```{sql connection=con_nasa, warning=FALSE, message=FALSE, include = FALSE}
 SELECT * FROM planets
 LIMIT 10;
 ```
 
-```{sql connection=con_nasa, warning=FALSE, message=FALSE}
+```{sql connection=con_nasa, warning=FALSE, message=FALSE, include = FALSE}
 SELECT * FROM discoveries
 LIMIT 10;
 ```
 
-
-```{sql connection=con_nasa, warning=FALSE, message=FALSE}
+```{sql connection=con_nasa, warning=FALSE, message=FALSE, include = FALSE}
 SELECT * FROM stars
 LIMIT 10;
 ```
@@ -228,19 +237,17 @@ LIMIT 10;
 SHOW TABLES;
 ```
 
-
-```{sql, connection='con_nasa', warning=FALSE, message=FALSE}
+```{sql, connection='con_nasa', warning=FALSE, message=FALSE, include = FALSE}
 SELECT COUNT(*)
 FROM discoveries;
 ```
 
-
 # Querying data using SQL
 
-## Daisy examines the patterns in star data by: 
+## Daisy examines the patterns in star data by:
 
-* Finding all the host stars that have exactly 1 planet and have data (not null) for both its average radius and average mass
-* Showing the first 10 rows  
+-   Finding all the host stars that have exactly 1 planet and have data (not null) for both its average radius and average mass
+-   Showing the first 10 rows
 
 ```{sql, connection=con_nasa, warning=FALSE, message=FALSE}
 --| output.var: df2
@@ -249,8 +256,7 @@ FROM stars
 WHERE sy_pnum =1 AND st_rad IS NOT NULL AND st_mass IS NOT NULL;
 ```
 
-
-* Finding all the host stars that have the maximum number of planets
+-   Finding all the host stars that have the maximum number of planets
 
 ```{sql, connection=con_nasa, warning=FALSE, message=FALSE}
 
@@ -260,8 +266,9 @@ WHERE sy_pnum = (SELECT MAX(sy_pnum) AS max_number_of_planet FROM stars )
 ;
 ```
 
-* Creating a dataset of all the host stars that have more than 2 planets and have data (not null) for both its average radius and average mass
-* Ordering by ascending number of planets
+-   Creating a dataset of all the host stars that have more than 2 planets and have data (not null) for both its average radius and average mass
+-   Ordering by ascending number of planets
+
 ```{sql, connection=con_nasa, warning=FALSE, message=FALSE}
 --| output.var: df3
 SELECT *
@@ -271,7 +278,8 @@ ORDER BY sy_pnum
 ;
 ```
 
-* Ordering the host star's average orbit period by ascending orbital period
+-   Ordering the host star's average orbit period by ascending orbital period
+
 ```{sql, connection=con_nasa, warning=FALSE, message=FALSE}
 SELECT hostname,pl_orbper --here pl_orbper is already an average because 
                           -- we are using the planets table not planet_data
@@ -281,8 +289,9 @@ LIMIT 10
 ;
 ```
 
-* Finding the stars that have the maximum and minimum planet's orbital period
-* Joining with the stars dataset to find how many planets these stars have
+-   Finding the stars that have the maximum and minimum planet's orbital period
+-   Joining with the stars dataset to find how many planets these stars have
+
 ```{sql, connection=con_nasa, warning=FALSE, message=FALSE}
 SELECT p.hostname, pl_orbper, sy_pnum, st_mass,
 FROM planets AS p
@@ -292,8 +301,9 @@ OR pl_orbper = (SELECT MIN(pl_orbper) AS max_orbital_period FROM planets))
 ;
 ```
 
-* Joining the stars and planets datasets where number of planets = 1 and previous conditions for not null
-* Ordering by ascending orbital period
+-   Joining the stars and planets datasets where number of planets = 1 and previous conditions for not null
+-   Ordering by ascending orbital period
+
 ```{sql, connection=con_nasa, warning=FALSE, message=FALSE}
 SELECT p.hostname, sy_pnum, st_rad, st_mass, 
       p.pl_orbper AS planet_orbit,
@@ -304,7 +314,7 @@ ORDER BY planet_orbit
 LIMIT 10;
 ```
 
-## Evan examines the patterns in planet discoveries: 
+## Evan examines the patterns in planet discoveries:
 
 In this section, we take a look at the pattern of planet discoveries and discovery methods over time. The first query in the section counts the number of planets that have been discovered by each discovery method.
 
@@ -314,7 +324,6 @@ FROM discoveries
 GROUP BY discoverymethod
 ORDER BY n_planets DESC;
 ```
-
 
 As the table shows above, the transit and radial velocity method are responsible for the majority of planet discoveries. The transit method involves watching a star, and waiting for when a planet passes in front of it. If less light is detected from the star, it is evidence that a planet has passed in front of it. The radial velocity method involves watching the movement of the star. Just as gravity from the star pulls on the planets around it, planets also pull on the star. If the star seems to ocillate in a consistent manner, it is strong evidence of a planet's orbit.
 
@@ -345,9 +354,7 @@ HAVING COUNT(*) >= 5
 ORDER BY avg_orbper DESC;
 ```
 
-
 This output suggests that planets that are discovered through imaging have much larger orbital periods, on average. This is because, for direct imaging, current technology is only advanced enough to be able to photograph larger planets that are further away from their host stars. On the other side, the orbital brightness modulation method seems to be able to detect smaller planets that have extremely small orbital periods, down to around 1.17 days on average.
-
 
 Lastly, this query examines the number of discovered planets around the host stars in the database, ordered by the amount of planets.
 
@@ -362,7 +369,6 @@ LIMIT 10;
 As seen in the table above, the maximum number of discovered exoplanets around a single star is 8, corresponding with the star KOI-351.
 
 # Creating data visualizations - Daisy's Part
-
 
 ```{r, warning=FALSE, message=FALSE}
 
@@ -392,7 +398,6 @@ p1+p2
 
 The two histograms peak at star mass = 1 solar mass (a centered distribution in general). However, there are a lot more stars at 1 solar mass that have exactly 1 planet orbiting around it compared to stars at 1 solar mass with more than 2 planets orbiting. We can say that there are more planetary systems with just 1 planet orbiting around the star, and that the most common star mass across all planetary systems is 1 solar mass.
 
-
 # Creating data visualizations - Evan's Part
 
 This visualization will analyze the amount of exoplanets discovered over time. Firstly, an SQL query is used, counting the amount of planets discovered in each year, and ordering by year. The result is then saved as a dataframe in R for creating the visualization.
@@ -404,7 +409,6 @@ FROM discoveries
 GROUP BY disc_year
 ORDER BY disc_year;
 ```
-
 
 ```{r, warning=FALSE, message=FALSE}
 ggplot(df1, aes(x = disc_year, y = n_planets)) +
@@ -420,32 +424,28 @@ ggplot(df1, aes(x = disc_year, y = n_planets)) +
 
 The most interesting part of the graph is the huge jump in 2016, of almost 1500 exoplanets. This is mostly due to the Kepler telescope, launched in 2009, releasing huge results - 1284 verified planets. 2014 was similar - Kepler was responsible for 714 discovered exoplanets. The last jump in 2021 is due to AI - a neural network named ExoMiner went through the data from the Kepler mission, and managed to confirm over 300 exoplanets. The visualization here highlights that through the advance of human technology, humanity is able to understand the universe around it more than ever.
 
-
-
 ```{r, warning=FALSE, message=FALSE}
 dbDisconnect(con_nasa, shutdown = TRUE)
 ```
 
-
 # Sources
 
+-   https://exoplanetarchive.ipac.caltech.edu/index.html
 
-* https://exoplanetarchive.ipac.caltech.edu/index.html
+-   https://science.nasa.gov/exoplanets/whats-a-transit/
 
-* https://science.nasa.gov/exoplanets/whats-a-transit/
+-   https://www.planetary.org/articles/color-shifting-stars-the-radial-velocity-method
 
-* https://www.planetary.org/articles/color-shifting-stars-the-radial-velocity-method
+-   https://science.nasa.gov/mission/roman-space-telescope/direct-imaging/
 
-* https://science.nasa.gov/mission/roman-space-telescope/direct-imaging/
+-   https://science.nasa.gov/universe/exoplanets/top-5-exoplanet-moments-of-2016/
 
-* https://science.nasa.gov/universe/exoplanets/top-5-exoplanet-moments-of-2016/
+-   https://exoplanetarchive.ipac.caltech.edu/index.html
 
-* https://exoplanetarchive.ipac.caltech.edu/index.html
+-   https://patchwork.data-imaginist.com
 
-* https://patchwork.data-imaginist.com
+-   https://www.space.com/28111-biggest-alien-planet-discoveries-2014.html
 
-* https://www.space.com/28111-biggest-alien-planet-discoveries-2014.html
-
-* https://www.sciencealert.com/over-350-new-exoplanets-have-been-found-hiding-in-the-kepler-data#:~:text=To%20be%20clear%2C%20these%20were,and%20is%20available%20on%20arXiv.
+-   https://www.sciencealert.com/over-350-new-exoplanets-have-been-found-hiding-in-the-kepler-data#:\~:text=To%20be%20clear%2C%20these%20were,and%20is%20available%20on%20arXiv.
 
 ### ---------------------------------------------------------------------------

@@ -4,14 +4,54 @@ title: "Welcome!"
 
 ## You can learn more about me here
 
-![Figure 1: Me in my Danang city, a beatiful and peaceful city with mountains and beaches.](/images/fig1.jpeg){width="40%" fig-align="right"}
+:::: {.columns}
+
+::: {.column width="60%"}
+This is me in my Danang city, a beautiful and peaceful city with mountains and beaches. I love going up this mountain whenever I go home because standing up here, I can see the entire city with the beach view, the mountain view, and the city landscape. They also have Linh Ung pagoda with a huge statue of Lady Buddha up here that you can check out.
+:::
+
+::: {.column width="5%"}
+:::
+
+::: {.column width="35%"}
+![](/images/fig1.jpeg){width="100%"}
+:::
+
+::::
 
 
-
-![Figure 2: I love doing science, and wanted tot be a biochemis major in my freshman year](/images/fig2.JPG){width="40%" fig-align="left"}
-
-
-![Figure 3: Me in my Danang city, a beatiful and peaceful city with mountains and beaches.](/images/fig3.JPG){width="40%" fig-align="right"}
+:::: {.columns}
 
 
-![Figure 4: Me in my Danang city, a beatiful and peaceful city with mountains and beaches.](/images/fig4.JPG){width="40%" fig-align="left"}
+::: {.column width="35%"}
+![](/images/fig2.JPG){width="100%"}
+:::
+::: {.column width="5%"}
+:::
+::: {.column width="60%"}
+Like I said, I started studying abroad in 10th grade. I went to a boarding school in a small town called Bettendorf in Iowa. That was the first time I actually learned science subjects in an interactive and hands-on setting with laboratory rather than just memorizing facts and rules. I soon found my love for doing science, specifically biology and biochemistry. Coming into college, I wanted to pursue a biochemistry major and study how human body works on the microscopic level.
+:::
+
+::::
+
+After 2 semesters into my freshman year, I found a stronger interest in Physics. I liked my classes in the quantitative reasoning better than my biology classes that required a lot of memorization and less quantitative focus. I started taking more Physics and Math classes and found a really tight-knit community here in the Physics Department.
+
+We worked on hard problems together, pulled all-nighters together in the CPL (iykyk), and went to laser tag as a class. It was a lot of fun to have a group of people doing the same thing as me and being able to understand the work that I did. 
+
+
+:::: {.columns}
+
+::: {.column width="45%"}
+![](/images/fig3.JPG){width="100%"}
+:::
+
+::: {.column width="5%"}
+:::
+
+::: {.column width="45%"}
+![](/images/fig4.JPG){width="100%"}
+:::
+
+::::
+
+

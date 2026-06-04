@@ -1,7 +1,7 @@
 ---
 title: "The wave-particle duality of light"
 author: "Daisy Nguyen"
-date: 10/31/2025
+date: "October 31, 2025"
 format:
   html:
     toc: false
@@ -68,7 +68,7 @@ $$\alpha_{3d} = \frac{P_{ABB'}}{P_{AB}P_{AB'}} = \frac{N_{ABB'}N_A}{N_{AB}N_{AB'
 
 Classically, we would expect $\alpha_{3d}$ to be greater than 1 since there would be more actual coincidences than accidental coincidences. We would get an $\alpha_{3d}=1$ if the light source was random and all the coincidences were accidental. And if the photons behaved according to quantum mechanics prediction, there would be more accidental coincidences than actual ones, and we would see $\alpha_{3d}<1$.
 
-![Figure 1: A pump laser undergoes sponstaneous parametric down conversion in a $\beta$-*barium borate* (BBO) crystal to produce a twin pair of photons called idler and signal. The idler photons take the top path towards detector A while the signal photons pass through the HWP and beamsplitter in the bottom path. Transmitted photons travel into detector B, and reflected ones travel into detector B'. We can measure $\alpha_{2d}$ between A and B to verify the correlation between the idler and signal photons, or measure $\alpha_{3d}$ between all 3 detectors to perform a correlation experiment between B and B' in the presence of an idler photon in A.](images_quantum/fig1.png){width="100%" fig-align="center"}
+![Figure 1: A pump laser undergoes sponstaneous parametric down conversion in a $\beta$-*barium borate* (BBO) crystal to produce a twin pair of photons called idler and signal. The idler photons take the top path towards detector A while the signal photons pass through the HWP and beamsplitter in the bottom path. Transmitted photons travel into detector B, and reflected ones travel into detector B'. We can measure $\alpha_{2d}$ between A and B to verify the correlation between the idler and signal photons, or measure $\alpha_{3d}$ between all 3 detectors to perform a correlation experiment between B and B' in the presence of an idler photon in A.](/research/images_quantum/fig1.png){width="100%" fig-align="center"}
 
 ### Interference in a Mach-Zehnder interferometer
 
@@ -104,7 +104,7 @@ Since we were interested in the detection of photons at either detector B or B' 
 
 $$V = \frac{R_{12,max}-R_{12,min}}{R_{12,max}+R_{12,min}}.$$
 
-![Figure 2: A schematic diagram of the Mach Zehnder interferometer. A movable mirror is inserted in the path of the signal photons to direct them into the interferometer. The photons go through the first nonpolarizing beamsplitter into two HWP's that are originally set to the same polarization. The two mirrors placed along the photons'paths recombine them into the second nonpolarizing beamsplitter before they go into either detector B or B'. Two arms of the interferometer present two identical paths for the photons to travel into each detector. We translated the position of the movable mirror using a piezo-controlled motor to observe single-photon interference arised from identical possible paths. The HWP's were used to tag the photons'path, and the linear polarizer was put in front of one detector to erase the tag.](images_quantum/fig2.png){width="100%" fig-align="center"}
+![Figure 2: A schematic diagram of the Mach Zehnder interferometer. A movable mirror is inserted in the path of the signal photons to direct them into the interferometer. The photons go through the first nonpolarizing beamsplitter into two HWP's that are originally set to the same polarization. The two mirrors placed along the photons'paths recombine them into the second nonpolarizing beamsplitter before they go into either detector B or B'. Two arms of the interferometer present two identical paths for the photons to travel into each detector. We translated the position of the movable mirror using a piezo-controlled motor to observe single-photon interference arised from identical possible paths. The HWP's were used to tag the photons'path, and the linear polarizer was put in front of one detector to erase the tag.](/research/images_quantum/fig2.png){width="100%" fig-align="center"}
 
 ### Coherence Length
 
@@ -156,7 +156,7 @@ We observed the effect of coherence length on single-photon interference in thre
 
 In the first experiment, the idler photons traveled into detector A and all of the signal photons traveled into detector B. We wanted to verify that the two down-converted beams were correlated. The anti-correlation parameter in Figure 3 was calculated and plotted as a function of the intensity of the pump laser, which was monitored by the count rate $R_A$ at detector A. $\alpha_{2d}$ decreased as $R_A$ increased; however, it stayed above the threshold $\alpha_{2d}=1$ at all times. This suggested that the spontaneous parametric down conversion process indeed produced correlated pairs of photons.
 
-![Figure 3: Anti-correlation parameter $\alpha_{2d}$ as a function of the pump laser intensity. We rotated the first HWP in Figure 1 to vary the intensity of the pump laser and calculated $\alpha_{2d}$ for each intensity. The orange dotted line represented $\alpha_{2d}=1$. We kept the coincidence window constant at 7.5 ns.](images_quantum/fig3.png){width="100%" fig-align="center"}
+![Figure 3: Anti-correlation parameter $\alpha_{2d}$ as a function of the pump laser intensity. We rotated the first HWP in Figure 1 to vary the intensity of the pump laser and calculated $\alpha_{2d}$ for each intensity. The orange dotted line represented $\alpha_{2d}=1$. We kept the coincidence window constant at 7.5 ns.](/research/images_quantum/fig3.png){width="100%" fig-align="center"}
 
 Inserting the 480.7cm coaxial cable between the output of detector A's SPCM and the CCU and monitoring the correlation between the idler and signal allowed us to measure the accidental count rates of our apparatus. We had verified that the spontaneous parametric down conversion process produced correlated photons from values of $\alpha_{2d}>1$ shown in Figure 3. By keeping the coincidence window at 7.5 ns and adding the cable which delayed the arrival of the idler photons by 24 ns, we claimed that any coincidence counts registered would be accidental because the idler and signal photons were spaced out at a distance that was greater than the coincidence window.
 
@@ -181,7 +181,7 @@ Figure 5 showed the coincident count rates $R_{AB}$ and $R_{AB'}$ as we translat
 
 Following that observation, we tagged the two paths by setting their polarizations orthogonal to each other and saw that the interference pattern disappeared as seen in the coincidence count rate for AB in Figure 6. Since the information about which path the photons took was known to the detectors, the wave function collapsed, and interference pattern disappeared. By placing the linear polarizer in front of detector B' after the second beamsplitter, we erased that tag for the photons traveling into B' and brought back the interference in $R_{AB'}$ (Figure 6) with a visibility of 0.2.
 
-![Figure 6: Tagging the photon's paths caused the wave function to collapse and the interference pattern to disappear. However, we could erase that distinguisher with a linear polarizer in front of B' and bring back the interference for that detector.](images_quantum/fig6.png){width="100%" fig-align="center"}
+![Figure 6: Tagging the photon's paths caused the wave function to collapse and the interference pattern to disappear. However, we could erase that distinguisher with a linear polarizer in front of B' and bring back the interference for that detector.](/research/images_quantum/fig6.png){width="100%" fig-align="center"}
 
 To investigate the relationship between the coherence length of the down-converted beams and the interference pattern due to path distinguishability of the inferometer arms, we placed a 10 nm bandpass filter centered on wavelength 810 nm in front of detector A and monitored both $R_{AB}$ and $R_{AB'}$ as we translated the mirror over a range of 70 $\mu m$. We calculated the coherence length of the idler beam with this filter to be 65.6 $\mu m$. Shown in Figure 7 were the visibilities of $R_{AB}$ and $R_{AB'}$, both in the presence and absence of the filter. The visibility of the fringes peaked when the mirror position was approximately between 30 $\mu m$ and 35 $\mu m$ for both cases. Nevertheless, the fringes with the filter (dark and light green scattered points) were more visible at every mirror position, at least 1.65 times higher inside the peak range and at most 4.79 times higher outside. It also had a higher baseline at $0.235 \pm 0.024$ visibility, compared to the $0.0777 \pm 0.025$ baseline when there was no filter (dark and light blue scattered points).
 
@@ -189,7 +189,7 @@ Because in the basic interferometer experiment the baseline of the interference 
 
 Our result showed that this filter increased the coherence length of the down-converted beams, and by doing so it allowed us to move the mirror over a longer distance before the two arms became distinguishable and the interference disappeared. This agreed with the quantum mechanics prediction that given identical polarizations, the apparatus could only distinguish the different paths when their amplitude packets did not overlap within the coherence length range of the down-converted beams.
 
-![Figure 7: Visibility of $R_{AB}$ and $R_{AB'}$ as a function of the path length difference with and without a $810 \pm 10$ nm bandpass filter in front of detector A. We set the baseline for interference to be at $V=0.2$ where the blue dotted line was and defined coherence length to be the range in which the visibility of the fringe was above that line.](images_quantum/fig7.png){width="100%" fig-align="center"}
+![Figure 7: Visibility of $R_{AB}$ and $R_{AB'}$ as a function of the path length difference with and without a $810 \pm 10$ nm bandpass filter in front of detector A. We set the baseline for interference to be at $V=0.2$ where the blue dotted line was and defined coherence length to be the range in which the visibility of the fringe was above that line.](/research/images_quantum/fig7.png){width="100%" fig-align="center"}
 
 ------------------------------------------------------------------------
 

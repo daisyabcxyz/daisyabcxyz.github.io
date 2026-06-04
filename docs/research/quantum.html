@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Daisy Nguyen">
-<meta name="dcterms.date" content="2026-06-03">
+<meta name="dcterms.date" content="2025-10-31">
 
 <title>The wave-particle duality of light – Daisy Nguyen</title>
 <style>
@@ -161,6 +161,10 @@ window.Quarto = {
     <a class="dropdown-item" href="../research/quantum.html">
  <span class="dropdown-text">Single Photon Optics</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../research/common_emitter_amplifier.html">
+ <span class="dropdown-text">Common-Emitter Amplifier</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
@@ -208,7 +212,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">June 3, 2026</p>
+      <p class="date">October 31, 2025</p>
     </div>
   </div>
   
@@ -272,7 +276,7 @@ window.Quarto = {
 <p>Classically, we would expect <span class="math inline">\(\alpha_{3d}\)</span> to be greater than 1 since there would be more actual coincidences than accidental coincidences. We would get an <span class="math inline">\(\alpha_{3d}=1\)</span> if the light source was random and all the coincidences were accidental. And if the photons behaved according to quantum mechanics prediction, there would be more accidental coincidences than actual ones, and we would see <span class="math inline">\(\alpha_{3d}&lt;1\)</span>.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images_quantum/fig1.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<p><img src="../research/images_quantum/fig1.png" class="img-fluid figure-img" style="width:100.0%"></p>
 <figcaption>Figure 1: A pump laser undergoes sponstaneous parametric down conversion in a <span class="math inline">\(\beta\)</span>-<em>barium borate</em> (BBO) crystal to produce a twin pair of photons called idler and signal. The idler photons take the top path towards detector A while the signal photons pass through the HWP and beamsplitter in the bottom path. Transmitted photons travel into detector B, and reflected ones travel into detector B’. We can measure <span class="math inline">\(\alpha_{2d}\)</span> between A and B to verify the correlation between the idler and signal photons, or measure <span class="math inline">\(\alpha_{3d}\)</span> between all 3 detectors to perform a correlation experiment between B and B’ in the presence of an idler photon in A.</figcaption>
 </figure>
 </div>
@@ -297,7 +301,7 @@ window.Quarto = {
 <p><span class="math display">\[V = \frac{R_{12,max}-R_{12,min}}{R_{12,max}+R_{12,min}}.\]</span></p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images_quantum/fig2.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<p><img src="../research/images_quantum/fig2.png" class="img-fluid figure-img" style="width:100.0%"></p>
 <figcaption>Figure 2: A schematic diagram of the Mach Zehnder interferometer. A movable mirror is inserted in the path of the signal photons to direct them into the interferometer. The photons go through the first nonpolarizing beamsplitter into two HWP’s that are originally set to the same polarization. The two mirrors placed along the photons’paths recombine them into the second nonpolarizing beamsplitter before they go into either detector B or B’. Two arms of the interferometer present two identical paths for the photons to travel into each detector. We translated the position of the movable mirror using a piezo-controlled motor to observe single-photon interference arised from identical possible paths. The HWP’s were used to tag the photons’path, and the linear polarizer was put in front of one detector to erase the tag.</figcaption>
 </figure>
 </div>
@@ -343,7 +347,7 @@ window.Quarto = {
 <p>In the first experiment, the idler photons traveled into detector A and all of the signal photons traveled into detector B. We wanted to verify that the two down-converted beams were correlated. The anti-correlation parameter in Figure 3 was calculated and plotted as a function of the intensity of the pump laser, which was monitored by the count rate <span class="math inline">\(R_A\)</span> at detector A. <span class="math inline">\(\alpha_{2d}\)</span> decreased as <span class="math inline">\(R_A\)</span> increased; however, it stayed above the threshold <span class="math inline">\(\alpha_{2d}=1\)</span> at all times. This suggested that the spontaneous parametric down conversion process indeed produced correlated pairs of photons.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images_quantum/fig3.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<p><img src="../research/images_quantum/fig3.png" class="img-fluid figure-img" style="width:100.0%"></p>
 <figcaption>Figure 3: Anti-correlation parameter <span class="math inline">\(\alpha_{2d}\)</span> as a function of the pump laser intensity. We rotated the first HWP in Figure 1 to vary the intensity of the pump laser and calculated <span class="math inline">\(\alpha_{2d}\)</span> for each intensity. The orange dotted line represented <span class="math inline">\(\alpha_{2d}=1\)</span>. We kept the coincidence window constant at 7.5 ns.</figcaption>
 </figure>
 </div>
@@ -408,7 +412,7 @@ window.Quarto = {
 <p>Following that observation, we tagged the two paths by setting their polarizations orthogonal to each other and saw that the interference pattern disappeared as seen in the coincidence count rate for AB in Figure 6. Since the information about which path the photons took was known to the detectors, the wave function collapsed, and interference pattern disappeared. By placing the linear polarizer in front of detector B’ after the second beamsplitter, we erased that tag for the photons traveling into B’ and brought back the interference in <span class="math inline">\(R_{AB'}\)</span> (Figure 6) with a visibility of 0.2.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images_quantum/fig6.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<p><img src="../research/images_quantum/fig6.png" class="img-fluid figure-img" style="width:100.0%"></p>
 <figcaption>Figure 6: Tagging the photon’s paths caused the wave function to collapse and the interference pattern to disappear. However, we could erase that distinguisher with a linear polarizer in front of B’ and bring back the interference for that detector.</figcaption>
 </figure>
 </div>
@@ -417,7 +421,7 @@ window.Quarto = {
 <p>Our result showed that this filter increased the coherence length of the down-converted beams, and by doing so it allowed us to move the mirror over a longer distance before the two arms became distinguishable and the interference disappeared. This agreed with the quantum mechanics prediction that given identical polarizations, the apparatus could only distinguish the different paths when their amplitude packets did not overlap within the coherence length range of the down-converted beams.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images_quantum/fig7.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<p><img src="../research/images_quantum/fig7.png" class="img-fluid figure-img" style="width:100.0%"></p>
 <figcaption>Figure 7: Visibility of <span class="math inline">\(R_{AB}\)</span> and <span class="math inline">\(R_{AB'}\)</span> as a function of the path length difference with and without a <span class="math inline">\(810 \pm 10\)</span> nm bandpass filter in front of detector A. We set the baseline for interference to be at <span class="math inline">\(V=0.2\)</span> where the blue dotted line was and defined coherence length to be the range in which the visibility of the fringe was above that line.</figcaption>
 </figure>
 </div>

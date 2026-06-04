@@ -35,6 +35,8 @@ website:
             text: Plasma Physics
           - href: "research/quantum.qmd"
             text: Single Photon Optics
+          - href: "research/common_emitter_amplifier.qmd"
+            text: Common-Emitter Amplifier
             
       - text: Math Concepts   
         menu:

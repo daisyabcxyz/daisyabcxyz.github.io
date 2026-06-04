@@ -383,4 +383,4 @@ Some conclusions that I were able to draw from my simulation and data analysis w
 
 -   A slab exposed to a shorter perturbation is also more stable.
 
-For a full documentation of the project, please visit <a href="/cloud/project/capstone/apssamp.pdf" target="_blank" rel="noopener noreferrer">Diocotron Instability</a>.
+For a full documentation of the project, please visit <a href="/research/apssamp.pdf" target="_blank" rel="noopener noreferrer">Diocotron Instability</a>.

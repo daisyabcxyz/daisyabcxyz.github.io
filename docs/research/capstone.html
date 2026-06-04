@@ -215,6 +215,10 @@ window.Quarto = {
   </li>  
     </ul>
   </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../more.html"> 
+<span class="menu-text">More about me!</span></a>
+  </li>  
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -476,7 +480,7 @@ window.Quarto = {
 <span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>plt.imshow(rho, origin <span class="op">=</span> <span class="st">'lower'</span>)</span>
 <span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>plt.colorbar()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>&lt;matplotlib.colorbar.Colorbar object at 0x7237a1416850&gt;</code></pre>
+<pre><code>&lt;matplotlib.colorbar.Colorbar object at 0x77d35b816710&gt;</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>step <span class="op">=</span> <span class="dv">2</span> <span class="co"># how many frames</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span> (step):</span>
@@ -528,14 +532,14 @@ Total charge = -0.00028943484751187696</code></pre>
 <span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>plot_1_title <span class="op">=</span> ax1.set_title(<span class="ss">f"Charge Density at Time Step </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">"</span>, pad<span class="op">=</span><span class="dv">10</span>)</span>
 <span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>fig.colorbar(plot_1, ax<span class="op">=</span>ax1, label<span class="op">=</span><span class="st">'Charge Density (C/m³)'</span>, shrink<span class="op">=</span><span class="fl">0.75</span>, aspect<span class="op">=</span><span class="dv">15</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>&lt;matplotlib.colorbar.Colorbar object at 0x7237a14db390&gt;</code></pre>
+<pre><code>&lt;matplotlib.colorbar.Colorbar object at 0x77d35b8fb250&gt;</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>ax2 <span class="op">=</span> fig.add_subplot(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>)  </span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>plot_2 <span class="op">=</span> ax2.imshow(phi_initial, origin<span class="op">=</span><span class="st">'lower'</span>, cmap<span class="op">=</span><span class="st">'plasma'</span>)</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>plot_2_title <span class="op">=</span> ax2.set_title(<span class="ss">f"Potential at Time Step </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">"</span>, pad<span class="op">=</span><span class="dv">10</span>)</span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>fig.colorbar(plot_2, ax<span class="op">=</span>ax2, label<span class="op">=</span><span class="st">'Potential (V)'</span>, shrink<span class="op">=</span><span class="fl">0.75</span>, aspect<span class="op">=</span><span class="dv">15</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>&lt;matplotlib.colorbar.Colorbar object at 0x7237a1379d10&gt;</code></pre>
+<pre><code>&lt;matplotlib.colorbar.Colorbar object at 0x77d35b779bd0&gt;</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>plt.subplots_adjust(wspace<span class="op">=</span><span class="fl">0.35</span>)  <span class="co"># Increase this number (e.g., 0.4 or 0.5) if want more space</span></span>
@@ -687,7 +691,7 @@ Total charge = -0.00028943484751187696</code></pre>
 <li><p>A thicker slab is more stable under diocotron instability.</p></li>
 <li><p>A slab exposed to a shorter perturbation is also more stable.</p></li>
 </ul>
-<p>For a full documentation of the project, please visit <a href="../cloud/project/capstone/apssamp.pdf" target="_blank" rel="noopener noreferrer">Diocotron Instability</a>.</p>
+<p>For a full documentation of the project, please visit <a href="../research/apssamp.pdf" target="_blank" rel="noopener noreferrer">Diocotron Instability</a>.</p>
 
 
 </section>

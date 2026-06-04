@@ -1,0 +1,31 @@
+---
+title: "Projects"
+---
+
+You can find all the projects I worked on in the Advanced Computing course at Lawrence University. Over the course of these projects, I developed different skill sets, from working with database, creating my own R package, thinking critically through a project, and checking my work as well as others in the field thoroughly. 
+
+## Featured Projects
+
+### SQL Project
+
+I used SQL here to organize, query, and gain insights from databases. My partner and I were interested in the exoplanet dataset published on the NASA exoplanet archive and wanted to learn if we could draw patterns about planets' orbit, their star masses, and their discovery year. 
+
+[View SQL Project](sql_project.qmd)
+
+### Text Analysis Project
+
+In this project, me and my pattern looked into the entire Harry Potter Series and investigated whether the claim that the series is too dark for children to read is valid. We used text analysis method including tokenization, sentiment analysis, and tf-idf to gather evidence on the negative patterns in the text for our investigation.
+
+[View Text Analysis Project](text_analysis_project.qmd)
+
+### R Package Project
+
+I developed an R package called mathR that provides convenient functions that support simple algebraic operations such as root finding, line-line intersection, and modular arithmetic for functions. Through this project, I gain experience with launching an R package, writing useful functions with assertions, keeping a clean documentation, writing meaningful unit tests, and providing an accessible instruction for general public.
+
+[View My R Package](Rpackage.qmd)
+
+### Poster on a Research Paper
+
+I read a paper on "Differential Privacy" written by Cynthia Dwork in 2006 and presented a poster using the package "posterdown" in R. Coming in without any knowledge on privacy for statistical database, I learned what privacy, specifically differential privacy, meant, and the mechanism behind this measure which aims at protecting individual information while allowing the public to have access to sensitive database.
+
+[View Differential Privacy Poster](poster.qmd)

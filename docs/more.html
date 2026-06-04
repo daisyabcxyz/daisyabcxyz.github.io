@@ -6,10 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Daisy Nguyen">
-<meta name="dcterms.date" content="2024-06-10">
 
-<title>Bandwidth of the Common-Emitter Amplifier – Daisy Nguyen</title>
+<title>Welcome! – Daisy Nguyen</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -25,25 +23,25 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../">
-<link href="../images/icon.png" rel="icon" type="image/png">
-<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
-<script src="../site_libs/quarto-html/popper.min.js"></script>
-<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-438ac952cdff71939757ea8e8259a6f2.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./images/icon.png" rel="icon" type="image/png">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-438ac952cdff71939757ea8e8259a6f2.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -72,46 +70,17 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 </head>
 
-<body class="nav-fixed fullcontent quarto-light">
+<body class="nav-fixed quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../index.html">
+    <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">Daisy Nguyen</span>
     </a>
   </div>
@@ -122,7 +91,7 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../index.html"> 
+    <a class="nav-link" href="./index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item dropdown ">
@@ -131,23 +100,23 @@ window.Quarto = {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-projects-in-r">    
         <li>
-    <a class="dropdown-item" href="../projects tab/project.html">
+    <a class="dropdown-item" href="./projects tab/project.html">
  <span class="dropdown-text">Projects Overview</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../projects tab/sql_project.html">
+    <a class="dropdown-item" href="./projects tab/sql_project.html">
  <span class="dropdown-text">SQL project</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../projects tab/text_analysis_project.html">
+    <a class="dropdown-item" href="./projects tab/text_analysis_project.html">
  <span class="dropdown-text">Text Analysis Project</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../projects tab/Rpackage.html">
+    <a class="dropdown-item" href="./projects tab/Rpackage.html">
  <span class="dropdown-text">R package</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../projects tab/poster.html">
+    <a class="dropdown-item" href="./projects tab/poster.html">
  <span class="dropdown-text">Differential Privacy Poster</span></a>
   </li>  
     </ul>
@@ -158,15 +127,15 @@ window.Quarto = {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-research">    
         <li>
-    <a class="dropdown-item" href="../research/capstone.html">
+    <a class="dropdown-item" href="./research/capstone.html">
  <span class="dropdown-text">Plasma Physics</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../research/quantum.html">
+    <a class="dropdown-item" href="./research/quantum.html">
  <span class="dropdown-text">Single Photon Optics</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../research/common_emitter_amplifier.html">
+    <a class="dropdown-item" href="./research/common_emitter_amplifier.html">
  <span class="dropdown-text">Common-Emitter Amplifier</span></a>
   </li>  
     </ul>
@@ -177,13 +146,13 @@ window.Quarto = {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-math-concepts">    
         <li>
-    <a class="dropdown-item" href="../linear_al.html">
+    <a class="dropdown-item" href="./linear_al.html">
  <span class="dropdown-text">Linear Algebra</span></a>
   </li>  
     </ul>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="../more.html"> 
+    <a class="nav-link active" href="./more.html" aria-current="page"> 
 <span class="menu-text">More about me!</span></a>
   </li>  
 </ul>
@@ -197,32 +166,28 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#you-can-learn-more-about-me-here" id="toc-you-can-learn-more-about-me-here" class="nav-link active" data-scroll-target="#you-can-learn-more-about-me-here">You can learn more about me here</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Bandwidth of the Common-Emitter Amplifier</h1>
+<h1 class="title">Welcome!</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Daisy Nguyen </p>
-          </div>
-  </div>
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">June 10, 2024</p>
-    </div>
-  </div>
   
     
   </div>
@@ -232,188 +197,32 @@ window.Quarto = {
 </header>
 
 
-<div class="callout callout-style-simple callout-note">
-<div class="callout-body d-flex">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-body-container">
-<p><strong>Affiliation:</strong> Physics Department, Lawrence University.<br>
-<em>Originally prepared for PHYS220 / Electronics Lab.</em></p>
-</div>
-</div>
-</div>
-<section id="abstract" class="level2">
-<h2 class="anchored" data-anchor-id="abstract">Abstract</h2>
-<p>We build a common-emitter amplifier circuit with the bipolar junction transistor and investigate the frequency response of our amplifier by varying the input frequency over a large range (1.7 MHz). We observe the circuit both when it acts as a high-pass <span class="math inline">\(RC\)</span>-filter and as a low-pass <span class="math inline">\(RC\)</span>-filter, and the range in between the two cut-off frequencies is the bandwidth of our amplifier. We find that the voltage gain of our circuit is at maximum at 5.93 in the middle of the bandwidth. Our bandwidth is not flat like expected and is over a wide range of frequencies (40 Hz to 1700 kHz), and the lower cut-off frequency is as predicted but higher cut-off frequency is three times higher than the expected value.</p>
-<hr>
-<p>Modern audio amplifiers have a flat frequency response curve over the whole range from 20 Hz to 20 kHz while radio amplifiers have a narrow and peaked frequency response that is above 100 kHz [1,2]. Amplifiers are designed to amplify a specific range of frequencies but it is also important to minimize the noise and distortion in the signals they produce. Thus, bandwidth, the range of frequencies in which the amplifier provides useful amplification, is an essential character of an amplifier: a bandwidth that is too wide can result in noise signals, and one that is too narrow can fail to pick up needed signals [1,3].</p>
-<p>Common Emitter Amplifier (CEA) circuit uses the bipolar junction transistor (BJT) to amplify an AC input signal. We observe the voltage gain of the circuit, and investigate the frequency response of the gain [4]. In general, the BJT transistor consists of three terminals: Base, Collector, Emitter. The current <span class="math inline">\(I_B\)</span> flowing into the Base terminal is relatively small compared to the current <span class="math inline">\(I_C\)</span> flowing into the collector, and the ratio of the latter over the former is the current gain of the transistor [5].</p>
-<p>To perform the experiment, we build the circuit shown in Fig. 1 [4]. The characteristics of a CEA circuit include a voltage divider across the supplied input signal that is connected to the Base of the transistor, quiescent operating point around which the output signal stays sinusoidal, input-signal-voltage-dependent voltage gain, and frequency-dependent signal filtering.</p>
+<section id="you-can-learn-more-about-me-here" class="level2">
+<h2 class="anchored" data-anchor-id="you-can-learn-more-about-me-here">You can learn more about me here</h2>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="../research/images_emitter/circuit_schematic.png" class="img-fluid figure-img" style="width:85.0%"></p>
-<figcaption>Figure 1: Common-emitter amplifier circuit based upon a bipolar junction transistor.</figcaption>
-</figure>
-</div>
-<p>The purpose of the voltage divider formed by resistors <span class="math inline">\(R_1\)</span> and <span class="math inline">\(R_2\)</span> is to keep the voltage at the Base constant and steady from the varying current gain <span class="math inline">\(\beta\)</span> [6]. This process, known as proper biasing, allows the circuit to operate within the region where the output signal is sinusoidal.</p>
-<p>The voltage gain <span class="math inline">\(\mathcal{A}_v\)</span> of the circuit is</p>
-<p><span class="math display">\[\mathcal{A}_v = \dfrac{V_\text{out}}{V_\text{in}} = \dfrac{-R_C}{R_E+r_e} \label{eq:gain2}\]</span></p>
-<p>where</p>
-<p><span class="math display">\[r_e= \frac{V_T}{I_{C,q}}=\frac{26\text{ mV}}{I_{C,q}}\]</span></p>
-<p>The gain varies with the input frequency, and there are two cut-off frequencies at which the circuit filters out low and high frequencies that are outside the bandwidth.</p>
-<p>The part of the circuit with the input coupling capacitor <span class="math inline">\(C_1\)</span> and the voltage divider formed by <span class="math inline">\(R_1\)</span> and <span class="math inline">\(R_2\)</span> constitutes a high-pass <span class="math inline">\(RC\)</span>-filter. It filters out input signals that are below the first cutoff frequency. We can calculate this cutoff frequency</p>
-<p><span class="math display">\[f_{c,lo} = \dfrac{1}{2\pi R_\text{eff} C_1} \label{eq:freqlo}\]</span></p>
-<p>where the effective resistance comes from Ohm’s law with <span class="math inline">\(R_1\)</span> and <span class="math inline">\(R_2\)</span> in parallel</p>
-<p><span class="math display">\[R_\text{eff}=\frac{R_1 R_2}{R_1+R_2}\]</span></p>
-<p>When we reach high frequencies, the gain starts rolling off, and the load attached to the amplifier acts as a low-pass <span class="math inline">\(RC\)</span> filter. This load comes from the capacitance of the attenuating probe connected to the oscilloscope. The second cutoff frequency is</p>
-<p><span class="math display">\[f_{c,hi} = \dfrac{1}{2\pi R_C C_\text{load}}. \label{eq:freqhi}\]</span></p>
-<table class="caption-top table">
-<caption>Table 1: Measurements of the circuit components.</caption>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Circuit Element</th>
-<th style="text-align: center;">Nominal Value</th>
-<th style="text-align: center;">Measured Value</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><span class="math inline">\(R_1\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(56\text{ k}\Omega\pm 5\%\)</span></td>
-<td style="text-align: center;">Measured Key Value</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><span class="math inline">\(R_2\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(5.6\text{ k}\Omega\pm 5\%\)</span></td>
-<td style="text-align: center;">Measured Key Value</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><span class="math inline">\(R_C\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(3.3\text{ k}\Omega\pm 5\%\)</span></td>
-<td style="text-align: center;">Measured Key Value</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><span class="math inline">\(R_E\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(560\ \Omega\pm 5\%\)</span></td>
-<td style="text-align: center;">Measured Key Value</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><span class="math inline">\(C_1\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(1\ \mu\text{F}\)</span></td>
-<td style="text-align: center;">–</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><span class="math inline">\(C_2\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(10\ \mu\text{F}\)</span></td>
-<td style="text-align: center;">–</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><span class="math inline">\(C_\text{load}\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(0.1\text{ nF}\)</span></td>
-<td style="text-align: center;">–</td>
-</tr>
-</tbody>
-</table>
-<p>We explore the voltage gain at a fixed frequency of 20 kHz over a range of input amplitudes <span class="math inline">\(V_\text{in}\)</span> between 50 mV and 4 V, Fig. 2(a). We reach a voltage at which the output signal starts to lose its sinusoidal shape in its positive-going phases. We record this voltage to be 860 mV, and the more we increase the input signal, the flatter the output’s positive peaks become. This effect is called amplitude distortion due to incorrect biasing [7]. Increasing the input amplitude pushes the quiescent point of the circuit to the right of the load line in Fig. 3, thus explains why we see clipping in only the positive peaks of the output. We would see clipping in the negative phase if this happens in the other direction when the bias voltage is low.</p>
-<p>This also explains what is happening in Fig. 2(a): increasing the input voltage initially increases the voltage gain, but as the peak of the output signal stops rising and starts plateauing, the gain decreases. Thus, when examining the effect of input frequency on the amplifier, we fix the input amplitude at 0.5 V where the gain is at maximum in Fig. 2(a).</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="../research/images_emitter/gain_plots.png" class="img-fluid figure-img" style="width:85.0%"></p>
-<figcaption>Figure 2: Observed gain measured on the common-emitter amplifier circuit (Fig. 1) as a function of (a) input signal amplitude and (b) input signal frequency with cut-off frequencies calculated from Equations 2 and 4.</figcaption>
+<p><img src="./images/fig1.jpeg" class="img-fluid figure-img" style="width:85.0%"></p>
+<figcaption>Figure 1: Me in my Danang city, a beatiful and peaceful city with mountains and beaches.</figcaption>
 </figure>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="../research/images_emitter/load_line.png" class="img-fluid figure-img" style="width:85.0%"></p>
-<figcaption>Figure 3: Load line for the common-emitter amplifier circuit, including measured quiescent point. Quiescent operating point is the steady-state DC voltage at a specific terminal of the transistor. To find the quiescent voltages in Table 2, we turned off the oscillating signal and use the DMM to measure each of them with respect to ground.</figcaption>
+<p><img src="./images/fig2.JPG" class="img-fluid figure-img" style="width:85.0%"></p>
+<figcaption>Figure 2: Me in my Danang city, a beatiful and peaceful city with mountains and beaches.</figcaption>
 </figure>
 </div>
-<table class="caption-top table">
-<caption>Table 2: Measurements of the quiescent operating point and impedances.</caption>
-<thead>
-<tr class="header">
-<th style="text-align: center;"></th>
-<th style="text-align: left;">Voltage</th>
-<th style="text-align: center;"></th>
-<th style="text-align: left;">Impedance</th>
-<th style="text-align: center;"></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;"></td>
-<td style="text-align: left;"><span class="math inline">\(V_{cc}\)</span></td>
-<td style="text-align: center;">Target Volt</td>
-<td style="text-align: left;"><span class="math inline">\(Z_\text{out}\)</span></td>
-<td style="text-align: center;">Target Imp</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"></td>
-<td style="text-align: left;"><span class="math inline">\(V_{C,q}\)</span></td>
-<td style="text-align: center;">Target Volt</td>
-<td style="text-align: left;"><span class="math inline">\(Z_\text{in}\)</span></td>
-<td style="text-align: center;">Target Imp</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;"></td>
-<td style="text-align: left;"><span class="math inline">\(V_{B,q}\)</span></td>
-<td style="text-align: center;">Target Volt</td>
-<td style="text-align: left;"></td>
-<td style="text-align: center;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"></td>
-<td style="text-align: left;"><span class="math inline">\(V_{E,q}\)</span></td>
-<td style="text-align: center;">Target Volt</td>
-<td style="text-align: left;"></td>
-<td style="text-align: center;"></td>
-</tr>
-</tbody>
-</table>
-<p>We then observe the frequency-dependent amplification of the circuit by varying the frequency over a large range from 10 Hz to 1 MHz. Fig. 2(b) shows the relationship between the voltage gain versus the input frequency and two calculated cut-off frequencies when the circuit acts as a high-pass <span class="math inline">\(RC\)</span>-filter versus a low-pass one (Equations 2 and 4).</p>
-<p>Using Equation 1, we calculate the voltage gain of our circuit to be <span class="math inline">\(-5.65\)</span> where the negative sign implies that the input and output signals are 180° out of phase. This agrees with what we see on the oscilloscope with the troughs of the output aligned with the peaks of the input. This also indicates that the amplifier is using negative feedback, which has several purposes including reducing signal distortion and background noise produced by the amplifier, or increasing the bandwidth of the amplifier [1].</p>
-<table class="caption-top table">
-<caption>Table 3: Measured and predicted values of voltage gain and cutoff frequencies. The predicted values are calculated from Equations 1, 2, and 4.</caption>
-<thead>
-<tr class="header">
-<th style="text-align: left;"></th>
-<th style="text-align: center;">Measured</th>
-<th style="text-align: center;">Calculated</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Voltage gain</td>
-<td style="text-align: center;"><span class="math inline">\(5.93\text{V}\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(5.65\text{V}\)</span></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Lower Cutoff Frequency</td>
-<td style="text-align: center;">40 Hz</td>
-<td style="text-align: center;">31.83 Hz</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Higher Cutoff Frequency</td>
-<td style="text-align: center;">1700 kHz</td>
-<td style="text-align: center;">500 kHz</td>
-</tr>
-</tbody>
-</table>
-<p>Our measurements of the voltage gain have uncertainties that are mostly less than 0.13, with only two of them with uncertainties of 0.22 [8]. As shown in Table 3, the calculated value agrees with the peak at a voltage gain of 5.93 in Fig. 2(b) with a 0.3% uncertainty. However, the bandwidth we observe is not flat. The theoretical cut-off frequencies are 0.707 times the maximum midband gain. Our measurement of the high-pass <span class="math inline">\(RC\)</span>-filter’s cut-off frequency agrees with the predicted one, 31.83 Hz from Equation 2, with 26% uncertainty, but the predicted frequency calculated by Equation 4 for the low-pass <span class="math inline">\(RC\)</span>-filter is way below the experimental one, with 500 kHz compared to 1700 kHz (Table 3).</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="../research/images_emitter/Screenshot(1).png" class="img-fluid figure-img" style="width:70.0%"></p>
-<figcaption>Figure 4: A complex intermediate frequency response curve produced by a TV Surface Acoustic Wave (SAW) filter. A single amplifier amplifies both sound and vision signals at different frequencies by different amounts while rejecting signals from adjacent channels with low gains at specific frequencies [1].</figcaption>
+<p><img src="./images/fig3.JPG" class="img-fluid figure-img" style="width:85.0%"></p>
+<figcaption>Figure 1: Me in my Danang city, a beatiful and peaceful city with mountains and beaches.</figcaption>
 </figure>
 </div>
-<p>Summarizing, we do not observe a flat midband gain from our common-emitter amplifier circuit, but we see the expected frequency response of the amplifier. The voltage gain stays high within a range of frequencies; it decreases significantly as the input frequency becomes too small which is when the input coupling capacitor <span class="math inline">\(C_1\)</span> and the voltage divider act as a high-pass <span class="math inline">\(RC\)</span>-filter, or too high when the load (attenuating probe connecting to the scope) attached to the amplifier acts as a low-pass <span class="math inline">\(RC\)</span>-filter. The calculated bandwidth of this amplifier using Equations 2 and 4 also shows that this amplifier amplifies over a wide range of frequencies, from 31.83 Hz to 500 kHz. This could be the effect of the negative feedback. Although our frequency response curve looks like the one from a TV SAW filter in Fig. 4, our range does not match since a TV operates with a 6 MHz bandwidth [9]. We wonder if the variation in voltage gain within the midband gain is due to the uncertainties in our measuring devices.</p>
-<p>Regardless, we verify that voltage gain of an amplifier depends on the frequency of the input signal, and depending on the purposes of a device the bandwidth of its amplifier can be narrow and peaked or wide and flat. While the former is important for radio frequency amplifiers which operate with a narrow bandwidth of only 10 kHz, the latter is useful for audio frequency amplifier [1].</p>
-</section>
-<section id="acknowledgments" class="level2">
-<h2 class="anchored" data-anchor-id="acknowledgments">Acknowledgments</h2>
-<p>I wish to acknowledge the support of the Lawrence University Physics Department, Professor Koker, and the Electronics Lab. I also wish to thank my partner, Sarah Dobrzynski, for carrying out the project with me.</p>
-<p>I hereby reaffirm the Lawrence University Honor Code.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./images/fig4.JPG" class="img-fluid figure-img" style="width:85.0%"></p>
+<figcaption>Figure 1: Me in my Danang city, a beatiful and peaceful city with mountains and beaches.</figcaption>
+</figure>
+</div>
 
 
 </section>

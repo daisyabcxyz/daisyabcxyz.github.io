@@ -1,0 +1,17 @@
+---
+title: "Welcome!"
+---
+
+## You can learn more about me here
+
+![Figure 1: Me in my Danang city, a beatiful and peaceful city with mountains and beaches.](/images/fig1.jpeg){width="85%" fig-align="center"}
+
+
+
+![Figure 2: Me in my Danang city, a beatiful and peaceful city with mountains and beaches.](/images/fig2.JPG){width="85%" fig-align="center"}
+
+
+![Figure 1: Me in my Danang city, a beatiful and peaceful city with mountains and beaches.](/images/fig3.JPG){width="85%" fig-align="center"}
+
+
+![Figure 1: Me in my Danang city, a beatiful and peaceful city with mountains and beaches.](/images/fig4.JPG){width="85%" fig-align="center"}

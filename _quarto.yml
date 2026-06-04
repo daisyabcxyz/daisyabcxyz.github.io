@@ -19,6 +19,8 @@ website:
         
       - text: Projects in R
         menu: 
+          - href: "projects tab/project.qmd"
+            text: Projects Overview
           - href: "projects tab/sql_project.qmd"
             text: SQL project
           - href: "projects tab/text_analysis_project.qmd"
@@ -42,6 +44,9 @@ website:
         menu:
           - href: linear_al.qmd
             text: Linear Algebra
+            
+      - href: more.qmd
+        text: More about me!
       
  
   page-footer:
